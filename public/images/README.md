@@ -1,6 +1,6 @@
 # TrePDF website images
 
-These assets represent the actual TrePDF application. They contain no user documents or personal information.
+These assets represent the actual TrePDF application. Synthetic samples and explicitly selected demonstration documents are described below.
 
 | File | Dimensions | Source |
 | --- | --- | --- |
@@ -33,3 +33,23 @@ Suggested captions:
 
 - Font preview: **Settings > Font: preview local font files before adding them.** This image illustrates local font import and preview, not the automatic missing-font download dialog.
 - Image editing: **Select an image to resize, rotate, or keep its proportions.**
+
+## PDF form designer screenshots
+
+| File | Dimensions | Source |
+| --- | --- | --- |
+| `app-form-designer.webp` | 1440 × 960 | Actual Forms tab with a name field, role dropdown and checkbox on a synthetic registration form. |
+| `app-form-text-field.webp` | 1440 × 960 | Selected text field with resize handles and the multi-line/character-limit options panel. |
+| `app-form-dropdown.webp` | 1440 × 960 | Selected dropdown with Designer, Developer and Student options in its properties panel; the checkbox is checked. |
+
+These lossless WebP images are full-resolution frames from the same native Qt capture used for `demos/form-design.gif` (frames 089, 035 and 065 respectively). **Workshop Registration.pdf** is an original synthetic sample; the displayed name and roles are demonstration data. The captures show unsaved design previews, not a saved/reopened result. No application controls were added or retouched. The temporary capture profile is separate from the user's application settings. See `../demos/README.md` for the recording workflow.
+
+## OCR screenshots
+
+| File | Dimensions | Source |
+| --- | --- | --- |
+| `app-ocr-source.webp` | 960 × 640 | Actual View tab showing the image-only page 4 of the user-selected `PublicWaterMassMailing.pdf`. |
+| `app-ocr-search.webp` | 960 × 640 | Separate OCR output opened in a new tab, zoomed to 160%, with one search result for “Coliform” highlighted on page 4. |
+| `app-ocr-settings.webp` | 960 × 640 | Convert > Recognize Text (OCR) with English and Current page (4) selected. |
+
+These lossless WebP images use frames `0004-source.png`, `0070-search.png` and `0020-panel.png` from the genuine OCR demo described in `../demos/README.md`. The source and setup captures use 91% zoom; the result uses 160% to make the match readable. This is a search demonstration, not a same-scale visual comparison. No interface controls, recognized text or highlights were retouched. The original file in Downloads was never overwritten; recognition ran on a temporary copy and created a separate temporary result. All eight pages were retained and only page 4 received the text layer.

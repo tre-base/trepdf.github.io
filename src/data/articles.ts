@@ -90,37 +90,32 @@ export const articles: Article[] = [
     title: 'PDF OCR for English & Vietnamese Documents | TrePDF',
     description: 'Make scanned PDFs searchable with local English and Vietnamese OCR in TrePDF. Keep the original page images and save a separate searchable PDF.',
     heading: 'Find the words inside your scanned PDFs.',
-    intro: 'A scanned document can look clear while its words remain invisible to search. TrePDF OCR recognizes English and Vietnamese text and adds a searchable text layer to a separate PDF copy.',
+    intro: 'Find a name, copy a passage, or search a scanned report. TrePDF recognizes English and Vietnamese locally and creates a separate PDF with searchable text.',
     sections: [
       {
         heading: 'Keep the page you scanned',
         paragraphs: [
-          'OCR, or optical character recognition, reads words from page images. TrePDF keeps the source page images and adds invisible text that a PDF reader can search or select. The visible document remains the scan, including its original illustrations, stamps, and page arrangement.',
-          'This is useful for finding a reference in a scanned report, looking up a name in an archive, or copying a passage into your notes. Recognition runs on your computer, so you do not need to upload your PDF to an online OCR service.',
+          'Your original page images, illustrations, and stamps stay intact. OCR adds an invisible text layer for searching and selecting words while the visible page remains the scan. Recognition runs on your computer without uploading the PDF.',
         ],
       },
       {
         heading: 'Create a searchable PDF',
         items: [
-          'Open the PDF and save any pending document changes before starting OCR.',
-          'Choose Convert, then Recognize Text (OCR). Select the recognition language for your English or Vietnamese document.',
-          'Choose all pages, the current page, or a selected page range. Start with a few pages when testing an unfamiliar scan.',
-          'Choose a destination for the separate result. TrePDF shows progress and allows you to cancel the job.',
-          'Open the completed PDF and search for a few words that you can clearly read on the page.',
+          'Open your PDF, save pending edits, then choose Convert → Recognize Text (OCR).',
+          'Select English or Vietnamese and choose all pages, the current page, or a page range.',
+          'Choose where to save the separate result. It opens in a new tab when complete, ready to search and compare with the source.',
         ],
       },
       {
         heading: 'Mixed documents need less repeated work',
         paragraphs: [
-          'Some PDFs combine scanned pages with pages that already contain text. TrePDF skips pages with an existing text layer, avoiding an extra recognition layer on those pages. This also means OCR is not a way to replace an inaccurate text layer that is already present.',
-          'The result is saved as a separate document and opens in a new tab when complete. Your source remains available for comparison. Keep that source when archiving important records so you can always inspect the original page images.',
+          'TrePDF skips pages that already contain text and recognizes the scanned pages that need it. An existing text layer stays as it is, so OCR cannot replace inaccurate recognition already in the PDF.',
         ],
       },
       {
         heading: 'Check the words that matter',
         paragraphs: [
-          'Recognition quality depends on the scan. Clear, upright pages with readable printed text generally give the recognizer better information than blurred photographs or tiny text. Check names, dates, numbers, and Vietnamese accents before relying on copied text.',
-          'OCR does not recreate a Word document, make the scanned image editable, or guarantee correct reading order in complex layouts. If your goal is to change existing PDF text, use Edit on supported text objects. If your goal is to mark a passage, the recognized text layer can make text selection and highlighting possible.',
+          'Clear, upright scans give better results. Try searching a few visible words, then check names, dates, numbers, and Vietnamese accents before copying text. OCR makes the scan searchable; the scanned image itself does not become editable text.',
         ],
       },
     ],
@@ -133,37 +128,32 @@ export const articles: Article[] = [
     title: 'OCR PDF tiếng Việt và tiếng Anh | TrePDF',
     description: 'Nhận dạng chữ trong PDF scan bằng OCR tiếng Việt và tiếng Anh trên máy tính. TrePDF giữ ảnh trang gốc và tạo một bản PDF có thể tìm kiếm riêng.',
     heading: 'Tìm được nội dung bên trong PDF scan.',
-    intro: 'Trang scan có thể rất rõ nhưng công cụ tìm kiếm vẫn không đọc được chữ trong ảnh. OCR của TrePDF nhận dạng tiếng Việt và tiếng Anh, rồi tạo một bản PDF riêng có lớp văn bản để tìm kiếm.',
+    intro: 'Tìm tên, tra nội dung và sao chép chữ trong PDF scan. TrePDF nhận dạng tiếng Việt, tiếng Anh tại máy và tạo bản PDF riêng có thể tìm kiếm.',
     sections: [
       {
         heading: 'Giữ nguyên trang tài liệu đã scan',
         paragraphs: [
-          'OCR là công nghệ nhận dạng ký tự từ hình ảnh. TrePDF giữ ảnh trang gốc và thêm lớp chữ ẩn để trình đọc PDF có thể tìm kiếm hoặc chọn văn bản. Phần hiển thị vẫn là trang scan, bao gồm hình minh họa, con dấu và cách sắp xếp trang ban đầu.',
-          'Bạn có thể tìm một thông tin trong báo cáo đã scan, tra tên trong tài liệu lưu trữ hoặc sao chép một đoạn vào ghi chú. Quá trình nhận dạng chạy ngay trên máy tính, không yêu cầu tải PDF lên dịch vụ OCR trực tuyến.',
+          'Ảnh trang, hình minh họa và con dấu vẫn giữ nguyên. OCR thêm lớp chữ ẩn để tìm kiếm và chọn văn bản, không cần tải PDF lên mạng.',
         ],
       },
       {
         heading: 'Tạo bản PDF có thể tìm kiếm',
         items: [
-          'Mở PDF và lưu các thay đổi đang có trước khi bắt đầu OCR.',
-          'Chọn Chuyển đổi, sau đó chọn Nhận dạng văn bản (OCR). Chọn ngôn ngữ phù hợp với tài liệu tiếng Việt hoặc tiếng Anh.',
-          'Chọn toàn bộ tài liệu, trang hiện tại hoặc một phạm vi trang. Với bản scan chưa từng thử, bạn có thể bắt đầu bằng vài trang.',
-          'Chọn nơi lưu bản kết quả riêng. TrePDF hiển thị tiến độ và cho phép hủy quá trình.',
-          'Mở PDF kết quả và thử tìm vài từ có thể đọc rõ trên trang để kiểm tra.',
+          'Mở PDF, lưu thay đổi đang có, chọn Chuyển đổi → Nhận dạng văn bản (OCR).',
+          'Chọn tiếng Việt hoặc tiếng Anh; chọn tất cả, trang hiện tại hoặc phạm vi trang.',
+          'Chọn nơi lưu bản kết quả riêng. Khi hoàn tất, PDF mở trong tab mới để tìm kiếm và đối chiếu với bản nguồn.',
         ],
       },
       {
         heading: 'Hạn chế nhận dạng lặp lại trong tài liệu hỗn hợp',
         paragraphs: [
-          'Một PDF có thể chứa cả trang scan và trang đã có văn bản. TrePDF bỏ qua những trang có lớp chữ sẵn để tránh thêm một lớp nhận dạng trùng lặp. Vì vậy, OCR hiện không dùng để thay thế một lớp chữ nhận dạng sai đã có trong tài liệu.',
-          'Kết quả được lưu thành tài liệu riêng và mở trong tab mới khi hoàn tất. Bạn vẫn có bản nguồn để đối chiếu. Với hồ sơ cần lưu trữ lâu dài, hãy giữ bản nguồn để luôn xem lại được ảnh trang gốc.',
+          'TrePDF bỏ qua trang đã có văn bản và nhận dạng các trang scan còn lại. Lớp chữ sẵn có được giữ nguyên, kể cả khi nhận dạng trước đó chưa chính xác.',
         ],
       },
       {
         heading: 'Kiểm tra những thông tin quan trọng',
         paragraphs: [
-          'Chất lượng nhận dạng phụ thuộc vào bản scan. Trang thẳng, rõ nét và chữ in dễ đọc thường cung cấp thông tin tốt hơn ảnh chụp mờ hoặc chữ quá nhỏ. Hãy kiểm tra tên riêng, ngày tháng, số liệu và dấu tiếng Việt trước khi sử dụng văn bản đã sao chép.',
-          'OCR không tạo lại tài liệu Word, không biến ảnh scan thành nội dung chỉnh sửa được và không bảo đảm thứ tự đọc đúng với mọi bố cục phức tạp. Muốn sửa văn bản PDF có sẵn, hãy dùng Chỉnh sửa với đối tượng được hỗ trợ. Muốn đánh dấu đoạn văn, lớp chữ nhận dạng có thể giúp bạn chọn chữ và tô sáng nội dung.',
+          'Bản scan rõ, thẳng cho kết quả tốt hơn. Thử tìm vài từ; kiểm tra tên, ngày, số liệu và dấu tiếng Việt. OCR không biến ảnh scan thành chữ chỉnh sửa được.',
         ],
       },
     ],

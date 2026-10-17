@@ -61,7 +61,7 @@ try {
   }
   await page.goto(base);
   await page.screenshot({ path: path.join(reports, 'home-desktop.png'), fullPage: true });
-  const auditRoutes = ['', 'vi/', 'download/', 'vi/tai-xuong/', 'features/pdf-editor/', 'vi/huong-dan/tu-dong-tai-font/'];
+  const auditRoutes = ['', 'vi/', 'download/', 'vi/tai-xuong/', 'features/pdf-editor/', 'vi/huong-dan/tu-dong-tai-font/', 'features/pdf-form-designer/', 'vi/tinh-nang/thiet-ke-form-pdf/', 'features/pdf-ocr/', 'vi/tinh-nang/ocr-pdf/'];
   for (const theme of ['light', 'dark']) {
     await page.evaluate(theme => localStorage.setItem('trepdf-theme', theme), theme);
     for (const route of auditRoutes) {
@@ -175,7 +175,7 @@ try {
   await staticPage.locator('.mobile-menu a').last().click();
   assert(staticPage.url().endsWith('/download/'));
   await noJs.close();
-  console.log(`UI checks passed: ${routes.length} pages at 320/768/1440px, 12 WCAG audits, demo selection/play/stop/reduced-motion/fallback, theme persistence, translated routes, menu, FAQ, downloads, 404 and no-JS navigation. Screenshots: reports/`);
+  console.log(`UI checks passed: ${routes.length} pages at 320/768/1440px, ${auditRoutes.length * 2} WCAG audits, demo selection/play/stop/reduced-motion/fallback, theme persistence, translated routes, menu, FAQ, downloads, 404 and no-JS navigation. Screenshots: reports/`);
 } finally {
   await browser?.close();
   await new Promise(resolve => server.close(resolve));

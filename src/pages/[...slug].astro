@@ -3,6 +3,8 @@ import Base from '../layouts/Base.astro';
 import Downloads from '../components/Downloads.astro';
 import Guides from '../components/Guides.astro';
 import EditorFeature from '../components/EditorFeature.astro';
+import FormFeature from '../components/FormFeature.astro';
+import OCRFeature from '../components/OCRFeature.astro';
 import Icon from '../components/Icon.astro';
 import { articles, type Article } from '../data/articles';
 import { href, route, languages, navigation, type Lang } from '../data/site';
@@ -15,7 +17,7 @@ export function getStaticPaths() {
 const { kind, article, lang } = Astro.props as { kind: string; article?: Article; lang: Lang };
 const vi = lang==='vi';
 ---
-{kind==='download' ? <Downloads lang={lang}/> : kind==='guides' ? <Guides lang={lang}/> : article?.id==='editor' ? <EditorFeature article={article}/> : article && <Base lang={lang} pageId={article.id} title={article.title} description={article.description}>
+{kind==='download' ? <Downloads lang={lang}/> : kind==='guides' ? <Guides lang={lang}/> : article?.id==='editor' ? <EditorFeature article={article}/> : article?.id==='forms' ? <FormFeature article={article}/> : article?.id==='ocr' ? <OCRFeature article={article}/> : article && <Base lang={lang} pageId={article.id} title={article.title} description={article.description}>
   <div class="container article-heading"><a class="text-link breadcrumb" href={href('guides',lang)}>{vi?'Hướng dẫn & tính năng':'Guides & features'}<Icon name="right"/></a><h1>{article.heading}</h1><p>{article.intro}</p></div>
   <div class="container article-layout">
     <aside class="article-toc"><p>{vi?'Trong trang này':'On this page'}</p><nav aria-label={vi?'Mục lục':'On this page'}>{article.sections.map((s,i)=><a href={`#section-${i+1}`}>{s.heading}</a>)}</nav></aside>

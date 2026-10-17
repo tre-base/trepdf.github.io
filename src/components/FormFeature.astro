@@ -1,0 +1,155 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from './Icon.astro';
+import type { Article } from '../data/articles';
+import { href, asset } from '../data/site';
+
+interface Props { article: Article; }
+const { article } = Astro.props;
+const lang = article.lang;
+const vi = lang === 'vi';
+const [fields, arranging, saving] = article.sections;
+const t = vi ? {
+  breadcrumb: 'Tính năng TrePDF',
+  overviewAlt: 'Tab Forms trong TrePDF với biểu mẫu đăng ký gồm ô họ tên, danh sách vai trò và ô đánh dấu nhận tài liệu',
+  overviewCaption: 'Một mẫu đăng ký với ba loại trường ngay trên trang PDF.',
+  textAlt: 'Ô họ tên được chọn với các tay nắm đổi kích thước và bảng tùy chọn nhập nhiều dòng, giới hạn số ký tự',
+  textCaption: 'Chọn ô nhập liệu để đổi kích thước và cách nhập văn bản.',
+  choicesHeading: 'Đặt sẵn các lựa chọn',
+  choicesCopy: 'Thêm, sửa hoặc xóa các mục trong danh sách thả xuống. Ô đánh dấu giúp người điền xác nhận một lựa chọn ngay trên biểu mẫu.',
+  choicesAlt: 'Danh sách thả xuống được chọn trong TrePDF, bảng tùy chọn chứa Designer, Developer và Student; bên dưới là ô đánh dấu đã chọn',
+  choicesCaption: 'Chỉnh các mục trong Dropdown tại bảng bên phải.',
+  enlarge: 'Mở ảnh lớn trong tab mới',
+  start: 'Xem hướng dẫn bắt đầu',
+  editorLink: 'Khám phá chỉnh sửa PDF',
+} : {
+  breadcrumb: 'TrePDF features',
+  overviewAlt: 'TrePDF Forms tab with a registration form containing a name field, role dropdown and checkbox for workshop notes',
+  overviewCaption: 'A registration form with three field types placed on the PDF.',
+  textAlt: 'Selected name field with resize handles and text options for multiple lines and a character limit',
+  textCaption: 'Select a text field to adjust its size and input options.',
+  choicesHeading: 'Set up the choices',
+  choicesCopy: 'Add, edit or remove items in a dropdown. Use a checkbox to let people confirm a choice directly on the form.',
+  choicesAlt: 'Selected dropdown in TrePDF with Designer, Developer and Student in the options panel and a checked checkbox below',
+  choicesCaption: 'Edit Dropdown items in the panel on the right.',
+  enlarge: 'Open full-size image in a new tab',
+  start: 'Read the getting started guide',
+  editorLink: 'Explore PDF editing',
+};
+---
+<Base lang={lang} pageId={article.id} title={article.title} description={article.description}>
+  <div class="container form-intro">
+    <a class="text-link breadcrumb" href={`${href('home',lang)}#features`}>{t.breadcrumb}<Icon name="right"/></a>
+    <h1>{article.heading}</h1>
+    <p>{article.intro}</p>
+  </div>
+
+  <div class="container form-features">
+    <section class="form-overview" id="section-1" aria-labelledby="fields-heading">
+      <figure class="form-shot">
+        <a class="shot-link" href={asset('images/app-form-designer.webp')} target="_blank" rel="noopener" aria-label={`${t.enlarge}: ${t.overviewCaption}`}>
+          <img src={asset('images/app-form-designer.webp')} alt={t.overviewAlt} width="1440" height="960" fetchpriority="high" />
+        </a>
+        <figcaption>{t.overviewCaption}<Icon name="arrow"/></figcaption>
+      </figure>
+      <div class="feature-copy">
+        <Icon name="forms"/>
+        <h2 id="fields-heading">{fields.heading}</h2>
+        {fields.paragraphs?.map(p => <p>{p}</p>)}
+      </div>
+    </section>
+
+    <div class="form-details">
+      <section id="section-2" aria-labelledby="arranging-heading">
+        <figure class="form-shot">
+          <a class="shot-link" href={asset('images/app-form-text-field.webp')} target="_blank" rel="noopener" aria-label={`${t.enlarge}: ${t.textCaption}`}>
+            <img src={asset('images/app-form-text-field.webp')} alt={t.textAlt} width="1440" height="960" loading="lazy" />
+          </a>
+          <figcaption>{t.textCaption}<Icon name="arrow"/></figcaption>
+        </figure>
+        <div class="feature-copy">
+          <h2 id="arranging-heading">{arranging.heading}</h2>
+          {arranging.paragraphs?.map(p => <p>{p}</p>)}
+        </div>
+      </section>
+      <section aria-labelledby="choices-heading">
+        <figure class="form-shot">
+          <a class="shot-link" href={asset('images/app-form-dropdown.webp')} target="_blank" rel="noopener" aria-label={`${t.enlarge}: ${t.choicesCaption}`}>
+            <img src={asset('images/app-form-dropdown.webp')} alt={t.choicesAlt} width="1440" height="960" loading="lazy" />
+          </a>
+          <figcaption>{t.choicesCaption}<Icon name="arrow"/></figcaption>
+        </figure>
+        <div class="feature-copy">
+          <h2 id="choices-heading">{t.choicesHeading}</h2>
+          <p>{t.choicesCopy}</p>
+        </div>
+      </section>
+    </div>
+
+    <section class="form-save" id="section-3" aria-labelledby="save-heading">
+      <div class="save-icon"><Icon name="check"/></div>
+      <div class="feature-copy">
+        <h2 id="save-heading">{saving.heading}</h2>
+        {saving.paragraphs?.map(p => <p>{p}</p>)}
+      </div>
+      <a class="button" href={href('getting-started',lang)}>{t.start}<Icon name="right"/></a>
+    </section>
+    <nav class="form-related" aria-label={vi?'Khám phá thêm':'Keep exploring'}>
+      <a class="text-link" href={href('editor',lang)}>{t.editorLink}<Icon name="arrow"/></a>
+    </nav>
+  </div>
+</Base>
+
+<style>
+  /* Keep the PDF editor page's product imagery, typography and brand tokens.
+     Existing section anchors and article metadata remain available in both languages. */
+  .form-intro { padding-block: 50px 38px; }
+  .form-intro .breadcrumb { margin-bottom: 24px; }
+  .form-intro h1 { font-size: clamp(2.35rem, 4.1vw, 3.6rem); max-width: 1000px; }
+  .form-intro > p { color: var(--muted); font-size: 17px; margin-top: 18px; max-width: 720px; }
+  .form-features { padding-bottom: 68px; }
+  .form-overview { display: grid; grid-template-columns: 1.8fr 1fr; gap: 54px; align-items: center; }
+  .form-shot { min-width: 0; }
+  .shot-link { display: block; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--surface); }
+  .shot-link img { width: 100%; height: auto; }
+  .shot-link:hover { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .form-shot figcaption { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 11px; margin-top: 12px; line-height: 1.7; }
+  .form-shot figcaption :global(.icon) { width: 16px; height: 16px; }
+  .feature-copy > :global(.icon) { color: var(--accent); width: 32px; height: 32px; margin-bottom: 24px; }
+  .feature-copy h2 { font-size: clamp(1.5rem, 2.1vw, 1.9rem); line-height: 1.25; }
+  .feature-copy p { color: var(--muted); font-size: 15px; line-height: 1.8; margin-top: 16px; max-width: 560px; }
+  .form-details { display: grid; grid-template-columns: 1fr 1.1fr; gap: 44px; margin-top: 64px; }
+  .form-details .feature-copy { margin-top: 28px; }
+  .form-save { display: grid; grid-template-columns: 48px 1fr auto; gap: 24px; align-items: center; border-top: 1px solid var(--line); margin-top: 60px; padding-top: 38px; }
+  .save-icon { display: grid; place-items: center; width: 48px; height: 48px; background: var(--tint); color: var(--accent); border-radius: 12px; align-self: start; }
+  .form-save h2 { font-size: 25px; }
+  .form-save .button { font-size: 13px; }
+  .form-save .feature-copy p { margin-top: 12px; max-width: 540px; }
+  .form-related { display: flex; justify-content: flex-end; margin-top: 30px; }
+  .form-related a { font-size: 13px; color: var(--muted); }
+  @media (max-width: 1000px) {
+    .form-overview { gap: 28px; grid-template-columns: 1.5fr 1fr; }
+    .form-details { gap: 28px; }
+    .form-save { grid-template-columns: 48px 1fr; }
+    .form-save .button { grid-column: 2; justify-self: start; }
+  }
+  @media (max-width: 640px) {
+    .form-intro { padding-block: 32px 28px; }
+    .form-intro .breadcrumb { font-size: 12px; margin-bottom: 20px; }
+    .form-intro h1 { font-size: 36px; max-width: 420px; }
+    .form-intro > p { font-size: 15px; margin-top: 16px; }
+    .form-overview, .form-details { grid-template-columns: 1fr; gap: 26px; }
+    .form-overview .feature-copy > :global(.icon) { display: none; }
+    .form-details { margin-top: 38px; gap: 38px; }
+    .form-details .feature-copy { margin-top: 22px; }
+    .feature-copy h2 { font-size: 24px; }
+    .feature-copy p { font-size: 14px; margin-top: 12px; }
+    .form-shot figcaption { font-size: 10px; }
+    .form-save { grid-template-columns: 1fr; gap: 18px; margin-top: 38px; padding-top: 28px; }
+    .form-save h2 { font-size: 24px; }
+    .form-save .button { grid-column: 1; font-size: 12px; padding-inline: 16px; gap: 10px; white-space: normal; }
+    .save-icon { width: 40px; height: 40px; }
+    .form-related { justify-content: flex-start; margin-top: 24px; }
+    .form-features { padding-bottom: 44px; }
+  }
+</style>

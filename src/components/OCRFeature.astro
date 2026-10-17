@@ -1,0 +1,158 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from './Icon.astro';
+import type { Article } from '../data/articles';
+import { href, asset } from '../data/site';
+
+interface Props { article: Article; }
+const { article } = Astro.props;
+const lang = article.lang;
+const vi = lang === 'vi';
+const [preserve, workflow, mixed, quality] = article.sections;
+const t = vi ? {
+  breadcrumb: 'Tính năng TrePDF',
+  before: 'Trước OCR',
+  sourceCaption: 'Trang 4 của PublicWaterMassMailing.pdf, chỉ có ảnh scan.',
+  sourceAlt: 'TrePDF mở trang 4 của PublicWaterMassMailing.pdf, hiển thị bản scan biểu mẫu xét nghiệm nước chưa có lớp văn bản',
+  after: 'Sau OCR',
+  resultCaption: 'Tìm thấy “Coliform” trong bản PDF kết quả, phóng to để xem rõ.',
+  resultAlt: 'Bản PDF kết quả mở ở tab mới trong TrePDF, ô tìm kiếm Coliform báo 1 kết quả và từ tương ứng được tô sáng trên trang 4',
+  setupCaption: 'Ví dụ: chọn English và Current page (4) để nhận dạng trang 4.',
+  setupAlt: 'Bảng Recognize Text OCR trong tab Convert của TrePDF, ngôn ngữ English và phạm vi Current page 4 đang được chọn',
+  enlarge: 'Mở ảnh lớn trong tab mới',
+  start: 'Xem hướng dẫn bắt đầu',
+  editorLink: 'Khám phá chỉnh sửa PDF',
+  annotationLink: 'Công cụ chú thích PDF',
+} : {
+  breadcrumb: 'TrePDF features',
+  before: 'Before OCR',
+  sourceCaption: 'Page 4 of PublicWaterMassMailing.pdf, containing only a scanned image.',
+  sourceAlt: 'TrePDF showing page 4 of PublicWaterMassMailing.pdf, a scanned water testing form with no text layer',
+  after: 'After OCR',
+  resultCaption: 'Find “Coliform” in the output PDF, zoomed in for a closer look.',
+  resultAlt: 'The output PDF open in a new TrePDF tab, with one search result for Coliform highlighted on page 4',
+  setupCaption: 'Example: choose English and Current page (4) to recognize page 4.',
+  setupAlt: 'Recognize Text OCR panel in the TrePDF Convert tab with English and Current page 4 selected',
+  enlarge: 'Open full-size image in a new tab',
+  start: 'Read the getting started guide',
+  editorLink: 'Explore PDF editing',
+  annotationLink: 'Explore PDF annotations',
+};
+---
+<Base lang={lang} pageId={article.id} title={article.title} description={article.description}>
+  <div class="container ocr-intro">
+    <a class="text-link breadcrumb" href={`${href('home',lang)}#features`}>{t.breadcrumb}<Icon name="right"/></a>
+    <h1>{article.heading}</h1>
+    <p>{article.intro}</p>
+  </div>
+
+  <div class="container ocr-features">
+    <section id="section-1" aria-labelledby="preserve-heading">
+      <div class="feature-copy comparison-copy">
+        <h2 id="preserve-heading">{preserve.heading}</h2>
+        {preserve.paragraphs?.map(p => <p>{p}</p>)}
+      </div>
+      <div class="ocr-comparison">
+        <figure class="ocr-shot">
+          <a class="shot-link" href={asset('images/app-ocr-source.webp')} target="_blank" rel="noopener" aria-label={`${t.enlarge}: ${t.before}`}>
+            <img src={asset('images/app-ocr-source.webp')} alt={t.sourceAlt} width="960" height="640" fetchpriority="high" />
+          </a>
+          <figcaption><div><strong>{t.before}</strong><span>{t.sourceCaption}</span></div><Icon name="arrow"/></figcaption>
+        </figure>
+        <figure class="ocr-shot">
+          <a class="shot-link" href={asset('images/app-ocr-search.webp')} target="_blank" rel="noopener" aria-label={`${t.enlarge}: ${t.after}`}>
+            <img src={asset('images/app-ocr-search.webp')} alt={t.resultAlt} width="960" height="640" loading="lazy" />
+          </a>
+          <figcaption><div><strong>{t.after}</strong><span>{t.resultCaption}</span></div><Icon name="arrow"/></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="ocr-workflow" id="section-2" aria-labelledby="workflow-heading">
+      <figure class="ocr-shot">
+        <a class="shot-link" href={asset('images/app-ocr-settings.webp')} target="_blank" rel="noopener" aria-label={`${t.enlarge}: ${t.setupCaption}`}>
+          <img src={asset('images/app-ocr-settings.webp')} alt={t.setupAlt} width="960" height="640" loading="lazy" />
+        </a>
+        <figcaption><span>{t.setupCaption}</span><Icon name="arrow"/></figcaption>
+      </figure>
+      <div class="feature-copy">
+        <Icon name="scan"/>
+        <h2 id="workflow-heading">{workflow.heading}</h2>
+        {workflow.paragraphs?.map(p => <p>{p}</p>)}
+        {workflow.items && <ol>{workflow.items.map(item => <li>{item}</li>)}</ol>}
+      </div>
+    </section>
+
+    <div class="ocr-details">
+      <section class="feature-copy" id="section-3" aria-labelledby="mixed-heading">
+        <h2 id="mixed-heading">{mixed.heading}</h2>
+        {mixed.paragraphs?.map(p => <p>{p}</p>)}
+      </section>
+      <section class="feature-copy" id="section-4" aria-labelledby="quality-heading">
+        <h2 id="quality-heading">{quality.heading}</h2>
+        {quality.paragraphs?.map(p => <p>{p}</p>)}
+      </section>
+    </div>
+    <nav class="ocr-related" aria-label={vi?'Khám phá thêm':'Keep exploring'}>
+      <a class="button" href={href('getting-started',lang)}>{t.start}<Icon name="right"/></a>
+      <div>
+        <a class="text-link" href={href('annotations',lang)}>{t.annotationLink}<Icon name="arrow"/></a>
+        <a class="text-link" href={href('editor',lang)}>{t.editorLink}<Icon name="arrow"/></a>
+      </div>
+    </nav>
+  </div>
+</Base>
+
+<style>
+  /* Use the existing feature-page typography and brand tokens. Before/after
+     images are real captures at different zoom levels, identified in the captions. */
+  .ocr-intro { padding-block: 50px 38px; }
+  .ocr-intro .breadcrumb { margin-bottom: 24px; }
+  .ocr-intro h1 { font-size: clamp(2.35rem, 4.1vw, 3.6rem); max-width: 1000px; }
+  .ocr-intro > p { color: var(--muted); font-size: 17px; margin-top: 18px; max-width: 760px; }
+  .ocr-features { padding-bottom: 68px; }
+  .feature-copy h2 { font-size: clamp(1.5rem, 2.1vw, 1.9rem); line-height: 1.25; }
+  .feature-copy p, .feature-copy ol { color: var(--muted); font-size: 15px; line-height: 1.8; margin-top: 16px; }
+  .comparison-copy { max-width: 780px; margin-bottom: 28px; }
+  .ocr-comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .ocr-shot { min-width: 0; }
+  .shot-link { display: block; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--surface); }
+  .shot-link img { width: 100%; height: auto; }
+  .shot-link:hover { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .ocr-shot figcaption { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 11px; margin-top: 12px; line-height: 1.7; overflow-wrap: anywhere; }
+  .ocr-shot figcaption strong { display: block; color: var(--text); font-size: 14px; margin-bottom: 4px; }
+  .ocr-shot figcaption :global(.icon) { width: 16px; height: 16px; }
+  .ocr-workflow { display: grid; grid-template-columns: 1.6fr 1fr; gap: 48px; align-items: center; margin-top: 64px; }
+  .feature-copy > :global(.icon) { color: var(--accent); width: 32px; height: 32px; margin-bottom: 24px; }
+  .feature-copy ol { padding-left: 22px; }
+  .feature-copy li { padding-left: 4px; margin-top: 12px; }
+  .feature-copy li::marker { color: var(--accent); font-weight: 650; }
+  .ocr-details { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 60px; padding-top: 38px; border-top: 1px solid var(--line); }
+  .ocr-details h2 { font-size: 25px; }
+  .ocr-related { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-top: 36px; }
+  .ocr-related > div { display: flex; flex-wrap: wrap; gap: 20px; }
+  .ocr-related .text-link { color: var(--muted); font-size: 13px; }
+  .ocr-related .button { font-size: 13px; }
+  @media (max-width: 1000px) {
+    .ocr-comparison, .ocr-workflow, .ocr-details { gap: 28px; }
+    .ocr-workflow { grid-template-columns: 1.3fr 1fr; }
+    .ocr-related { flex-direction: column; align-items: flex-start; }
+  }
+  @media (max-width: 640px) {
+    .ocr-intro { padding-block: 32px 28px; }
+    .ocr-intro .breadcrumb { font-size: 12px; margin-bottom: 20px; }
+    .ocr-intro h1 { font-size: 36px; max-width: 420px; }
+    .ocr-intro > p { font-size: 15px; margin-top: 16px; }
+    .ocr-comparison, .ocr-workflow, .ocr-details { grid-template-columns: 1fr; gap: 28px; }
+    .ocr-workflow { margin-top: 38px; }
+    .ocr-workflow .feature-copy > :global(.icon) { display: none; }
+    .feature-copy h2, .ocr-details h2 { font-size: 24px; }
+    .feature-copy p, .feature-copy ol { font-size: 14px; margin-top: 12px; }
+    .comparison-copy { margin-bottom: 24px; }
+    .ocr-details { margin-top: 38px; padding-top: 28px; }
+    .ocr-related { margin-top: 28px; }
+    .ocr-related .button { font-size: 12px; padding-inline: 16px; gap: 10px; white-space: normal; }
+    .ocr-related > div { gap: 16px; }
+    .ocr-features { padding-bottom: 44px; }
+  }
+</style>
