@@ -1,20 +1,20 @@
 # TrePDF feature demos
 
-These three looping GIFs are real application-window captures on macOS, made with synthetic PDFs created for this website. They contain no customer documents. Each has a 960 × 640 lossless WebP poster for reduced motion, stopped playback and the no-JavaScript fallback.
+These three looping GIFs are real application-window captures on macOS. Text editing and Form design use synthetic PDFs created for this website. OCR uses page 4 of the user-selected `PublicWaterMassMailing.pdf`, an eight-page scanned document; the original file was copied to a temporary folder and was not modified. Each has a 960 × 640 lossless WebP poster for reduced motion, stopped playback and the no-JavaScript fallback.
 
 | Asset | Sequence | Loop | GIF size |
 | --- | --- | --- | --- |
 | `edit-text.gif` | Select the sample heading, enter inline editing, replace it with “Make room for better ideas.”, apply, change the text color, then deselect. | 13.3 s | 189,818 bytes |
 | `form-design.gif` | Add a text field, widen it, enter a sample name, add and tick a checkbox, then add a dropdown and choose Developer. | 10.2 s | 127,278 bytes |
-| `ocr.gif` | Open Recognize Text, select English, recognize the raster-only sample, open the separate searchable result, and search for “clarity”. | 10.2 s | 256,849 bytes |
+| `ocr.gif` | Open page 4 of PublicWaterMassMailing.pdf, choose English and Current page (4), recognize it, open the separate searchable result, and search for “Coliform”. | 10.96 s | 395,255 bytes |
 
 ## Capture method
 
-Temporary C++ entry points were linked against the existing TrePDF production objects and compiled QML resources. They used separate application organizations/profiles and generated documents. No application source, user document or font library was changed. UI actions use the actual controllers; text input uses the actual inline Qt text editor. Form fields are real designer drafts, not painted imitations.
+Temporary C++ entry points were linked against the existing TrePDF production objects and compiled QML resources. They used separate application organizations/profiles and temporary documents. No application source, user document or font library was changed. UI actions use the actual controllers; text input uses the actual inline Qt text editor. Form fields are real designer drafts, not painted imitations.
 
 Frames were captured through `QQuickWindow::grabWindow()`. Text editing and Forms use native rendering; OCR uses the Qt offscreen renderer. The capture window is 1440 × 960, reduced proportionally to 960 × 640. A shared 256-color palette, unchanged-frame merging, and delta encoding keep the GIFs small. No product controls, text or results were retouched. Capture intervals were normalized for playback and a final hold was added; these are demonstrations, not processing-speed benchmarks.
 
-OCR completed successfully on one image-only page, with zero skipped or empty pages. The result was opened through the normal application flow; the search controller returned one match for “clarity”. The Form and editing sequences show unsaved draft changes, not a Save demonstration. The text-editing demo does not depict an automatic font download; that remains described in the feature copy and guide.
+OCR completed successfully on page 4, an image-only 612 × 792 pt page containing one 1275 × 1650 JPEG, with zero skipped or empty pages. All eight pages were retained; only page 4 received OCR text. The result was opened through the normal application flow; the search controller returned one match for “Coliform” on page 4. Independent PDF inspection found 1,523 text characters on that page and confirmed that the embedded scan pixels and rendered appearance were unchanged. The source file SHA-256 remained unchanged. Single-page view keeps the recording focused on the selected page; the result is zoomed in to make the search highlight easier to see. The Form and editing sequences show unsaved draft changes, not a Save demonstration. The text-editing demo does not depict an automatic font download; that remains described in the feature copy and guide.
 
 ## Website behavior
 
