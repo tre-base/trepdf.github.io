@@ -112,3 +112,7 @@ Search Console ownership, sitemap submission and live indexing have not been per
 ## Asset licenses
 
 Manrope is self-hosted under the SIL Open Font License; Tabler SVG icons use the MIT license. Their license texts ship in `public/licenses/`. The TrePDF logo and screenshots come from the application; screenshot provenance is recorded in `public/images/README.md`.
+
+## Homepage feature demos
+
+The homepage pairs text editing, Form design and OCR with three selectable GIF demos. Source: `src/components/FeatureDemos.astro`; assets and capture details: `public/demos/README.md`. Only the selected demo plays while visible. Stop restores its WebP poster, and reduced-motion/data-saving preferences use posters by default. All feature descriptions and links are rendered without JavaScript. `test:ui` checks selection, keyboard use, playback, reduced motion, offscreen stopping and failed-GIF fallback; `test:seo` checks both GIF and poster paths.

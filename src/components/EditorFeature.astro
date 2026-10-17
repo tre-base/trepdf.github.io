@@ -1,0 +1,155 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from './Icon.astro';
+import type { Article } from '../data/articles';
+import { href, asset } from '../data/site';
+
+interface Props { article: Article; }
+const { article } = Astro.props;
+const lang = article.lang;
+const vi = lang === 'vi';
+const [text, fonts, images, saving] = article.sections;
+const t = vi ? {
+  breadcrumb: 'Tính năng TrePDF',
+  editorAlt: 'Văn bản được chọn trong TrePDF cùng bảng đổi font, cỡ chữ và màu chữ',
+  editorCaption: 'Chọn văn bản và chỉnh sửa ngay trên trang.',
+  fontAlt: 'Hộp thoại Font của TrePDF hiển thị bản xem trước kiểu chữ từ tệp font trên máy',
+  fontCaption: 'Xem trước font từ máy trong Cài đặt > Font.',
+  imageAlt: 'Ảnh được chọn trong TrePDF với khung đổi kích thước và bảng thuộc tính hình ảnh',
+  imageCaption: 'Điều chỉnh ảnh với khung chọn và bảng thuộc tính.',
+  enlarge: 'Mở ảnh lớn', fontsLink: 'Cách tải và thêm font',
+  start: 'Xem hướng dẫn bắt đầu', annotationLink: 'Công cụ chú thích PDF',
+} : {
+  breadcrumb: 'TrePDF features',
+  editorAlt: 'Selected text in TrePDF with font family, size and color controls',
+  editorCaption: 'Select text and make your changes on the page.',
+  fontAlt: 'TrePDF Font dialog showing a typeface preview from a local font file',
+  fontCaption: 'Preview a local font in Settings > Font.',
+  imageAlt: 'Selected image in TrePDF with resize handles and the Image Properties panel',
+  imageCaption: 'Adjust an image with selection handles and properties.',
+  enlarge: 'Open full-size image', fontsLink: 'How to download and add fonts',
+  start: 'Read the getting started guide', annotationLink: 'Explore PDF annotations',
+};
+---
+<Base lang={lang} pageId={article.id} title={article.title} description={article.description}>
+  <div class="container editor-intro">
+    <a class="text-link breadcrumb" href={`${href('home',lang)}#features`}>{t.breadcrumb}<Icon name="right"/></a>
+    <h1>{article.heading}</h1>
+    <p>{article.intro}</p>
+  </div>
+
+  <div class="container editor-features">
+    <section class="editor-text" id="section-1" aria-labelledby="text-heading">
+      <figure class="editor-shot">
+        <a class="shot-link" href={asset('images/app-editor.webp')} target="_blank" rel="noopener" aria-label={`${t.enlarge}: ${t.editorCaption}`}>
+          <img src={asset('images/app-editor.webp')} alt={t.editorAlt} width="1440" height="960" fetchpriority="high" />
+        </a>
+        <figcaption>{t.editorCaption}<Icon name="arrow"/></figcaption>
+      </figure>
+      <div class="feature-copy">
+        <Icon name="text"/>
+        <h2 id="text-heading">{text.heading}</h2>
+        {text.paragraphs?.map(p => <p>{p}</p>)}
+      </div>
+    </section>
+
+    <div class="editor-details">
+      <section class="editor-fonts" id="section-2" aria-labelledby="font-heading">
+        <figure class="editor-shot">
+          <a class="shot-link" href={asset('images/app-font-preview.webp')} target="_blank" rel="noopener" aria-label={`${t.enlarge}: ${t.fontCaption}`}>
+            <img src={asset('images/app-font-preview.webp')} alt={t.fontAlt} width="1440" height="960" loading="lazy" />
+          </a>
+          <figcaption>{t.fontCaption}<Icon name="arrow"/></figcaption>
+        </figure>
+        <div class="feature-copy">
+          <h2 id="font-heading">{fonts.heading}</h2>
+          {fonts.paragraphs?.map(p => <p>{p}</p>)}
+          <a class="text-link" href={href('fonts',lang)}>{t.fontsLink}<Icon name="right"/></a>
+        </div>
+      </section>
+      <section class="editor-images" id="section-3" aria-labelledby="image-heading">
+        <figure class="editor-shot">
+          <a class="shot-link" href={asset('images/app-image-edit.webp')} target="_blank" rel="noopener" aria-label={`${t.enlarge}: ${t.imageCaption}`}>
+            <img src={asset('images/app-image-edit.webp')} alt={t.imageAlt} width="1440" height="960" loading="lazy" />
+          </a>
+          <figcaption>{t.imageCaption}<Icon name="arrow"/></figcaption>
+        </figure>
+        <div class="feature-copy">
+          <h2 id="image-heading">{images.heading}</h2>
+          {images.paragraphs?.map(p => <p>{p}</p>)}
+          {images.items && <ul>{images.items.map(item => <li>{item}</li>)}</ul>}
+        </div>
+      </section>
+    </div>
+
+    <section class="editor-save" id="section-4" aria-labelledby="save-heading">
+      <div class="save-icon"><Icon name="check"/></div>
+      <div class="feature-copy">
+        <h2 id="save-heading">{saving.heading}</h2>
+        {saving.paragraphs?.map(p => <p>{p}</p>)}
+      </div>
+      <a class="button" href={href('getting-started',lang)}>{t.start}<Icon name="right"/></a>
+    </section>
+    <nav class="editor-related" aria-label={vi?'Khám phá thêm':'Keep exploring'}>
+      <a class="text-link" href={href('annotations',lang)}>{t.annotationLink}<Icon name="arrow"/></a>
+    </nav>
+  </div>
+</Base>
+
+<style>
+  /* Preserve TrePDF's existing Manrope/orange tokens and radius scale.
+     DESIGN_VARIANCE: 6 / MOTION_INTENSITY: 3 / VISUAL_DENSITY: 2.
+     This feature page uses real product views and short captions; detailed
+     workflows remain in the linked guides. Existing section anchors stay valid. */
+  .editor-intro { padding-block: 50px 38px; }
+  .editor-intro .breadcrumb { margin-bottom: 24px; }
+  .editor-intro h1 { font-size: clamp(2.35rem, 4.1vw, 3.6rem); max-width: 1000px; }
+  .editor-intro > p { color: var(--muted); font-size: 17px; margin-top: 18px; max-width: 720px; }
+  .editor-features { padding-bottom: 68px; }
+  .editor-text { display: grid; grid-template-columns: 1.8fr 1fr; gap: 54px; align-items: center; }
+  .editor-shot { min-width: 0; }
+  .shot-link { display: block; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--surface); }
+  .shot-link img { width: 100%; height: auto; }
+  .shot-link:hover { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .editor-shot figcaption { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 11px; margin-top: 12px; line-height: 1.7; }
+  .editor-shot figcaption :global(.icon) { width: 16px; height: 16px; }
+  .feature-copy > :global(.icon) { color: var(--accent); width: 32px; height: 32px; margin-bottom: 24px; }
+  .feature-copy h2 { font-size: clamp(1.5rem, 2.1vw, 1.9rem); line-height: 1.25; }
+  .feature-copy p, .feature-copy ul { color: var(--muted); font-size: 15px; line-height: 1.8; margin-top: 16px; max-width: 560px; }
+  .feature-copy .text-link { color: var(--accent); margin-top: 18px; }
+  .editor-details { display: grid; grid-template-columns: 1fr 1.1fr; gap: 44px; margin-top: 64px; }
+  .editor-details .feature-copy { margin-top: 28px; }
+  .editor-fonts .shot-link { background: var(--tint); }
+  .editor-save { display: grid; grid-template-columns: 48px 1fr auto; gap: 24px; align-items: center; border-top: 1px solid var(--line); margin-top: 60px; padding-top: 38px; }
+  .save-icon { display: grid; place-items: center; width: 48px; height: 48px; background: var(--tint); color: var(--accent); border-radius: 12px; align-self: start; }
+  .editor-save h2 { font-size: 25px; }
+  .editor-save .button { font-size: 13px; }
+  .editor-save .feature-copy p { margin-top: 12px; max-width: 540px; }
+  .editor-related { display: flex; justify-content: flex-end; margin-top: 30px; }
+  .editor-related a { font-size: 13px; color: var(--muted); }
+  @media (max-width: 1000px) {
+    .editor-text { gap: 28px; grid-template-columns: 1.5fr 1fr; }
+    .editor-details { gap: 28px; }
+    .editor-save { grid-template-columns: 48px 1fr; }
+    .editor-save .button { grid-column: 2; justify-self: start; }
+  }
+  @media (max-width: 640px) {
+    .editor-intro { padding-block: 32px 28px; }
+    .editor-intro .breadcrumb { font-size: 12px; margin-bottom: 20px; }
+    .editor-intro h1 { font-size: 36px; max-width: 420px; }
+    .editor-intro > p { font-size: 15px; margin-top: 16px; }
+    .editor-text, .editor-details { grid-template-columns: 1fr; gap: 26px; }
+    .editor-text .feature-copy > :global(.icon) { display: none; }
+    .editor-details { margin-top: 38px; gap: 38px; }
+    .editor-details .feature-copy { margin-top: 22px; }
+    .feature-copy h2 { font-size: 24px; }
+    .feature-copy p, .feature-copy ul { font-size: 14px; margin-top: 12px; }
+    .editor-shot figcaption { font-size: 10px; }
+    .editor-save { grid-template-columns: 1fr; gap: 18px; margin-top: 38px; padding-top: 28px; }
+    .editor-save h2 { font-size: 24px; }
+    .editor-save .button { grid-column: 1; font-size: 12px; padding-inline: 16px; gap: 10px; white-space: normal; }
+    .save-icon { width: 40px; height: 40px; }
+    .editor-related { justify-content: flex-start; margin-top: 24px; }
+    .editor-features { padding-bottom: 44px; }
+  }
+</style>

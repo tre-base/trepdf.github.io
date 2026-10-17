@@ -17,37 +17,31 @@ export const articles: Article[] = [
     slug: 'features/pdf-editor',
     title: 'Edit PDF Text, Images & Fonts | TrePDF',
     description: 'Edit supported PDF text and images with TrePDF. Change fonts, download missing font styles, arrange pages, and review your changes before saving.',
-    heading: 'Edit PDF text and images, right on the page.',
-    intro: 'Correct a name, update a paragraph, or add an image without starting your document again. TrePDF brings everyday PDF editing into a desktop workspace, with changes you can review before saving.',
+    heading: 'Edit your PDF, on the page.',
+    intro: 'Update text, add images, and arrange pages. Keep control of every change before you save.',
     sections: [
       {
-        heading: 'Make the change where it belongs',
+        heading: 'Edit text directly',
         paragraphs: [
-          'Open a document, switch to Edit, and select a supported text object. Update its content, change the font or size, and adjust the color. You can also add new text when you need a label, a short explanation, or another detail on the page.',
-          'PDFs are built to display finished pages, so editing depends on how each document was created. Some text is stored as an image, an outline, or a structure that TrePDF cannot safely edit. Those objects remain protected. A scanned page needs OCR for searching and copying; OCR does not turn the scan into an editable paragraph.',
+          'Select supported text to change its wording, font, size, or color. Add a text box for new content.',
         ],
       },
       {
-        heading: 'Get help with missing fonts',
+        heading: 'Missing font? Get a little help.',
         paragraphs: [
-          'A PDF may display a font that is not installed on your computer. TrePDF detects missing fonts during supported text editing and can help download available matching font styles after you confirm. Having the right font helps preserve the appearance of your text and reduces unwanted changes in line breaks.',
-          'Font availability depends on the provider and the requested family and style. If the original face is unavailable, you can use a suitable alternative or import a font file you are entitled to use. Review the result when changing fonts: similar names do not guarantee identical character widths or layout.',
+          'TrePDF automatically detects missing fonts. Confirm to download available matching styles over the internet, or choose a supported alternative.',
         ],
       },
       {
-        heading: 'Work with images and pages',
-        items: [
-          'Add a local image, then move and resize it on the page. Lock its aspect ratio when you want to keep its proportions.',
-          'Move, resize, or remove supported existing image objects, with Undo available while you work.',
-          'Insert a blank page, delete an unwanted page, or merge saved PDFs into a separate document.',
-          'Use headers, footers, and page numbers when a document needs consistent information across multiple pages.',
+        heading: 'Arrange images and pages',
+        paragraphs: [
+          'Add images, or move and resize supported existing images. Insert blank pages, remove pages, or merge PDFs into a separate document.',
         ],
       },
       {
-        heading: 'Review first. Save when you are ready.',
+        heading: 'Undo, review, then save',
         paragraphs: [
-          'Content edits remain drafts until a save succeeds. Use Undo and Redo to compare changes, or discard drafts to return to the saved document. Save As lets you keep the source and write a separate edited copy.',
-          'Before sharing, reopen your saved PDF and check the pages you changed. Look at line endings, image proportions, and any substituted fonts. For feedback that should leave the original wording in place, use the Comment tools to highlight passages and add notes instead.',
+          'Undo or redo while editing. Changes stay in drafts until saved; use Save As to create a copy and keep the original.',
         ],
       },
     ],
@@ -59,37 +53,31 @@ export const articles: Article[] = [
     slug: 'vi/tinh-nang/chinh-sua-pdf',
     title: 'Chỉnh sửa chữ, hình ảnh và font trong PDF | TrePDF',
     description: 'Chỉnh sửa chữ và hình ảnh PDF với TrePDF. Đổi kiểu chữ, hỗ trợ tải font còn thiếu, sắp xếp trang và kiểm tra thay đổi trước khi lưu.',
-    heading: 'Chỉnh sửa chữ và hình ảnh ngay trên trang PDF.',
-    intro: 'Sửa một tên riêng, cập nhật đoạn văn hay thêm hình ảnh mà không phải tạo lại tài liệu. TrePDF đưa những thao tác chỉnh sửa PDF thường ngày vào ứng dụng trên máy tính, để bạn kiểm tra kết quả trước khi lưu.',
+    heading: 'Chỉnh sửa PDF ngay trên trang.',
+    intro: 'Sửa chữ, thêm ảnh, sắp xếp trang và kiểm tra kết quả trước khi lưu.',
     sections: [
       {
-        heading: 'Sửa nội dung ngay tại vị trí cần thay đổi',
+        heading: 'Sửa chữ trực tiếp',
         paragraphs: [
-          'Mở tài liệu, chuyển sang tab Chỉnh sửa và chọn đối tượng văn bản được hỗ trợ. Bạn có thể sửa nội dung, đổi font, cỡ chữ và màu chữ. Khi cần bổ sung nhãn, một lời giải thích ngắn hoặc thông tin mới, hãy thêm hộp văn bản vào trang.',
-          'PDF được thiết kế để hiển thị trang đã hoàn thiện, vì vậy khả năng chỉnh sửa phụ thuộc vào cách tạo tài liệu. Một số chữ thực chất là ảnh, đường nét hoặc nằm trong cấu trúc TrePDF chưa thể chỉnh sửa an toàn. Những đối tượng này được giữ nguyên. Với trang scan, OCR giúp tìm kiếm và sao chép chữ nhưng không biến ảnh scan thành đoạn văn có thể chỉnh sửa.',
+          'Chọn văn bản được hỗ trợ để sửa nội dung, đổi font, cỡ chữ hoặc màu. Thêm hộp văn bản khi cần bổ sung thông tin.',
         ],
       },
       {
-        heading: 'Tự động phát hiện và hỗ trợ tải font còn thiếu',
+        heading: 'Thiếu font? TrePDF giúp bạn tìm.',
         paragraphs: [
-          'Tài liệu có thể hiển thị một font chưa được cài trên máy của bạn. Khi chỉnh sửa văn bản được hỗ trợ, TrePDF phát hiện font còn thiếu và hỗ trợ tải các kiểu chữ phù hợp có sẵn sau khi bạn xác nhận. Sử dụng đúng font giúp giữ diện mạo văn bản và hạn chế thay đổi cách xuống dòng.',
-          'Khả năng tải phụ thuộc vào nhà cung cấp, họ font và kiểu chữ cần dùng. Nếu không có font gốc, bạn có thể chọn font thay thế phù hợp hoặc nhập tệp font mà mình có quyền sử dụng. Hãy kiểm tra lại sau khi đổi font: tên gần giống nhau không bảo đảm độ rộng ký tự và bố cục giống nhau.',
+          'TrePDF tự phát hiện font còn thiếu. Xác nhận để tải kiểu chữ phù hợp nếu có sẵn; cần kết nối Internet. Bạn cũng có thể chọn font thay thế.',
         ],
       },
       {
-        heading: 'Làm việc với hình ảnh và các trang',
-        items: [
-          'Thêm ảnh từ máy tính, di chuyển và đổi kích thước ngay trên trang. Bật khóa tỷ lệ để giữ đúng hình dáng ảnh.',
-          'Di chuyển, đổi kích thước hoặc xóa các đối tượng ảnh hiện có được hỗ trợ; có thể Hoàn tác trong quá trình làm việc.',
-          'Chèn trang trắng, xóa trang không cần thiết hoặc ghép các PDF đã lưu thành một tài liệu riêng.',
-          'Thêm đầu trang, chân trang và số trang khi cần thông tin nhất quán trên nhiều trang.',
+        heading: 'Sắp xếp ảnh và trang',
+        paragraphs: [
+          'Thêm ảnh, di chuyển và đổi kích thước ảnh có sẵn được hỗ trợ. Chèn trang trắng, xóa trang hoặc ghép PDF thành tài liệu riêng.',
         ],
       },
       {
-        heading: 'Kiểm tra trước, lưu khi đã sẵn sàng',
+        heading: 'Hoàn tác, kiểm tra rồi lưu',
         paragraphs: [
-          'Các chỉnh sửa nội dung được giữ ở dạng bản nháp cho đến khi lưu thành công. Dùng Hoàn tác và Làm lại để so sánh, hoặc bỏ các thay đổi để trở về tài liệu đã lưu. Lưu thành cho phép giữ bản gốc và tạo một bản đã chỉnh sửa riêng.',
-          'Trước khi chia sẻ, hãy mở lại PDF vừa lưu và xem các trang đã sửa. Chú ý vị trí xuống dòng, tỷ lệ ảnh và những font đã thay thế. Nếu chỉ muốn góp ý mà vẫn giữ nguyên câu chữ gốc, bạn có thể dùng công cụ Bình luận để tô sáng đoạn văn và thêm ghi chú.',
+          'Hoàn tác hoặc làm lại khi chỉnh sửa. Thay đổi chỉ được ghi khi lưu; dùng Lưu thành để tạo bản sao và giữ bản gốc.',
         ],
       },
     ],
@@ -560,5 +548,71 @@ export const articles: Article[] = [
       },
     ],
     related: ['getting-started', 'editor', 'ocr'],
+  },
+  {
+    "id": "forms",
+    "lang": "en",
+    "slug": "features/pdf-form-designer",
+    "title": "PDF Form Designer: Create Fillable Forms | TrePDF",
+    "description": "Design fillable PDF forms in TrePDF. Add text fields, checkboxes, radio buttons and selection lists, arrange them on the page, then save your PDF.",
+    "heading": "Design a PDF people can fill in.",
+    "intro": "Turn a PDF into a fillable form with TrePDF. Open the Forms tab, place your fields, and arrange them directly on the page.",
+    "sections": [
+      {
+        "heading": "Choose the fields you need",
+        "paragraphs": [
+          "Add text fields, checkboxes, radio buttons, dropdowns, list boxes or comb fields for character-by-character input. Dropdowns support one selection; list boxes support multiple selections."
+        ]
+      },
+      {
+        "heading": "Arrange and adjust",
+        "paragraphs": [
+          "Move and resize fields to fit your document. Enable multiple lines or set a character limit for a text field. Give radio buttons the same Group ID to let people choose just one option within that group."
+        ]
+      },
+      {
+        "heading": "Save, then fill in",
+        "paragraphs": [
+          "Save your field layout to the PDF, or use Save As to keep the original and create a separate form. Reopen the saved PDF in TrePDF to enter text and select the available options. Form values can then be saved with the document."
+        ]
+      }
+    ],
+    "related": [
+      "getting-started",
+      "editor"
+    ]
+  },
+  {
+    "id": "forms",
+    "lang": "vi",
+    "slug": "vi/tinh-nang/thiet-ke-form-pdf",
+    "title": "Thiết kế Form PDF: Tạo biểu mẫu có thể điền | TrePDF",
+    "description": "Thiết kế biểu mẫu PDF trong TrePDF. Thêm ô nhập liệu, ô đánh dấu, nút chọn và danh sách lựa chọn, sắp xếp các trường rồi lưu thành PDF có thể điền.",
+    "heading": "Thiết kế biểu mẫu PDF dễ điền.",
+    "intro": "Mở tab Forms, đặt các trường và sắp xếp ngay trên trang. Biến tài liệu PDF thành biểu mẫu có thể nhập thông tin.",
+    "sections": [
+      {
+        "heading": "Chọn trường phù hợp",
+        "paragraphs": [
+          "Thêm ô nhập liệu, ô đánh dấu, nút chọn, danh sách thả xuống, danh sách nhiều lựa chọn hoặc ô chia từng ký tự. Danh sách thả xuống cho chọn một mục; List Box cho chọn nhiều mục."
+        ]
+      },
+      {
+        "heading": "Sắp xếp và điều chỉnh",
+        "paragraphs": [
+          "Di chuyển, đổi kích thước các trường cho vừa trang. Bật nhập nhiều dòng hoặc giới hạn số ký tự cho ô văn bản. Đặt cùng Group ID cho các nút chọn để mỗi nhóm chỉ chọn được một đáp án."
+        ]
+      },
+      {
+        "heading": "Lưu để bắt đầu điền",
+        "paragraphs": [
+          "Dùng Save để lưu biểu mẫu hoặc Save As để tạo bản riêng và giữ bản gốc. Mở lại PDF trong TrePDF để nhập văn bản, chọn các mục có sẵn và lưu thông tin đã điền."
+        ]
+      }
+    ],
+    "related": [
+      "getting-started",
+      "editor"
+    ]
   },
 ];

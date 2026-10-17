@@ -1,0 +1,139 @@
+---
+import Icon from './Icon.astro';
+import { homeCopy } from '../data/home';
+import { asset, href, type Lang } from '../data/site';
+
+const { lang } = Astro.props as { lang: Lang };
+const vi = lang === 'vi';
+const features = homeCopy[lang].features;
+const demos = [
+  { id: 'editor', file: 'edit-text', label: vi ? 'Chỉnh sửa' : 'Edit text',
+    caption: vi ? 'Chọn đoạn chữ và chỉnh sửa ngay trong PDF.' : 'Select text and make changes directly in your PDF.',
+    alt: vi ? 'Demo TrePDF chọn và chỉnh sửa chữ trong một tài liệu PDF mẫu' : 'TrePDF demo selecting and editing text in a sample PDF' },
+  { id: 'forms', file: 'form-design', label: 'Form',
+    caption: vi ? 'Thêm các trường để tạo biểu mẫu có thể điền.' : 'Add fields to build a fillable PDF form.',
+    alt: vi ? 'Demo TrePDF thêm ô nhập liệu, ô đánh dấu và danh sách lựa chọn vào biểu mẫu' : 'TrePDF demo adding a text field, checkbox and dropdown to a form' },
+  { id: 'ocr', file: 'ocr', label: 'OCR',
+    caption: vi ? 'Nhận dạng bản scan, rồi tìm kiếm trong lớp chữ mới.' : 'Recognize a scan, then search its new text layer.',
+    alt: vi ? 'Demo TrePDF nhận dạng văn bản trong bản scan và tìm kiếm trong PDF kết quả' : 'TrePDF demo recognizing scanned text and searching the resulting PDF' },
+];
+---
+<div class="demo-showcase" data-feature-demos
+  data-play-label={vi ? 'Bật ảnh động' : 'Play animation'}
+  data-stop-label={vi ? 'Tắt ảnh động' : 'Stop animation'}
+  data-error-label={vi ? 'Không tải được ảnh động. Đang hiển thị ảnh tĩnh.' : 'Animation could not load. Showing a still image.'}>
+  <div class="demo-media">
+    <div class="demo-selectors" data-demo-controls hidden role="group" aria-label={vi ? 'Chọn demo tính năng' : 'Choose a feature demo'}>
+      {demos.map((demo, i) => <button type="button" data-demo-select={demo.id}
+        data-demo-src={asset(`demos/${demo.file}.gif`)}
+        data-demo-poster={asset(`demos/${demo.file}.webp`)}
+        data-demo-caption={demo.caption} data-demo-alt={demo.alt}
+        aria-pressed={i === 0 ? 'true' : 'false'} aria-controls="feature-demo-preview">{demo.label}</button>)}
+    </div>
+    <figure id="feature-demo-preview">
+      <img data-demo-image src={asset('demos/edit-text.webp')} alt={demos[0].alt}
+        width="960" height="640" loading="lazy" decoding="async"/>
+      <figcaption>
+        <p data-demo-caption>{demos[0].caption}</p>
+        <button class="demo-motion" type="button" data-demo-motion hidden aria-controls="feature-demo-preview">{vi ? 'Bật ảnh động' : 'Play animation'}</button>
+      </figcaption>
+    </figure>
+    <p class="demo-status" data-demo-status role="status"></p>
+  </div>
+  <div class="demo-features">
+    {features.map((feature, i) => <article data-demo-feature={feature.id} data-active={i === 0 ? 'true' : 'false'}>
+      <Icon name={feature.icon as 'text' | 'forms' | 'scan'}/>
+      <div><h3>{feature.title}</h3><p>{feature.text}</p>
+        <a class="text-link" href={href(feature.id, lang)}>{feature.link}<Icon name="arrow"/></a>
+      </div>
+    </article>)}
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-feature-demos]').forEach(root => {
+    const selectors = [...root.querySelectorAll<HTMLButtonElement>('[data-demo-select]')];
+    const image = root.querySelector<HTMLImageElement>('[data-demo-image]')!;
+    const caption = root.querySelector<HTMLElement>('p[data-demo-caption]')!;
+    const motionButton = root.querySelector<HTMLButtonElement>('[data-demo-motion]')!;
+    const status = root.querySelector<HTMLElement>('[data-demo-status]')!;
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+    let active = selectors[0];
+    let motionEnabled = !reducedMotion.matches && !connection?.saveData;
+    let visible = false;
+
+    // GIFs have no pause API. Stopping swaps in the corresponding static poster;
+    // Play restores the selected animation. Only the selected GIF is requested.
+    const render = () => {
+      const playing = motionEnabled && visible && !document.hidden;
+      const source = playing ? active.dataset.demoSrc! : active.dataset.demoPoster!;
+      if (image.getAttribute('src') !== source) image.src = source;
+      image.alt = active.dataset.demoAlt!;
+      caption.textContent = active.dataset.demoCaption!;
+      motionButton.textContent = motionEnabled ? root.dataset.stopLabel! : root.dataset.playLabel!;
+      root.dataset.playing = String(playing);
+      selectors.forEach(button => button.setAttribute('aria-pressed', String(button === active)));
+      root.querySelectorAll<HTMLElement>('[data-demo-feature]').forEach(feature => {
+        feature.dataset.active = String(feature.dataset.demoFeature === active.dataset.demoSelect);
+      });
+    };
+    selectors.forEach(button => button.addEventListener('click', () => {
+      active = button;
+      status.textContent = button.dataset.demoCaption!;
+      render();
+    }));
+    motionButton.addEventListener('click', () => {
+      motionEnabled = !motionEnabled;
+      status.textContent = '';
+      render();
+    });
+    image.addEventListener('error', () => {
+      if (image.getAttribute('src') === active.dataset.demoSrc) {
+        motionEnabled = false;
+        status.textContent = root.dataset.errorLabel!;
+        render();
+      }
+    });
+    // OS preference changes take effect immediately. An explicit Play still lets
+    // a visitor who prefers reduced motion choose to view an individual demo.
+    reducedMotion.addEventListener('change', () => {
+      motionEnabled = !reducedMotion.matches && !connection?.saveData;
+      render();
+    });
+    document.addEventListener('visibilitychange', render);
+    const observer = new IntersectionObserver(entries => {
+      visible = entries[0].intersectionRatio >= 0.2;
+      render();
+    }, { threshold: 0.2 });
+    observer.observe(image);
+    root.querySelector<HTMLElement>('[data-demo-controls]')!.hidden = false;
+    motionButton.hidden = false;
+    render();
+  });
+</script>
+
+<style>
+  .demo-showcase { display: grid; grid-template-columns: 1.2fr 1fr; gap: 64px; align-items: center; }
+  .demo-media { min-width: 0; border: 1px solid var(--line); border-radius: 16px; padding: 16px; background: var(--soft); }
+  .demo-selectors { display: flex; gap: 6px; margin-bottom: 16px; }
+  .demo-selectors[hidden], .demo-motion[hidden] { display: none; }
+  .demo-selectors button { flex: 1; min-height: 44px; border: 1px solid transparent; border-radius: 8px; background: transparent; color: var(--muted); font-size: 13px; font-weight: 650; padding: 8px; }
+  .demo-selectors button[aria-pressed="true"] { background: var(--surface); border-color: var(--line); color: var(--accent); }
+  .demo-selectors button:hover { color: var(--accent); }
+  figure img { width: 100%; aspect-ratio: 3 / 2; border-radius: 6px; border: 1px solid #d7d7d7; background: #fff; box-shadow: var(--shadow); }
+  figcaption { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-top: 14px; }
+  figcaption p { color: var(--muted); font-size: 12px; line-height: 1.65; }
+  .demo-motion { flex-shrink: 0; min-height: 44px; border: 0; padding: 6px 0 6px 8px; color: var(--text); background: transparent; font-size: 12px; text-decoration: underline; text-underline-offset: 4px; }
+  .demo-motion:hover { color: var(--accent); }
+  .demo-features { display: grid; gap: 14px; }
+  article { display: grid; grid-template-columns: 26px 1fr; gap: 16px; border-left: 2px solid transparent; padding: 17px 0 17px 20px; }
+  article[data-active="true"] { border-left-color: var(--accent); }
+  article :global(> .icon) { color: var(--accent); margin-top: 3px; }
+  article p { font-size: 14px; color: var(--muted); line-height: 1.8; margin-top: 10px; }
+  article .text-link { margin-top: 12px; font-size: 12px; }
+  .demo-status { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  @media (max-width: 1150px) { .demo-showcase { gap: 32px; } article { padding-left: 14px; gap: 12px; } }
+  @media (max-width: 900px) { .demo-showcase { grid-template-columns: 1fr; gap: 32px; } .demo-media { width: 100%; max-width: 700px; } .demo-features { gap: 8px; } }
+  @media (max-width: 640px) { .demo-media { padding: 12px; } figcaption { align-items: flex-start; gap: 8px; } .demo-motion { padding-top: 0; } }
+</style>

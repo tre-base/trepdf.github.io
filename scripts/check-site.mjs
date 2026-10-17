@@ -138,6 +138,11 @@ for (const page of pages) {
       await checkTarget(candidate.trim().split(/\s+/)[0], url);
     }
   }
+  for (const demo of document.querySelectorAll('[data-demo-select]')) {
+    await checkTarget(demo.getAttribute('data-demo-src'), url);
+    await checkTarget(demo.getAttribute('data-demo-poster'), url);
+    check(Boolean(demo.getAttribute('data-demo-alt')?.trim()), `${url}: demo missing alt text`);
+  }
   for (const img of document.querySelectorAll('img')) {
     check(img.hasAttribute('alt'), `${url}: image missing alt text`);
     check(Number(img.getAttribute('width')) > 0 && Number(img.getAttribute('height')) > 0, `${url}: image missing intrinsic width/height`);

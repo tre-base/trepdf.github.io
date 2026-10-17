@@ -5,6 +5,7 @@ import download from '@tabler/icons/outline/download.svg?raw';
 import text from '@tabler/icons/outline/text-size.svg?raw';
 import scan from '@tabler/icons/outline/scan.svg?raw';
 import notes from '@tabler/icons/outline/message-2.svg?raw';
+import forms from '@tabler/icons/outline/forms.svg?raw';
 import pages from '@tabler/icons/outline/files.svg?raw';
 import shield from '@tabler/icons/outline/shield-lock.svg?raw';
 import check from '@tabler/icons/outline/check.svg?raw';
@@ -15,7 +16,7 @@ import device from '@tabler/icons/outline/device-desktop.svg?raw';
 import signature from '@tabler/icons/outline/signature.svg?raw';
 import table from '@tabler/icons/outline/table.svg?raw';
 import plus from '@tabler/icons/outline/plus.svg?raw';
-const icons = { arrow, right, download, text, scan, notes, pages, shield, check, sun, moon, book, device, signature, table, plus };
+const icons = { arrow, right, download, text, scan, notes, forms, pages, shield, check, sun, moon, book, device, signature, table, plus };
 interface Props { name: keyof typeof icons; class?: string; }
 const { name, class: className = '' } = Astro.props;
 ---

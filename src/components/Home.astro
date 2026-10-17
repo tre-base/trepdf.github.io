@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from './Icon.astro';
+import FeatureDemos from './FeatureDemos.astro';
 import { homeCopy } from '../data/home';
 import { href, asset, type Lang } from '../data/site';
 const { lang } = Astro.props as { lang: Lang };
@@ -25,10 +26,7 @@ const t = homeCopy[lang];
   <div class="container benefits">{t.benefits.map(b => <span><Icon name="check"/>{b}</span>)}</div>
   <section class="section container" id="features">
     <div class="section-heading"><h2 class="preserve-lines">{t.featureTitle}</h2><p>{t.featureIntro}</p></div>
-    <div class="feature-showcase">
-      <figure class="reader-visual"><img src={asset('images/app-reader.webp')} alt={lang === 'en' ? 'TrePDF reader displaying a two-page sample document with thumbnail navigation' : 'TrePDF đọc tài liệu mẫu hai trang với thanh điều hướng hình thu nhỏ'} width="1440" height="960" loading="lazy"/><figcaption>{lang === 'en' ? 'Read comfortably. Keep the whole document in view.' : 'Đọc thuận tiện. Nắm trọn tài liệu.'}</figcaption></figure>
-      <div class="feature-list">{t.features.map(f => <article><Icon name={f.icon as 'text'|'notes'|'scan'}/><div><h3>{f.title}</h3><p>{f.text}</p><a class="text-link" href={href(f.id, lang)}>{f.link}<Icon name="arrow"/></a></div></article>)}</div>
-    </div>
+    <FeatureDemos lang={lang}/>
   </section>
   <section class="font-section">
     <div class="container font-grid">

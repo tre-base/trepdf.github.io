@@ -14,7 +14,7 @@ const dist = path.join(root, 'dist');
 const downloads = JSON.parse(await readFile(path.join(root, 'src/data/downloads.json'), 'utf8'));
 const reports = path.join(root, 'reports');
 await mkdir(reports, { recursive: true });
-const mime = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.png': 'image/png', '.webp': 'image/webp', '.woff2': 'font/woff2', '.xml': 'application/xml', '.txt': 'text/plain' };
+const mime = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.png': 'image/png', '.webp': 'image/webp', '.gif': 'image/gif', '.woff2': 'font/woff2', '.xml': 'application/xml', '.txt': 'text/plain' };
 const server = createServer(async (req, res) => {
   try {
     const pathname = decodeURIComponent(new URL(req.url, 'http://localhost').pathname);
@@ -108,16 +108,74 @@ try {
   const missing = await page.goto(new URL('missing-test-page/', base).href);
   assert.equal(missing.status(), 404);
   assert.equal(await page.locator('meta[name="robots"]').getAttribute('content'), 'noindex, follow');
+  // Demo selection must work with keyboard input and respect reduced motion.
+  // The GIF is only requested on explicit Play in this reduced-motion context.
+  const gifRequests = [];
+  page.on('request', request => { if (request.url().endsWith('.gif')) gifRequests.push(request.url()); });
+  await page.goto(new URL('vi/', base).href);
+  const demo = page.locator('[data-feature-demos]');
+  const demoImage = demo.locator('[data-demo-image]');
+  const motion = demo.locator('[data-demo-motion]');
+  await demoImage.scrollIntoViewIfNeeded();
+  for (const [id, file] of [['editor', 'edit-text'], ['forms', 'form-design'], ['ocr', 'ocr']]) {
+    const button = demo.locator(`[data-demo-select="${id}"]`);
+    await button.focus();
+    await page.keyboard.press('Enter');
+    assert.equal(await button.getAttribute('aria-pressed'), 'true');
+    assert.equal(await demo.locator('[data-demo-select][aria-pressed="true"]').count(), 1);
+    assert((await demoImage.getAttribute('src')).endsWith(`${file}.webp`));
+    await demoImage.evaluate(img => img.decode());
+  }
+  assert.equal(gifRequests.length, 0, 'Reduced motion must not automatically fetch GIFs');
+  await motion.click();
+  await page.waitForFunction(() => document.querySelector('[data-demo-image]').getAttribute('src').endsWith('ocr.gif'));
+  await demoImage.evaluate(img => img.decode());
+  await motion.click();
+  assert((await demoImage.getAttribute('src')).endsWith('ocr.webp'));
+  await demo.locator('[data-demo-select="forms"]').click();
+  assert((await demoImage.getAttribute('src')).endsWith('form-design.webp'), 'Switching demos preserves Stop');
+  // With normal motion, scroll into view to start, switch all sources and
+  // scroll away to stop. A later system preference change must stop immediately.
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  for (const [id, file] of [['editor', 'edit-text'], ['forms', 'form-design'], ['ocr', 'ocr']]) {
+    await demo.locator(`[data-demo-select="${id}"]`).click();
+    await page.waitForFunction(file => document.querySelector('[data-demo-image]').getAttribute('src').endsWith(`${file}.gif`), file);
+    await demoImage.evaluate(img => img.decode());
+  }
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await page.waitForFunction(() => document.querySelector('[data-feature-demos]').dataset.playing === 'false');
+  assert((await demoImage.getAttribute('src')).endsWith('ocr.webp'));
+  await demoImage.scrollIntoViewIfNeeded();
+  await page.waitForFunction(() => document.querySelector('[data-feature-demos]').dataset.playing === 'true');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.waitForFunction(() => document.querySelector('[data-feature-demos]').dataset.playing === 'false');
+  // Broken animation assets fall back to the real poster and can be retried.
+  await page.route('**/demos/ocr.gif', route => route.abort());
+  await motion.click();
+  await page.waitForFunction(() => document.querySelector('[data-demo-status]').textContent.includes('Không tải được'));
+  assert((await demoImage.getAttribute('src')).endsWith('ocr.webp'));
+  await page.unroute('**/demos/ocr.gif');
+  await page.locator('html').evaluate(el => el.setAttribute('data-theme', 'light'));
+  await page.locator('#features').screenshot({ path: path.join(reports, 'feature-demos-mobile.png') });
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await demo.locator('[data-demo-select="editor"]').click();
+  await demoImage.evaluate(img => img.decode());
+  await page.locator('#features').screenshot({ path: path.join(reports, 'feature-demos-desktop.png') });
+  await page.locator('html').evaluate(el => el.setAttribute('data-theme', 'dark'));
+  await page.locator('#features').screenshot({ path: path.join(reports, 'feature-demos-dark.png') });
   assert.deepEqual(errors, [], 'Unexpected page errors or missing resources');
   // Navigation, copy and native disclosure widgets remain usable without JS.
   const noJs = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 390, height: 844 } });
   const staticPage = await noJs.newPage();
   await staticPage.goto(base);
+  assert.equal(await staticPage.locator('[data-demo-controls]').isVisible(), false);
+  assert.equal(await staticPage.locator('[data-demo-motion]').isVisible(), false);
+  assert.equal(await staticPage.locator('[data-demo-feature] a').count(), 3, 'Feature links remain available without JS');
   await staticPage.locator('.mobile-menu summary').click();
   await staticPage.locator('.mobile-menu a').last().click();
   assert(staticPage.url().endsWith('/download/'));
   await noJs.close();
-  console.log(`UI checks passed: ${routes.length} pages at 320/768/1440px, 12 WCAG audits, theme persistence, translated routes, menu, FAQ, downloads, 404 and no-JS navigation. Screenshots: reports/`);
+  console.log(`UI checks passed: ${routes.length} pages at 320/768/1440px, 12 WCAG audits, demo selection/play/stop/reduced-motion/fallback, theme persistence, translated routes, menu, FAQ, downloads, 404 and no-JS navigation. Screenshots: reports/`);
 } finally {
   await browser?.close();
   await new Promise(resolve => server.close(resolve));
