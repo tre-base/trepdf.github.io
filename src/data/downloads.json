@@ -1,0 +1,6 @@
+[
+  { "id": "mac-arm", "os": "macOS", "architecture": "Apple Silicon", "url": "", "version": "", "requirements": "" },
+  { "id": "mac-intel", "os": "macOS", "architecture": "Intel", "url": "", "version": "", "requirements": "" },
+  { "id": "windows", "os": "Windows", "architecture": "x64", "url": "", "version": "", "requirements": "" },
+  { "id": "linux", "os": "Linux", "architecture": "x64", "url": "", "version": "", "requirements": "" }
+]

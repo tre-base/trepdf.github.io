@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from './Icon.astro';
+import { articles } from '../data/articles';
+import { href, type Lang } from '../data/site';
+const { lang } = Astro.props as { lang: Lang };
+const vi = lang==='vi';
+const selected = ['getting-started','editor','fonts','ocr','annotations'].map(id=>articles.find(a=>a.id===id && a.lang===lang)!);
+---
+<Base lang={lang} pageId="guides" title={vi?'Hướng dẫn chỉnh sửa PDF và OCR | TrePDF':'PDF Editing & OCR Guides | TrePDF'} description={vi?'Học cách mở, chỉnh sửa, chú thích và lưu PDF với TrePDF. Hướng dẫn tải font tự động và OCR tiếng Anh, tiếng Việt.':'Learn to open, edit, annotate and save PDFs with TrePDF. Step-by-step guides to automatic font downloads and English and Vietnamese OCR.'}>
+  <div class="container page-heading"><p class="eyebrow">{vi?'Hướng dẫn thực tế':'Practical guides'}</p><h1>{vi?'Một PDF. Nhiều cách làm tốt hơn.':'A better way through your PDF.'}</h1><p>{vi?'Từ chỉnh sửa đầu tiên đến xử lý bản scan. Bắt đầu với việc bạn cần làm.':'From your first edit to a searchable scan. Start with the task in front of you.'}</p></div>
+  <section class="container guide-directory">{selected.map((a,i)=><a class="directory-item" href={href(a.id,lang)}><Icon name={i===0?'book':i===3?'scan':i===4?'notes':'text'}/><div><h2>{a.heading}</h2><p>{a.description}</p></div><Icon name="arrow"/></a>)}</section>
+</Base>

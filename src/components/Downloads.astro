@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from './Icon.astro';
+import downloads from '../data/downloads.json';
+import { href, type Lang } from '../data/site';
+const { lang } = Astro.props as { lang: Lang };
+const vi = lang === 'vi';
+const title = vi ? 'Tải TrePDF cho máy tính | TrePDF' : 'Download TrePDF Desktop PDF Editor | TrePDF';
+const description = vi ? 'Xem các lựa chọn tải TrePDF cho macOS, Windows và Linux. Đường dẫn tải và yêu cầu hệ thống sẽ được bổ sung khi gói phát hành sẵn sàng.' : 'Find TrePDF desktop download options for macOS, Windows and Linux. Download links and system requirements will be added when packages are available.';
+---
+<Base lang={lang} pageId="download" title={title} description={description}>
+  <div class="container page-heading"><p class="eyebrow">{vi?'Không gian PDF của bạn':'Your PDF workspace'}</p><h1>{vi?'TrePDF, trên máy của bạn.':'TrePDF, on your desktop.'}</h1><p>{vi?'Chọn nền tảng của bạn. Đường dẫn tải sẽ xuất hiện tại đây khi các gói phát hành sẵn sàng.':'Choose your platform. Download links will appear here when release packages are ready.'}</p></div>
+  <section class="container download-section" aria-label={vi?'Các nền tảng tải xuống':'Download platforms'}>
+    <div class="download-grid">{downloads.map(d => <article class="download-card" data-download-id={d.id}>
+      <Icon name="device"/><p class="download-arch">{d.architecture}</p><h2>{d.os}</h2>
+      <p class="small-text">{d.requirements || (vi?'Yêu cầu hệ thống sẽ được công bố cùng bản tải.':'System requirements will be listed with the download.')}</p>
+      {d.version && <p>{vi?'Phiên bản':'Version'} {d.version}</p>}
+      {d.url ? <a class="button" href={d.url}>{vi?'Tải xuống':'Download'}<Icon name="download"/></a> : <button class="button unavailable" disabled type="button">{vi?'Chưa có bản tải':'Not available yet'}</button>}
+    </article>)}</div>
+    <div class="notice"><Icon name="book"/><div><h2>{vi?'Trong lúc chờ, làm quen với TrePDF.':'While you’re here, get to know TrePDF.'}</h2><p>{vi?'Khám phá cách sửa văn bản, tải font còn thiếu và tạo PDF tìm kiếm được từ bản scan.':'Explore how to edit text, download missing fonts, and create a searchable PDF from a scan.'}</p><a class="text-link" href={href('guides',lang)}>{vi?'Xem hướng dẫn':'Browse the guides'}<Icon name="right"/></a></div></div>
+  </section>
+</Base>
