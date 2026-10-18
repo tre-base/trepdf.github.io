@@ -7,37 +7,73 @@ import { href, asset } from '../data/site';
 interface Props { article: Article; }
 const { article } = Astro.props;
 const lang = article.lang;
-const vi = lang === 'vi';
 const [preserve, workflow, mixed, quality] = article.sections;
-const t = vi ? {
-  breadcrumb: 'Tính năng TrePDF',
-  before: 'Trước OCR',
-  sourceCaption: 'Trang 4 của PublicWaterMassMailing.pdf, chỉ có ảnh scan.',
-  sourceAlt: 'TrePDF mở trang 4 của PublicWaterMassMailing.pdf, hiển thị bản scan biểu mẫu xét nghiệm nước chưa có lớp văn bản',
-  after: 'Sau OCR',
-  resultCaption: 'Tìm thấy “Coliform” trong bản PDF kết quả, phóng to để xem rõ.',
-  resultAlt: 'Bản PDF kết quả mở ở tab mới trong TrePDF, ô tìm kiếm Coliform báo 1 kết quả và từ tương ứng được tô sáng trên trang 4',
-  setupCaption: 'Ví dụ: chọn English và Current page (4) để nhận dạng trang 4.',
-  setupAlt: 'Bảng Recognize Text OCR trong tab Convert của TrePDF, ngôn ngữ English và phạm vi Current page 4 đang được chọn',
-  enlarge: 'Mở ảnh lớn trong tab mới',
-  start: 'Xem hướng dẫn bắt đầu',
-  editorLink: 'Khám phá chỉnh sửa PDF',
-  annotationLink: 'Công cụ chú thích PDF',
-} : {
-  breadcrumb: 'TrePDF features',
-  before: 'Before OCR',
-  sourceCaption: 'Page 4 of PublicWaterMassMailing.pdf, containing only a scanned image.',
-  sourceAlt: 'TrePDF showing page 4 of PublicWaterMassMailing.pdf, a scanned water testing form with no text layer',
-  after: 'After OCR',
-  resultCaption: 'Find “Coliform” in the output PDF, zoomed in for a closer look.',
-  resultAlt: 'The output PDF open in a new TrePDF tab, with one search result for Coliform highlighted on page 4',
-  setupCaption: 'Example: choose English and Current page (4) to recognize page 4.',
-  setupAlt: 'Recognize Text OCR panel in the TrePDF Convert tab with English and Current page 4 selected',
-  enlarge: 'Open full-size image in a new tab',
-  start: 'Read the getting started guide',
-  editorLink: 'Explore PDF editing',
-  annotationLink: 'Explore PDF annotations',
-};
+const t = {
+  "vi": {
+    "breadcrumb": "Tính năng TrePDF",
+    "before": "Trước OCR",
+    "sourceCaption": "Trang 4 của PublicWaterMassMailing.pdf, chỉ có ảnh scan.",
+    "sourceAlt": "TrePDF mở trang 4 của PublicWaterMassMailing.pdf, hiển thị bản scan biểu mẫu xét nghiệm nước chưa có lớp văn bản",
+    "after": "Sau OCR",
+    "resultCaption": "Tìm thấy “Coliform” trong bản PDF kết quả, phóng to để xem rõ.",
+    "resultAlt": "Bản PDF kết quả mở ở tab mới trong TrePDF, ô tìm kiếm Coliform báo 1 kết quả và từ tương ứng được tô sáng trên trang 4",
+    "setupCaption": "Ví dụ: chọn English và Current page (4) để nhận dạng trang 4.",
+    "setupAlt": "Bảng Recognize Text OCR trong tab Convert của TrePDF, ngôn ngữ English và phạm vi Current page 4 đang được chọn",
+    "enlarge": "Mở ảnh lớn trong tab mới",
+    "start": "Xem hướng dẫn bắt đầu",
+    "editorLink": "Khám phá chỉnh sửa PDF",
+    "annotationLink": "Công cụ chú thích PDF",
+    "related": "Khám phá thêm"
+  },
+  "en": {
+    "breadcrumb": "TrePDF features",
+    "before": "Before OCR",
+    "sourceCaption": "Page 4 of PublicWaterMassMailing.pdf, containing only a scanned image.",
+    "sourceAlt": "TrePDF showing page 4 of PublicWaterMassMailing.pdf, a scanned water testing form with no text layer",
+    "after": "After OCR",
+    "resultCaption": "Find “Coliform” in the output PDF, zoomed in for a closer look.",
+    "resultAlt": "The output PDF open in a new TrePDF tab, with one search result for Coliform highlighted on page 4",
+    "setupCaption": "Example: choose English and Current page (4) to recognize page 4.",
+    "setupAlt": "Recognize Text OCR panel in the TrePDF Convert tab with English and Current page 4 selected",
+    "enlarge": "Open full-size image in a new tab",
+    "start": "Read the getting started guide",
+    "editorLink": "Explore PDF editing",
+    "annotationLink": "Explore PDF annotations",
+    "related": "Keep exploring"
+  },
+  "th": {
+    "breadcrumb": "คุณสมบัติของ TrePDF",
+    "before": "ก่อนทำ OCR",
+    "sourceCaption": "หน้า 4 ของ PublicWaterMassMailing.pdf ซึ่งมีเพียงภาพสแกน",
+    "sourceAlt": "TrePDF แสดงหน้า 4 ของ PublicWaterMassMailing.pdf เป็นภาพสแกนแบบฟอร์มตรวจคุณภาพน้ำที่ยังไม่มีชั้นข้อความ",
+    "after": "หลังทำ OCR",
+    "resultCaption": "ค้นหา “Coliform” ใน PDF ผลลัพธ์ แล้วขยายเพื่อดูให้ชัดขึ้น",
+    "resultAlt": "PDF ผลลัพธ์เปิดในแท็บใหม่ของ TrePDF พร้อมผลการค้นหา Coliform หนึ่งรายการที่เน้นไว้บนหน้า 4",
+    "setupCaption": "ตัวอย่าง: เลือก English และ Current page (4) เพื่อรู้จำข้อความในหน้า 4",
+    "setupAlt": "แผง Recognize Text OCR ในแท็บ Convert ของ TrePDF โดยเลือก English และ Current page 4",
+    "enlarge": "เปิดรูปภาพขนาดเต็มในแท็บใหม่",
+    "start": "อ่านคู่มือเริ่มต้นใช้งาน",
+    "editorLink": "สำรวจการแก้ไข PDF",
+    "annotationLink": "สำรวจเครื่องมือใส่คำอธิบายประกอบ PDF",
+    "related": "สำรวจเพิ่มเติม"
+  },
+  "fr": {
+    "breadcrumb": "Fonctionnalités de TrePDF",
+    "before": "Avant l’OCR",
+    "sourceCaption": "Page 4 de PublicWaterMassMailing.pdf, contenant uniquement une image numérisée.",
+    "sourceAlt": "TrePDF affichant la page 4 de PublicWaterMassMailing.pdf, un formulaire d’analyse de l’eau numérisé sans couche de texte",
+    "after": "Après l’OCR",
+    "resultCaption": "Le mot « Coliform » retrouvé dans le PDF obtenu, avec un zoom pour mieux le voir.",
+    "resultAlt": "Le PDF obtenu ouvert dans un nouvel onglet TrePDF, avec un résultat de recherche pour Coliform surligné sur la page 4",
+    "setupCaption": "Exemple : choisissez English et Current page (4) pour reconnaître le texte de la page 4.",
+    "setupAlt": "Panneau Recognize Text OCR dans l’onglet Convert de TrePDF avec English et Current page 4 sélectionnés",
+    "enlarge": "Ouvrir l’image en taille réelle dans un nouvel onglet",
+    "start": "Lire le guide de démarrage",
+    "editorLink": "Découvrir la modification de PDF",
+    "annotationLink": "Découvrir les annotations PDF",
+    "related": "À découvrir aussi"
+  }
+}[lang];
 ---
 <Base lang={lang} pageId={article.id} title={article.title} description={article.description}>
   <div class="container ocr-intro">
@@ -93,7 +129,7 @@ const t = vi ? {
         {quality.paragraphs?.map(p => <p>{p}</p>)}
       </section>
     </div>
-    <nav class="ocr-related" aria-label={vi?'Khám phá thêm':'Keep exploring'}>
+    <nav class="ocr-related" aria-label={t.related}>
       <a class="button" href={href('getting-started',lang)}>{t.start}<Icon name="right"/></a>
       <div>
         <a class="text-link" href={href('annotations',lang)}>{t.annotationLink}<Icon name="arrow"/></a>

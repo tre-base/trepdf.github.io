@@ -1601,3 +1601,24 @@ img {
     color: #251b14;
   }
 }
+
+/* A native disclosure keeps every locale reachable without JavaScript. */
+.language-menu { position: relative; }
+.language-menu summary { display: flex; align-items: center; gap: 5px; min-height: 44px; font-size: 13px; font-weight: 650; list-style: none; cursor: pointer; white-space: nowrap; }
+.language-menu summary::-webkit-details-marker { display: none; }
+.language-menu summary .icon { width: 15px; height: 15px; }
+.language-menu[open] summary .icon { transform: rotate(45deg); }
+.language-menu nav { position: absolute; top: calc(100% + 8px); right: 0; min-width: 175px; padding: 8px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); box-shadow: var(--shadow); z-index: 20; }
+.language-menu .language-link { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 10px 12px; border-radius: 6px; font-size: 14px; }
+.language-menu .language-link:hover, .language-menu .language-link[aria-current="page"] { background: var(--tint); color: var(--accent); }
+.language-menu .language-link .icon { width: 16px; height: 16px; }
+.not-found nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 20px; margin-top: 24px; }
+/* Thai needs its own glyph coverage and relaxed tracking for stacked marks. */
+:lang(th) { font-family: 'Noto Sans Thai Variable', 'Manrope Variable', sans-serif; letter-spacing: normal; }
+:root:lang(th) h1, :root:lang(th) h2, :root:lang(th) h3 { letter-spacing: normal; line-height: 1.4; }
+:root:lang(th) .eyebrow { letter-spacing: normal; }
+@media (max-width: 640px) {
+  .language-menu summary { font-size: 11px; gap: 3px; }
+  .language-menu summary .icon { width: 12px; height: 12px; }
+  .language-menu nav { right: -42px; }
+}

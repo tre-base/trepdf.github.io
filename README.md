@@ -1,6 +1,6 @@
 # TrePDF website
 
-An English/Vietnamese product website for TrePDF, built with Astro and published as static HTML on GitHub Pages. The English homepage targets “PDF editor”; dedicated feature pages and guides explain actual editing, font, OCR and annotation workflows.
+An English/Vietnamese/Thai/French product website for TrePDF, built with Astro and published as static HTML on GitHub Pages. The English homepage targets “PDF editor”; dedicated feature pages and guides explain actual editing, font, OCR and annotation workflows.
 
 The initial installer URLs, version numbers and platform requirements are deliberately empty. An unavailable installer is shown as a disabled control rather than an empty or misleading link. No public release, pricing, rating or download count is invented.
 
@@ -24,7 +24,7 @@ npm run preview
 
 `dist/` contains the publishable static website. Each page has its own HTML file, so deep links can be opened and refreshed without client-side routing.
 
-The SEO check parses the generated HTML and verifies titles, descriptions, one H1, unique self-referencing canonicals, reciprocal English/Vietnamese alternates, sitemap membership, JSON-LD, image dimensions, local asset paths, links and fragment targets. It also verifies that downloads remain disabled until their URLs are supplied. It does not submit pages to Google or promise indexing or rankings.
+The SEO check parses the generated HTML and verifies titles, descriptions, one H1, unique self-referencing canonicals, reciprocal English/Vietnamese/Thai/French alternates, sitemap membership, JSON-LD, image dimensions, local asset paths, links and fragment targets. It also verifies that downloads remain disabled until their URLs are supplied. It does not submit pages to Google or promise indexing or rankings.
 
 For browser/layout/accessibility checks, install Playwright's browser once and run the separate UI check:
 
@@ -38,19 +38,27 @@ The UI check starts and closes its own local server. It checks every page at pho
 
 ## Edit content
 
-- `src/data/home.ts`: English/Vietnamese homepage copy and launch availability text.
-- `src/data/articles.ts`: paired English/Vietnamese feature pages, guides, updates and privacy content. Keep each `id` consistent across the two languages; each translation has its own stable `slug`.
+- `src/data/home.ts`: English/Vietnamese homepage copy and the combined four-language homepage catalog.
+- `src/data/articles.ts`: English/Vietnamese feature pages, guides, updates and privacy content plus the combined four-language catalog. Keep each `id` consistent across all languages and each section in the same order; specialized feature templates use those sections. Each translation has its own stable `slug`.
+- `src/data/locales/th.ts` and `src/data/locales/fr.ts`: Thai and French homepage and article translations.
+- `src/data/languages.ts`: supported language codes, native names and Open Graph locales.
 - `src/data/site.ts`: navigation labels, shared route lookup and URL helpers.
 - `src/data/downloads.json`: installer availability and release information.
 - `src/pages/` and `src/components/`: page templates and reusable UI.
 - `public/`: static images and icons.
 - `site.config.mjs`: the canonical site origin and deployment prefix.
 
-Use the shared route and asset helpers for links rather than hard-coding `/` paths. English and Vietnamese pages have separate URLs, self-canonicals and reciprocal `hreflang`; a language switch goes to the equivalent page. Keep link text descriptive and keep headings focused on the page's subject.
+Use the shared route and asset helpers for links rather than hard-coding `/` paths. English, Vietnamese, Thai and French pages have separate URLs, self-canonicals and reciprocal `hreflang`; a language switch goes to the equivalent page. Keep link text descriptive and keep headings focused on the page's subject.
 
-When adding a new article, add both language versions, give each an original title and description, and link to it from a relevant guide or feature page. Run the checks after building. Do not change established slugs casually: GitHub Pages does not provide arbitrary server-side redirect rules, and changing a public URL needs a migration plan.
+When adding a new article, add all four language versions, give each an original title and description, and link to it from a relevant guide or feature page. Run the checks after building. Do not change established slugs casually: GitHub Pages does not provide arbitrary server-side redirect rules, and changing a public URL needs a migration plan.
 
 Product claims must match the tested application. In particular, OCR recognizes English/Vietnamese and exports a separate searchable PDF; supported text editing has PDF/font constraints; visible signatures are not certificate-based digital signatures. Font downloads require the applicable provider and available font faces. Do not label an untested platform release as available.
+
+## Language routes and navigation
+
+English stays at the site root, Vietnamese at `vi/`, Thai at `th/` and French at `fr/`. Existing English/Vietnamese slugs remain unchanged. Thai routes use descriptive ASCII English segments for easy sharing; French routes use French words without accents (for example `fr/fonctionnalites/modifier-pdf/`). All 11 page types exist in each language, for 44 indexable pages.
+
+The native language disclosure links to the equivalent page in all four languages and works without JavaScript. Escape restores focus to its summary; outside clicks close it. Every canonical page includes four reciprocal HTML `hreflang` tags and English `x-default`. The sitemap contains the same canonical URLs. Noto Sans Thai supplies bundled glyphs; Thai headings use normal tracking and room for stacked marks. These website languages do not add OCR recognition languages: OCR still supports English and Vietnamese. Application screenshots retain the actual captured English UI; their surrounding captions and alternative text are translated.
 
 ## Add installer links later
 
@@ -67,7 +75,7 @@ Edit the matching entry in `src/data/downloads.json`:
 }
 ```
 
-Replace `url` with the full HTTPS URL of a real, tested installer. Fill `version` and `requirements` with the matching release information. Keep other platforms empty until their packages are ready. The download pages in both languages use this one file; adding a valid URL enables the corresponding link. When publishing the first package, also update the coming-soon copy in `src/data/home.ts` and `src/components/Downloads.astro`, and add accurate release notes in `src/data/articles.ts`. Keep the download page URL stable when changing release assets. Check the external installer URL yourself: the automated link check validates local pages and URL format, not the contents of external binaries.
+Replace `url` with the full HTTPS URL of a real, tested installer. Fill `version` and `requirements` with the matching release information. Keep other platforms empty until their packages are ready. The download pages in all four languages use this one file; adding a valid URL enables the corresponding link. When publishing the first package, also update the coming-soon copy in `src/data/home.ts` and `src/components/Downloads.astro`, and add accurate release notes in `src/data/articles.ts`. Keep the download page URL stable when changing release assets. Check the external installer URL yourself: the automated link check validates local pages and URL format, not the contents of external binaries.
 
 ## GitHub Pages deployment
 
@@ -111,7 +119,7 @@ Search Console ownership, sitemap submission and live indexing have not been per
 
 ## Asset licenses
 
-Manrope is self-hosted under the SIL Open Font License; Tabler SVG icons use the MIT license. Their license texts ship in `public/licenses/`. The TrePDF logo and screenshots come from the application; screenshot provenance is recorded in `public/images/README.md`.
+Manrope and Noto Sans Thai are self-hosted under the SIL Open Font License; Tabler SVG icons use the MIT license. Their license texts ship in `public/licenses/`. The TrePDF logo and screenshots come from the application; screenshot provenance is recorded in `public/images/README.md`.
 
 ## Homepage feature demos
 

@@ -7,35 +7,69 @@ import { href, asset } from '../data/site';
 interface Props { article: Article; }
 const { article } = Astro.props;
 const lang = article.lang;
-const vi = lang === 'vi';
 const [fields, arranging, saving] = article.sections;
-const t = vi ? {
-  breadcrumb: 'Tính năng TrePDF',
-  overviewAlt: 'Tab Forms trong TrePDF với biểu mẫu đăng ký gồm ô họ tên, danh sách vai trò và ô đánh dấu nhận tài liệu',
-  overviewCaption: 'Một mẫu đăng ký với ba loại trường ngay trên trang PDF.',
-  textAlt: 'Ô họ tên được chọn với các tay nắm đổi kích thước và bảng tùy chọn nhập nhiều dòng, giới hạn số ký tự',
-  textCaption: 'Chọn ô nhập liệu để đổi kích thước và cách nhập văn bản.',
-  choicesHeading: 'Đặt sẵn các lựa chọn',
-  choicesCopy: 'Thêm, sửa hoặc xóa các mục trong danh sách thả xuống. Ô đánh dấu giúp người điền xác nhận một lựa chọn ngay trên biểu mẫu.',
-  choicesAlt: 'Danh sách thả xuống được chọn trong TrePDF, bảng tùy chọn chứa Designer, Developer và Student; bên dưới là ô đánh dấu đã chọn',
-  choicesCaption: 'Chỉnh các mục trong Dropdown tại bảng bên phải.',
-  enlarge: 'Mở ảnh lớn trong tab mới',
-  start: 'Xem hướng dẫn bắt đầu',
-  editorLink: 'Khám phá chỉnh sửa PDF',
-} : {
-  breadcrumb: 'TrePDF features',
-  overviewAlt: 'TrePDF Forms tab with a registration form containing a name field, role dropdown and checkbox for workshop notes',
-  overviewCaption: 'A registration form with three field types placed on the PDF.',
-  textAlt: 'Selected name field with resize handles and text options for multiple lines and a character limit',
-  textCaption: 'Select a text field to adjust its size and input options.',
-  choicesHeading: 'Set up the choices',
-  choicesCopy: 'Add, edit or remove items in a dropdown. Use a checkbox to let people confirm a choice directly on the form.',
-  choicesAlt: 'Selected dropdown in TrePDF with Designer, Developer and Student in the options panel and a checked checkbox below',
-  choicesCaption: 'Edit Dropdown items in the panel on the right.',
-  enlarge: 'Open full-size image in a new tab',
-  start: 'Read the getting started guide',
-  editorLink: 'Explore PDF editing',
-};
+const t = {
+  "vi": {
+    "breadcrumb": "Tính năng TrePDF",
+    "overviewAlt": "Tab Forms trong TrePDF với biểu mẫu đăng ký gồm ô họ tên, danh sách vai trò và ô đánh dấu nhận tài liệu",
+    "overviewCaption": "Một mẫu đăng ký với ba loại trường ngay trên trang PDF.",
+    "textAlt": "Ô họ tên được chọn với các tay nắm đổi kích thước và bảng tùy chọn nhập nhiều dòng, giới hạn số ký tự",
+    "textCaption": "Chọn ô nhập liệu để đổi kích thước và cách nhập văn bản.",
+    "choicesHeading": "Đặt sẵn các lựa chọn",
+    "choicesCopy": "Thêm, sửa hoặc xóa các mục trong danh sách thả xuống. Ô đánh dấu giúp người điền xác nhận một lựa chọn ngay trên biểu mẫu.",
+    "choicesAlt": "Danh sách thả xuống được chọn trong TrePDF, bảng tùy chọn chứa Designer, Developer và Student; bên dưới là ô đánh dấu đã chọn",
+    "choicesCaption": "Chỉnh các mục trong Dropdown tại bảng bên phải.",
+    "enlarge": "Mở ảnh lớn trong tab mới",
+    "start": "Xem hướng dẫn bắt đầu",
+    "editorLink": "Khám phá chỉnh sửa PDF",
+    "related": "Khám phá thêm"
+  },
+  "en": {
+    "breadcrumb": "TrePDF features",
+    "overviewAlt": "TrePDF Forms tab with a registration form containing a name field, role dropdown and checkbox for workshop notes",
+    "overviewCaption": "A registration form with three field types placed on the PDF.",
+    "textAlt": "Selected name field with resize handles and text options for multiple lines and a character limit",
+    "textCaption": "Select a text field to adjust its size and input options.",
+    "choicesHeading": "Set up the choices",
+    "choicesCopy": "Add, edit or remove items in a dropdown. Use a checkbox to let people confirm a choice directly on the form.",
+    "choicesAlt": "Selected dropdown in TrePDF with Designer, Developer and Student in the options panel and a checked checkbox below",
+    "choicesCaption": "Edit Dropdown items in the panel on the right.",
+    "enlarge": "Open full-size image in a new tab",
+    "start": "Read the getting started guide",
+    "editorLink": "Explore PDF editing",
+    "related": "Keep exploring"
+  },
+  "th": {
+    "breadcrumb": "คุณสมบัติของ TrePDF",
+    "overviewAlt": "แท็บ Forms ใน TrePDF แสดงแบบฟอร์มลงทะเบียนที่มีช่องชื่อ รายการแบบเลื่อนลงสำหรับบทบาท และช่องทำเครื่องหมายรับเอกสารประกอบเวิร์กช็อป",
+    "overviewCaption": "แบบฟอร์มลงทะเบียนพร้อมช่องกรอกสามประเภทบนหน้า PDF",
+    "textAlt": "ช่องชื่อที่เลือกพร้อมจุดจับปรับขนาดและตัวเลือกข้อความหลายบรรทัดกับขีดจำกัดจำนวนอักขระ",
+    "textCaption": "เลือกช่องข้อความเพื่อปรับขนาดและตัวเลือกการป้อนข้อมูล",
+    "choicesHeading": "กำหนดตัวเลือกไว้ล่วงหน้า",
+    "choicesCopy": "เพิ่ม แก้ไข หรือลบรายการในรายการแบบเลื่อนลง ใช้ช่องทำเครื่องหมายเพื่อให้ผู้กรอกยืนยันตัวเลือกได้บนแบบฟอร์มโดยตรง",
+    "choicesAlt": "รายการแบบเลื่อนลงที่เลือกใน TrePDF พร้อม Designer, Developer และ Student ในแผงตัวเลือก และช่องที่ทำเครื่องหมายไว้ด้านล่าง",
+    "choicesCaption": "แก้ไขรายการ Dropdown ในแผงด้านขวา",
+    "enlarge": "เปิดรูปภาพขนาดเต็มในแท็บใหม่",
+    "start": "อ่านคู่มือเริ่มต้นใช้งาน",
+    "editorLink": "สำรวจการแก้ไข PDF",
+    "related": "สำรวจเพิ่มเติม"
+  },
+  "fr": {
+    "breadcrumb": "Fonctionnalités de TrePDF",
+    "overviewAlt": "Onglet Forms de TrePDF avec un formulaire d’inscription comprenant un champ de nom, une liste déroulante de rôles et une case à cocher pour recevoir les notes de l’atelier",
+    "overviewCaption": "Un formulaire d’inscription avec trois types de champs sur le PDF.",
+    "textAlt": "Champ de nom sélectionné avec des poignées de redimensionnement et des options de saisie multiligne et de limite de caractères",
+    "textCaption": "Sélectionnez un champ de texte pour ajuster sa taille et ses options de saisie.",
+    "choicesHeading": "Préparez les choix",
+    "choicesCopy": "Ajoutez, modifiez ou supprimez les éléments d’une liste déroulante. Une case à cocher permet de confirmer un choix directement sur le formulaire.",
+    "choicesAlt": "Liste déroulante sélectionnée dans TrePDF avec Designer, Developer et Student dans le panneau d’options et une case cochée en dessous",
+    "choicesCaption": "Modifiez les éléments du champ Dropdown dans le panneau de droite.",
+    "enlarge": "Ouvrir l’image en taille réelle dans un nouvel onglet",
+    "start": "Lire le guide de démarrage",
+    "editorLink": "Découvrir la modification de PDF",
+    "related": "À découvrir aussi"
+  }
+}[lang];
 ---
 <Base lang={lang} pageId={article.id} title={article.title} description={article.description}>
   <div class="container form-intro">
@@ -94,7 +128,7 @@ const t = vi ? {
       </div>
       <a class="button" href={href('getting-started',lang)}>{t.start}<Icon name="right"/></a>
     </section>
-    <nav class="form-related" aria-label={vi?'Khám phá thêm':'Keep exploring'}>
+    <nav class="form-related" aria-label={t.related}>
       <a class="text-link" href={href('editor',lang)}>{t.editorLink}<Icon name="arrow"/></a>
     </nav>
   </div>

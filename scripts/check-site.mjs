@@ -10,6 +10,7 @@ import { siteOrigin, siteBase, siteUrl } from '../site.config.mjs';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const output = path.join(root, 'dist');
 const downloads = JSON.parse(await readFile(path.join(root, 'src/data/downloads.json'), 'utf8'));
+const languages = ['en', 'vi', 'th', 'fr'];
 const errors = [];
 const check = (condition, message) => { if (!condition) errors.push(message); };
 
@@ -73,7 +74,8 @@ const titles = new Set();
 const descriptions = new Set();
 const canonicals = new Set();
 
-check(indexable.length >= 20, `Expected at least 20 English/Vietnamese pages; found ${indexable.length}`);
+check(indexable.length === 44, `Expected 11 pages in each of four languages; found ${indexable.length}`);
+for (const language of languages) check(indexable.filter(p => p.document.documentElement.getAttribute('lang') === language).length === 11, `Expected 11 ${language} pages`);
 check(pages.some(p => p.filename === path.join(output, '404.html') && p.noindex), '404.html must exist and have noindex');
 const homepage = pagesByUrl.get(siteUrl);
 check(/pdf editor/i.test(homepage?.document.querySelector('title')?.textContent || ''), 'English homepage title should describe TrePDF as a PDF editor');
@@ -83,7 +85,7 @@ for (const page of pages) {
   const title = document.querySelector('title')?.textContent.trim();
   const description = document.querySelector('meta[name="description"]')?.getAttribute('content')?.trim();
   const lang = document.documentElement.getAttribute('lang');
-  check(['en', 'vi'].includes(lang), `${url}: html lang must be en or vi`);
+  check(languages.includes(lang), `${url}: html lang must be en, vi, th or fr`);
   check(document.querySelectorAll('h1').length === 1, `${url}: expected exactly one h1`);
   check(Boolean(document.querySelector('main')), `${url}: missing main landmark`);
   check(Boolean(title), `${url}: empty title`);
@@ -104,7 +106,7 @@ for (const page of pages) {
 
     const alternates = [...document.querySelectorAll('link[rel="alternate"][hreflang]')];
     const alternateMap = new Map(alternates.map(a => [a.getAttribute('hreflang'), a.getAttribute('href')]));
-    check(alternates.length === 3 && ['en', 'vi', 'x-default'].every(l => alternateMap.has(l)), `${url}: expected en, vi and x-default alternates`);
+    check(alternates.length === 5 && [...languages, 'x-default'].every(l => alternateMap.has(l)), `${url}: expected four language alternates and x-default`);
     check(alternateMap.get(lang) === url, `${url}: hreflang must include itself`);
     check(alternateMap.get('x-default') === alternateMap.get('en'), `${url}: x-default must point to English`);
     for (const [language, alternateUrl] of alternateMap) {
@@ -117,6 +119,16 @@ for (const page of pages) {
       check(reciprocal === url, `${url}: missing reciprocal alternate from ${alternateUrl}`);
     }
     check(document.querySelector('meta[property="og:url"]')?.getAttribute('content') === url, `${url}: Open Graph URL must match canonical`);
+    const languageLinks = [...document.querySelectorAll('.language-menu a[hreflang]')];
+    check(languageLinks.length === languages.length, `${url}: language menu must offer all four languages`);
+    for (const language of languages) {
+      const link = languageLinks.find(a => a.getAttribute('hreflang') === language);
+      check(link && new URL(link.getAttribute('href'), url).href === alternateMap.get(language), `${url}: language switch must keep the equivalent ${language} page`);
+    }
+    check(document.querySelectorAll('.language-menu [aria-current="page"]').length === 1, `${url}: exactly one current language`);
+    check(document.querySelector('.language-menu [aria-current="page"]')?.getAttribute('hreflang') === lang, `${url}: current language menu item mismatch`);
+    const englishPage = pagesByUrl.get(alternateMap.get('en'));
+    if (englishPage) check(document.querySelectorAll('main h2').length === englishPage.document.querySelectorAll('main h2').length, `${url}: missing translated sections compared with English`);
   }
 
   const ids = new Set();
@@ -189,7 +201,7 @@ while (pending.length) {
 }
 for (const page of indexable) check(reachable.has(page.url), `${page.url}: orphaned page is not reachable from the homepage`);
 
-for (const relative of ['download/', 'vi/tai-xuong/']) {
+for (const relative of ['download/', 'vi/tai-xuong/', 'th/download/', 'fr/telecharger/']) {
   const url = new URL(relative, siteUrl).href;
   const page = pagesByUrl.get(url);
   check(Boolean(page), `Missing download page ${url}`);
@@ -223,5 +235,5 @@ if (errors.length) {
   console.error(`SEO/link checks failed (${errors.length}):\n${errors.map(e => `  - ${e}`).join('\n')}`);
   process.exitCode = 1;
 } else {
-  console.log(`SEO/link checks passed: ${indexable.length} indexable pages, ${pages.length - indexable.length} noindex page, bilingual alternates, sitemap, resources and download states.`);
+  console.log(`SEO/link checks passed: ${indexable.length} indexable pages, ${pages.length - indexable.length} noindex page, four-language alternates and switcher, section parity, sitemap, resources and download states.`);
 }

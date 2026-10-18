@@ -1,6 +1,10 @@
+import type { Lang } from './languages';
+import { thaiArticles } from './locales/th';
+import { frenchArticles } from './locales/fr';
+
 export interface Article {
   id: string;
-  lang: 'en' | 'vi';
+  lang: Lang;
   slug: string;
   title: string;
   description: string;
@@ -11,6 +15,8 @@ export interface Article {
 }
 
 export const articles: Article[] = [
+  ...thaiArticles,
+  ...frenchArticles,
   {
     id: 'editor',
     lang: 'en',

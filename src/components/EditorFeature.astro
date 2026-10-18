@@ -7,29 +7,65 @@ import { href, asset } from '../data/site';
 interface Props { article: Article; }
 const { article } = Astro.props;
 const lang = article.lang;
-const vi = lang === 'vi';
 const [text, fonts, images, saving] = article.sections;
-const t = vi ? {
-  breadcrumb: 'Tính năng TrePDF',
-  editorAlt: 'Văn bản được chọn trong TrePDF cùng bảng đổi font, cỡ chữ và màu chữ',
-  editorCaption: 'Chọn văn bản và chỉnh sửa ngay trên trang.',
-  fontAlt: 'Hộp thoại Font của TrePDF hiển thị bản xem trước kiểu chữ từ tệp font trên máy',
-  fontCaption: 'Xem trước font từ máy trong Cài đặt > Font.',
-  imageAlt: 'Ảnh được chọn trong TrePDF với khung đổi kích thước và bảng thuộc tính hình ảnh',
-  imageCaption: 'Điều chỉnh ảnh với khung chọn và bảng thuộc tính.',
-  enlarge: 'Mở ảnh lớn', fontsLink: 'Cách tải và thêm font',
-  start: 'Xem hướng dẫn bắt đầu', annotationLink: 'Công cụ chú thích PDF',
-} : {
-  breadcrumb: 'TrePDF features',
-  editorAlt: 'Selected text in TrePDF with font family, size and color controls',
-  editorCaption: 'Select text and make your changes on the page.',
-  fontAlt: 'TrePDF Font dialog showing a typeface preview from a local font file',
-  fontCaption: 'Preview a local font in Settings > Font.',
-  imageAlt: 'Selected image in TrePDF with resize handles and the Image Properties panel',
-  imageCaption: 'Adjust an image with selection handles and properties.',
-  enlarge: 'Open full-size image', fontsLink: 'How to download and add fonts',
-  start: 'Read the getting started guide', annotationLink: 'Explore PDF annotations',
-};
+const t = {
+  "vi": {
+    "breadcrumb": "Tính năng TrePDF",
+    "editorAlt": "Văn bản được chọn trong TrePDF cùng bảng đổi font, cỡ chữ và màu chữ",
+    "editorCaption": "Chọn văn bản và chỉnh sửa ngay trên trang.",
+    "fontAlt": "Hộp thoại Font của TrePDF hiển thị bản xem trước kiểu chữ từ tệp font trên máy",
+    "fontCaption": "Xem trước font từ máy trong Cài đặt > Font.",
+    "imageAlt": "Ảnh được chọn trong TrePDF với khung đổi kích thước và bảng thuộc tính hình ảnh",
+    "imageCaption": "Điều chỉnh ảnh với khung chọn và bảng thuộc tính.",
+    "enlarge": "Mở ảnh lớn",
+    "fontsLink": "Cách tải và thêm font",
+    "start": "Xem hướng dẫn bắt đầu",
+    "annotationLink": "Công cụ chú thích PDF",
+    "related": "Khám phá thêm"
+  },
+  "en": {
+    "breadcrumb": "TrePDF features",
+    "editorAlt": "Selected text in TrePDF with font family, size and color controls",
+    "editorCaption": "Select text and make your changes on the page.",
+    "fontAlt": "TrePDF Font dialog showing a typeface preview from a local font file",
+    "fontCaption": "Preview a local font in Settings > Font.",
+    "imageAlt": "Selected image in TrePDF with resize handles and the Image Properties panel",
+    "imageCaption": "Adjust an image with selection handles and properties.",
+    "enlarge": "Open full-size image",
+    "fontsLink": "How to download and add fonts",
+    "start": "Read the getting started guide",
+    "annotationLink": "Explore PDF annotations",
+    "related": "Keep exploring"
+  },
+  "th": {
+    "breadcrumb": "คุณสมบัติของ TrePDF",
+    "editorAlt": "ข้อความที่เลือกใน TrePDF พร้อมตัวควบคุมแบบอักษร ขนาด และสีข้อความ",
+    "editorCaption": "เลือกข้อความแล้วแก้ไขได้โดยตรงบนหน้าเอกสาร",
+    "fontAlt": "กล่องโต้ตอบ Font ของ TrePDF แสดงตัวอย่างแบบอักษรจากไฟล์ฟอนต์ในเครื่อง",
+    "fontCaption": "ดูตัวอย่างฟอนต์ในเครื่องได้ที่ Settings > Font",
+    "imageAlt": "รูปภาพที่เลือกใน TrePDF พร้อมจุดจับปรับขนาดและแผง Image Properties",
+    "imageCaption": "ปรับรูปภาพด้วยจุดจับบนกรอบที่เลือกและแผงคุณสมบัติ",
+    "enlarge": "เปิดรูปภาพขนาดเต็ม",
+    "fontsLink": "วิธีดาวน์โหลดและเพิ่มฟอนต์",
+    "start": "อ่านคู่มือเริ่มต้นใช้งาน",
+    "annotationLink": "สำรวจเครื่องมือใส่คำอธิบายประกอบ PDF",
+    "related": "สำรวจเพิ่มเติม"
+  },
+  "fr": {
+    "breadcrumb": "Fonctionnalités de TrePDF",
+    "editorAlt": "Texte sélectionné dans TrePDF avec les réglages de police, de taille et de couleur",
+    "editorCaption": "Sélectionnez le texte et modifiez-le directement sur la page.",
+    "fontAlt": "Boîte de dialogue Font de TrePDF affichant un aperçu d’une police depuis un fichier local",
+    "fontCaption": "Prévisualisez une police locale dans Settings > Font.",
+    "imageAlt": "Image sélectionnée dans TrePDF avec des poignées de redimensionnement et le panneau Image Properties",
+    "imageCaption": "Ajustez une image à l’aide des poignées de sélection et des propriétés.",
+    "enlarge": "Ouvrir l’image en taille réelle",
+    "fontsLink": "Télécharger et ajouter des polices",
+    "start": "Lire le guide de démarrage",
+    "annotationLink": "Découvrir les annotations PDF",
+    "related": "À découvrir aussi"
+  }
+}[lang];
 ---
 <Base lang={lang} pageId={article.id} title={article.title} description={article.description}>
   <div class="container editor-intro">
@@ -90,7 +126,7 @@ const t = vi ? {
       </div>
       <a class="button" href={href('getting-started',lang)}>{t.start}<Icon name="right"/></a>
     </section>
-    <nav class="editor-related" aria-label={vi?'Khám phá thêm':'Keep exploring'}>
+    <nav class="editor-related" aria-label={t.related}>
       <a class="text-link" href={href('annotations',lang)}>{t.annotationLink}<Icon name="arrow"/></a>
     </nav>
   </div>

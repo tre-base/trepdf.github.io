@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
-import { href } from '../data/site';
+import { href, languages, languageNames } from '../data/site';
 ---
 <Base lang="en" pageId="404" title="Page not found | TrePDF" description="This TrePDF page could not be found. Return to the homepage or browse the PDF editing guides." noindex>
-  <section class="container not-found"><p class="eyebrow">404</p><h1>This page slipped away.</h1><p>The link may have changed. Your next step is right here.</p><a class="button" href={href('home','en')}>Back to TrePDF</a><a class="text-link" href={href('home','vi')}>Về trang chủ tiếng Việt</a></section>
+  <section class="container not-found"><p class="eyebrow">404</p><h1>This page slipped away.</h1><p>The link may have changed. Your next step is right here.</p><a class="button" href={href('home','en')}>Back to TrePDF</a><nav aria-label="Homepages by language">{languages.filter(lang => lang !== 'en').map(lang => <a class="text-link" href={href('home',lang)} lang={lang} hreflang={lang}>{languageNames[lang]}</a>)}</nav></section>
 </Base>

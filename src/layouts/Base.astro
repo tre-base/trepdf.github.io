@@ -1,17 +1,18 @@
 ---
 import '@fontsource-variable/manrope';
+import '@fontsource-variable/noto-sans-thai';
 import '../styles/global.css';
 import Icon from '../components/Icon.astro';
-import { navigation, href, asset, absolute, route, type Lang } from '../data/site';
+import { navigation, pageLabels, languages, languageNames, openGraphLocales, href, asset, absolute, route, type Lang } from '../data/site';
 interface Props { lang: Lang; pageId: string; title: string; description: string; noindex?: boolean; }
 const { lang, pageId, title, description, noindex = false } = Astro.props;
 const t = navigation[lang];
-const otherLang = lang === 'en' ? 'vi' : 'en';
+const labels = pageLabels[lang];
 const pageSlug = noindex ? '404' : route(pageId, lang);
 const canonical = absolute(pageSlug);
 const home = absolute(route('home', lang));
 const schema = [
-  { '@type': 'WebSite', '@id': `${absolute()}#website`, name: 'TrePDF', url: absolute(), inLanguage: ['en', 'vi'] },
+  { '@type': 'WebSite', '@id': `${absolute()}#website`, name: 'TrePDF', url: absolute(), inLanguage: languages },
   { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: title, description, inLanguage: lang, isPartOf: { '@id': `${absolute()}#website` } },
   ...(pageId === 'home' ? [{ '@type': 'SoftwareApplication', name: 'TrePDF', applicationCategory: 'BusinessApplication', description, url: canonical, screenshot: `${new URL(asset('images/app-editor.webp'), Astro.site)}`, featureList: ['PDF text and image editing', 'PDF annotations', 'English and Vietnamese OCR', 'Missing font downloads with confirmation'] }] : [{ '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: t.home, item: home }, { '@type': 'ListItem', position: 2, name: title.split(' | ')[0], item: canonical }] }]),
 ];
@@ -27,8 +28,7 @@ const schema = [
     <meta name="description" content={description} />
     {noindex ? <meta name="robots" content="noindex, follow" /> : <>
       <link rel="canonical" href={canonical} />
-      <link rel="alternate" hreflang="en" href={absolute(route(pageId, 'en'))} />
-      <link rel="alternate" hreflang="vi" href={absolute(route(pageId, 'vi'))} />
+      {languages.map(language => <link rel="alternate" hreflang={language} href={absolute(route(pageId, language))} />)}
       <link rel="alternate" hreflang="x-default" href={absolute(route(pageId, 'en'))} />
       <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': schema }).replace(/</g, '\\u003c')} />
     </>}
@@ -37,12 +37,12 @@ const schema = [
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:locale" content={lang === 'vi' ? 'vi_VN' : 'en_US'} />
-    <meta property="og:locale:alternate" content={lang === 'vi' ? 'en_US' : 'vi_VN'} />
+    <meta property="og:locale" content={openGraphLocales[lang]} />
+    {languages.filter(language => language !== lang).map(language => <meta property="og:locale:alternate" content={openGraphLocales[language]} />)}
     <meta property="og:image" content={new URL(asset('images/social-preview.png'), Astro.site).href} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={lang === 'en' ? 'TrePDF desktop PDF editor with a sample document' : 'Trình chỉnh sửa PDF TrePDF với tài liệu mẫu'} />
+    <meta property="og:image:alt" content={labels.socialAlt} />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" type="image/png" href={asset('images/favicon.png')} />
     <script is:inline>
@@ -57,16 +57,21 @@ const schema = [
     <header class="site-header">
       <div class="container nav-shell">
         <a class="brand" href={href('home', lang)} aria-label="TrePDF"><img src={asset('images/logo.png')} alt="" width="38" height="38" /><span>Tre<span class="brand-light">PDF</span></span></a>
-        <nav class="desktop-nav" aria-label={lang === 'en' ? 'Main navigation' : 'Điều hướng chính'}>
+        <nav class="desktop-nav" aria-label={labels.mainNav}>
           <a href={`${href('home', lang)}#features`}>{t.features}</a><a href={href('guides', lang)}>{t.guides}</a><a href={href('changelog', lang)}>{t.updates}</a>
         </nav>
         <div class="nav-actions">
-          <a class="language-link" href={href(noindex ? 'home' : pageId, otherLang)} lang={otherLang} hreflang={otherLang}>{t.language}</a>
+          <details class="language-menu">
+            <summary aria-label={`${labels.language}: ${languageNames[lang]}`}><span lang={lang}>{languageNames[lang]}</span><Icon name="plus"/></summary>
+            <nav aria-label={labels.language}>
+              {languages.map(language => <a class="language-link" href={href(noindex ? 'home' : pageId, language)} lang={language} hreflang={language} aria-current={language === lang ? 'page' : undefined}>{languageNames[language]}{language === lang && <Icon name="check"/>}</a>)}
+            </nav>
+          </details>
           <button class="theme-toggle" type="button" aria-label={t.theme} title={t.theme} data-theme-toggle><Icon name="sun" class="sun-icon"/><Icon name="moon" class="moon-icon"/></button>
           <a class="button button-small nav-download" href={href('download', lang)}>{t.download}<Icon name="download"/></a>
           <details class="mobile-menu">
             <summary>{t.menu}<Icon name="plus"/></summary>
-            <nav aria-label={lang === 'en' ? 'Mobile navigation' : 'Điều hướng di động'}>
+            <nav aria-label={labels.mobileNav}>
               <a href={`${href('home', lang)}#features`}>{t.features}</a><a href={href('guides', lang)}>{t.guides}</a><a href={href('changelog', lang)}>{t.updates}</a><a href={href('download', lang)}>{t.download}</a>
             </nav>
           </details>
@@ -77,9 +82,9 @@ const schema = [
     <footer class="site-footer">
       <div class="container footer-main">
         <div><a class="brand" href={href('home', lang)}><img src={asset('images/logo.png')} alt="" width="32" height="32"/><span>Tre<span class="brand-light">PDF</span></span></a><p>{t.tagline}</p></div>
-        <nav aria-label={lang === 'en' ? 'Footer navigation' : 'Điều hướng cuối trang'}><a href={href('editor', lang)}>{t.features}</a><a href={href('guides', lang)}>{t.guides}</a><a href={href('download', lang)}>{t.download}</a><a href={href('privacy', lang)}>{t.privacy}</a></nav>
+        <nav aria-label={labels.footerNav}><a href={href('editor', lang)}>{t.features}</a><a href={href('guides', lang)}>{t.guides}</a><a href={href('download', lang)}>{t.download}</a><a href={href('privacy', lang)}>{t.privacy}</a></nav>
       </div>
-      <div class="container footer-bottom"><span>© {new Date().getUTCFullYear()} {t.copyright}</span><span>{lang === 'en' ? 'Read. Edit. Make it yours.' : 'Đọc. Chỉnh sửa. Hoàn thiện.'}</span></div>
+      <div class="container footer-bottom"><span>© {new Date().getUTCFullYear()} {t.copyright}</span><span>{labels.footerNote}</span></div>
     </footer>
     <script>
       const toggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
@@ -102,8 +107,24 @@ const schema = [
         document.documentElement.dataset.theme = mq.matches ? 'dark' : 'light';
         sync();
       });
-      document.querySelectorAll('.mobile-menu a').forEach(a => a.addEventListener('click', () => document.querySelector('.mobile-menu')?.removeAttribute('open')));
-      document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelector('.mobile-menu')?.removeAttribute('open'); });
+      const menus = [...document.querySelectorAll<HTMLDetailsElement>('.mobile-menu, .language-menu')];
+      menus.forEach(menu => {
+        menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => menu.removeAttribute('open')));
+        menu.addEventListener('toggle', () => {
+          if (menu.open) menus.filter(other => other !== menu).forEach(other => other.removeAttribute('open'));
+        });
+      });
+      document.addEventListener('click', e => {
+        menus.forEach(menu => { if (e.target instanceof Node && !menu.contains(e.target)) menu.removeAttribute('open'); });
+      });
+      document.addEventListener('keydown', e => {
+        if (e.key !== 'Escape') return;
+        menus.forEach(menu => {
+          if (!menu.open) return;
+          menu.removeAttribute('open');
+          menu.querySelector('summary')?.focus();
+        });
+      });
     </script>
   </body>
 </html>

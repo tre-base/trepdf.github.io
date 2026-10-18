@@ -4,10 +4,39 @@ import Icon from './Icon.astro';
 import { articles } from '../data/articles';
 import { href, type Lang } from '../data/site';
 const { lang } = Astro.props as { lang: Lang };
-const vi = lang==='vi';
+const t = {
+  "en": {
+    "title": "PDF Editing & OCR Guides | TrePDF",
+    "description": "Learn to open, edit, annotate and save PDFs with TrePDF. Step-by-step guides to automatic font downloads and English and Vietnamese OCR.",
+    "eyebrow": "Practical guides",
+    "heading": "A better way through your PDF.",
+    "intro": "From your first edit to a searchable scan. Start with the task in front of you."
+  },
+  "vi": {
+    "title": "Hướng dẫn chỉnh sửa PDF và OCR | TrePDF",
+    "description": "Học cách mở, chỉnh sửa, chú thích và lưu PDF với TrePDF. Hướng dẫn tải font tự động và OCR tiếng Anh, tiếng Việt.",
+    "eyebrow": "Hướng dẫn thực tế",
+    "heading": "Một PDF. Nhiều cách làm tốt hơn.",
+    "intro": "Từ chỉnh sửa đầu tiên đến xử lý bản scan. Bắt đầu với việc bạn cần làm."
+  },
+  "th": {
+    "title": "คู่มือแก้ไข PDF และ OCR | TrePDF",
+    "description": "เรียนรู้วิธีเปิด แก้ไข ใส่คำอธิบายประกอบ และบันทึก PDF ด้วย TrePDF พร้อมคู่มือดาวน์โหลดฟอนต์อัตโนมัติและ OCR ภาษาอังกฤษและภาษาเวียดนามทีละขั้นตอน",
+    "eyebrow": "คู่มือใช้งานจริง",
+    "heading": "ทำงานกับ PDF ได้สะดวกยิ่งขึ้น",
+    "intro": "ตั้งแต่การแก้ไขครั้งแรกจนถึงการทำให้ภาพสแกนค้นหาข้อความได้ เริ่มจากงานที่คุณต้องการทำ"
+  },
+  "fr": {
+    "title": "Guides de modification de PDF et d’OCR | TrePDF",
+    "description": "Apprenez à ouvrir, modifier, annoter et enregistrer des PDF avec TrePDF. Des guides pas à pas sur le téléchargement automatique de polices et l’OCR en anglais et en vietnamien.",
+    "eyebrow": "Guides pratiques",
+    "heading": "Travaillez plus facilement avec vos PDF.",
+    "intro": "De votre première modification à la recherche dans un document numérisé. Commencez par la tâche qui vous attend."
+  }
+}[lang];
 const selected = ['getting-started','editor','fonts','ocr','annotations','forms'].map(id=>articles.find(a=>a.id===id && a.lang===lang)!);
 ---
-<Base lang={lang} pageId="guides" title={vi?'Hướng dẫn chỉnh sửa PDF và OCR | TrePDF':'PDF Editing & OCR Guides | TrePDF'} description={vi?'Học cách mở, chỉnh sửa, chú thích và lưu PDF với TrePDF. Hướng dẫn tải font tự động và OCR tiếng Anh, tiếng Việt.':'Learn to open, edit, annotate and save PDFs with TrePDF. Step-by-step guides to automatic font downloads and English and Vietnamese OCR.'}>
-  <div class="container page-heading"><p class="eyebrow">{vi?'Hướng dẫn thực tế':'Practical guides'}</p><h1>{vi?'Một PDF. Nhiều cách làm tốt hơn.':'A better way through your PDF.'}</h1><p>{vi?'Từ chỉnh sửa đầu tiên đến xử lý bản scan. Bắt đầu với việc bạn cần làm.':'From your first edit to a searchable scan. Start with the task in front of you.'}</p></div>
+<Base lang={lang} pageId="guides" title={t.title} description={t.description}>
+  <div class="container page-heading"><p class="eyebrow">{t.eyebrow}</p><h1>{t.heading}</h1><p>{t.intro}</p></div>
   <section class="container guide-directory">{selected.map(a=><a class="directory-item" href={href(a.id,lang)}><Icon name={a.id==='getting-started'?'book':a.id==='ocr'?'scan':a.id==='annotations'?'notes':a.id==='forms'?'forms':'text'}/><div><h2>{a.heading}</h2><p>{a.description}</p></div><Icon name="arrow"/></a>)}</section>
 </Base>

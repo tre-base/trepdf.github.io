@@ -4,26 +4,87 @@ import { homeCopy } from '../data/home';
 import { asset, href, type Lang } from '../data/site';
 
 const { lang } = Astro.props as { lang: Lang };
-const vi = lang === 'vi';
+const t = {
+  "en": {
+    "play": "Play animation",
+    "stop": "Stop animation",
+    "error": "Animation could not load. Showing a still image.",
+    "choose": "Choose a feature demo",
+    "editorLabel": "Edit text",
+    "editorCaption": "Select text and make changes directly in your PDF.",
+    "editorAlt": "TrePDF demo selecting and editing text in a sample PDF",
+    "formsLabel": "Form",
+    "formsCaption": "Add fields to build a fillable PDF form.",
+    "formsAlt": "TrePDF demo adding a text field, checkbox and dropdown to a form",
+    "ocrLabel": "OCR",
+    "ocrCaption": "Recognize page 4, then search for “Coliform”.",
+    "ocrAlt": "TrePDF demo recognizing page 4 of PublicWaterMassMailing.pdf and finding Coliform in the resulting PDF"
+  },
+  "vi": {
+    "play": "Bật ảnh động",
+    "stop": "Tắt ảnh động",
+    "error": "Không tải được ảnh động. Đang hiển thị ảnh tĩnh.",
+    "choose": "Chọn demo tính năng",
+    "editorLabel": "Chỉnh sửa",
+    "editorCaption": "Chọn đoạn chữ và chỉnh sửa ngay trong PDF.",
+    "editorAlt": "Demo TrePDF chọn và chỉnh sửa chữ trong một tài liệu PDF mẫu",
+    "formsLabel": "Form",
+    "formsCaption": "Thêm các trường để tạo biểu mẫu có thể điền.",
+    "formsAlt": "Demo TrePDF thêm ô nhập liệu, ô đánh dấu và danh sách lựa chọn vào biểu mẫu",
+    "ocrLabel": "OCR",
+    "ocrCaption": "OCR trang 4, rồi tìm từ “Coliform” trong bản scan.",
+    "ocrAlt": "Demo TrePDF OCR trang 4 của PublicWaterMassMailing.pdf và tìm từ Coliform trong PDF kết quả"
+  },
+  "th": {
+    "play": "เล่นภาพเคลื่อนไหว",
+    "stop": "หยุดภาพเคลื่อนไหว",
+    "error": "โหลดภาพเคลื่อนไหวไม่ได้ กำลังแสดงภาพนิ่งแทน",
+    "choose": "เลือกการสาธิตคุณสมบัติ",
+    "editorLabel": "แก้ไขข้อความ",
+    "editorCaption": "เลือกข้อความแล้วแก้ไขได้โดยตรงใน PDF",
+    "editorAlt": "การสาธิต TrePDF เลือกและแก้ไขข้อความใน PDF ตัวอย่าง",
+    "formsLabel": "แบบฟอร์ม",
+    "formsCaption": "เพิ่มช่องกรอกเพื่อสร้างแบบฟอร์ม PDF ที่กรอกข้อมูลได้",
+    "formsAlt": "การสาธิต TrePDF เพิ่มช่องข้อความ ช่องทำเครื่องหมาย และรายการแบบเลื่อนลงในแบบฟอร์ม",
+    "ocrLabel": "OCR",
+    "ocrCaption": "รู้จำข้อความในหน้า 4 แล้วค้นหาคำว่า “Coliform”",
+    "ocrAlt": "การสาธิต TrePDF รู้จำข้อความในหน้า 4 ของ PublicWaterMassMailing.pdf และค้นหาคำว่า Coliform ใน PDF ผลลัพธ์"
+  },
+  "fr": {
+    "play": "Lire l’animation",
+    "stop": "Arrêter l’animation",
+    "error": "Impossible de charger l’animation. Une image fixe est affichée.",
+    "choose": "Choisir une démonstration",
+    "editorLabel": "Modifier le texte",
+    "editorCaption": "Sélectionnez du texte et modifiez-le directement dans votre PDF.",
+    "editorAlt": "Démonstration de TrePDF : sélection et modification de texte dans un exemple de PDF",
+    "formsLabel": "Formulaire",
+    "formsCaption": "Ajoutez des champs pour créer un formulaire PDF à remplir.",
+    "formsAlt": "Démonstration de TrePDF : ajout d’un champ de texte, d’une case à cocher et d’une liste déroulante à un formulaire",
+    "ocrLabel": "OCR",
+    "ocrCaption": "Reconnaissez le texte de la page 4, puis recherchez « Coliform ».",
+    "ocrAlt": "Démonstration de TrePDF : reconnaissance du texte de la page 4 de PublicWaterMassMailing.pdf et recherche de Coliform dans le PDF obtenu"
+  }
+}[lang];
 const features = homeCopy[lang].features;
 const demos = [
-  { id: 'editor', file: 'edit-text', label: vi ? 'Chỉnh sửa' : 'Edit text',
-    caption: vi ? 'Chọn đoạn chữ và chỉnh sửa ngay trong PDF.' : 'Select text and make changes directly in your PDF.',
-    alt: vi ? 'Demo TrePDF chọn và chỉnh sửa chữ trong một tài liệu PDF mẫu' : 'TrePDF demo selecting and editing text in a sample PDF' },
-  { id: 'forms', file: 'form-design', label: 'Form',
-    caption: vi ? 'Thêm các trường để tạo biểu mẫu có thể điền.' : 'Add fields to build a fillable PDF form.',
-    alt: vi ? 'Demo TrePDF thêm ô nhập liệu, ô đánh dấu và danh sách lựa chọn vào biểu mẫu' : 'TrePDF demo adding a text field, checkbox and dropdown to a form' },
-  { id: 'ocr', file: 'ocr', label: 'OCR',
-    caption: vi ? 'OCR trang 4, rồi tìm từ “Coliform” trong bản scan.' : 'Recognize page 4, then search for “Coliform”.',
-    alt: vi ? 'Demo TrePDF OCR trang 4 của PublicWaterMassMailing.pdf và tìm từ Coliform trong PDF kết quả' : 'TrePDF demo recognizing page 4 of PublicWaterMassMailing.pdf and finding Coliform in the resulting PDF' },
+  { id: 'editor', file: 'edit-text', label: t.editorLabel,
+    caption: t.editorCaption,
+    alt: t.editorAlt },
+  { id: 'forms', file: 'form-design', label: t.formsLabel,
+    caption: t.formsCaption,
+    alt: t.formsAlt },
+  { id: 'ocr', file: 'ocr', label: t.ocrLabel,
+    caption: t.ocrCaption,
+    alt: t.ocrAlt },
 ];
 ---
 <div class="demo-showcase" data-feature-demos
-  data-play-label={vi ? 'Bật ảnh động' : 'Play animation'}
-  data-stop-label={vi ? 'Tắt ảnh động' : 'Stop animation'}
-  data-error-label={vi ? 'Không tải được ảnh động. Đang hiển thị ảnh tĩnh.' : 'Animation could not load. Showing a still image.'}>
+  data-play-label={t.play}
+  data-stop-label={t.stop}
+  data-error-label={t.error}>
   <div class="demo-media">
-    <div class="demo-selectors" data-demo-controls hidden role="group" aria-label={vi ? 'Chọn demo tính năng' : 'Choose a feature demo'}>
+    <div class="demo-selectors" data-demo-controls hidden role="group" aria-label={t.choose}>
       {demos.map((demo, i) => <button type="button" data-demo-select={demo.id}
         data-demo-src={asset(`demos/${demo.file}.gif`)}
         data-demo-poster={asset(`demos/${demo.file}.webp`)}
@@ -35,7 +96,7 @@ const demos = [
         width="960" height="640" loading="lazy" decoding="async"/>
       <figcaption>
         <p data-demo-caption>{demos[0].caption}</p>
-        <button class="demo-motion" type="button" data-demo-motion hidden aria-controls="feature-demo-preview">{vi ? 'Bật ảnh động' : 'Play animation'}</button>
+        <button class="demo-motion" type="button" data-demo-motion hidden aria-controls="feature-demo-preview">{t.play}</button>
       </figcaption>
     </figure>
     <p class="demo-status" data-demo-status role="status"></p>

@@ -1,5 +1,11 @@
+import { thaiHome } from './locales/th';
+import { frenchHome } from './locales/fr';
+
 export const homeCopy = {
+  th: thaiHome,
+  fr: frenchHome,
   en: {
+    fontStyles: ['Regular', 'Bold', 'Italic'],
     title: 'TrePDF PDF Editor | Edit, Annotate & OCR PDFs',
     description: 'Edit PDF text and images, annotate documents, fill forms, and recognize scanned text with TrePDF. Get help downloading missing fonts while editing.',
     eyebrow: 'Documents, simplified', headline: 'Edit your PDFs.', accent: 'For free.',
@@ -38,6 +44,7 @@ export const homeCopy = {
     closingTitle: 'Less time on the file.\nMore time on the work.', closingText: 'Meet the tools. Learn a workflow. Make your next PDF a little easier.', closingLink: 'Read the getting started guide',
   },
   vi: {
+    fontStyles: ['Regular', 'Bold', 'Italic'],
     title: 'TrePDF | Phần mềm chỉnh sửa PDF, chú thích và OCR',
     description: 'Chỉnh sửa chữ và ảnh trong PDF, thêm chú thích, điền biểu mẫu và OCR với TrePDF. Hỗ trợ tải font còn thiếu khi chỉnh sửa tài liệu.',
     eyebrow: 'Tài liệu, gọn gàng hơn', headline: 'Chỉnh sửa PDF.', accent: 'Hoàn toàn miễn phí.',
