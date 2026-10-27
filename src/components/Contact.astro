@@ -1,0 +1,157 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from './Icon.astro';
+import contact from '../data/contact.json';
+import { href, type Lang } from '../data/site';
+
+const { lang } = Astro.props as { lang: Lang };
+const t = {
+  en: {
+    title: 'Contact & Version Information | TrePDF',
+    description: 'Contact TrePDF by email for questions, feedback or bug reports. Find version information and follow product updates.',
+    heading: 'Get in touch with TrePDF.',
+    intro: 'Questions, feedback or a bug to report? We’d like to hear from you.',
+    email: 'Contact email',
+    help: 'For bug reports, include your operating system, TrePDF version and the steps to reproduce the issue.',
+    version: 'TrePDF version',
+    pending: 'Not announced yet',
+    versionNote: 'Follow new features and release announcements.',
+    updates: 'See what’s new',
+  },
+  vi: {
+    title: 'Liên hệ và thông tin phiên bản | TrePDF',
+    description: 'Liên hệ TrePDF qua email để đặt câu hỏi, góp ý hoặc báo lỗi. Xem thông tin phiên bản và theo dõi các cập nhật của phần mềm.',
+    heading: 'Liên hệ TrePDF.',
+    intro: 'Góp ý, báo lỗi hoặc đặt câu hỏi về TrePDF.',
+    email: 'Email liên hệ',
+    help: 'Khi báo lỗi, hãy cho biết hệ điều hành, phiên bản TrePDF và các bước gặp lỗi.',
+    version: 'Phiên bản TrePDF',
+    pending: 'Chưa công bố',
+    versionNote: 'Theo dõi các tính năng mới và thông tin phát hành.',
+    updates: 'Xem cập nhật',
+  },
+  th: {
+    title: 'ติดต่อและข้อมูลเวอร์ชัน | TrePDF',
+    description: 'ติดต่อ TrePDF ทางอีเมลเพื่อสอบถาม แสดงความคิดเห็น หรือรายงานปัญหา ดูข้อมูลเวอร์ชันและติดตามข่าวสารการอัปเดตของโปรแกรม',
+    heading: 'ติดต่อ TrePDF',
+    intro: 'สอบถาม แสดงความคิดเห็น หรือแจ้งปัญหาเกี่ยวกับ TrePDF ได้ที่นี่',
+    email: 'อีเมลติดต่อ',
+    help: 'เมื่อรายงานปัญหา โปรดระบุระบบปฏิบัติการ เวอร์ชัน TrePDF และขั้นตอนที่ทำให้เกิดปัญหา',
+    version: 'เวอร์ชัน TrePDF',
+    pending: 'ยังไม่ประกาศ',
+    versionNote: 'ติดตามฟีเจอร์ใหม่และประกาศการเปิดตัวเวอร์ชัน',
+    updates: 'ดูการอัปเดต',
+  },
+  fr: {
+    title: 'Contact et informations de version | TrePDF',
+    description: 'Contactez TrePDF par e-mail pour poser une question, partager un avis ou signaler un problème. Consultez les informations de version et les nouveautés.',
+    heading: 'Contactez TrePDF.',
+    intro: 'Une question, une suggestion ou un problème à signaler ? Écrivez-nous.',
+    email: 'Adresse e-mail',
+    help: 'Pour signaler un problème, précisez votre système d’exploitation, votre version de TrePDF et les étapes pour le reproduire.',
+    version: 'Version de TrePDF',
+    pending: 'Pas encore annoncée',
+    versionNote: 'Suivez les nouvelles fonctionnalités et les annonces de versions.',
+    updates: 'Voir les nouveautés',
+  },
+}[lang];
+---
+<Base lang={lang} pageId="contact" title={t.title} description={t.description}>
+  <div class="container page-heading">
+    <h1>{t.heading}</h1>
+    <p>{t.intro}</p>
+  </div>
+  <div class="container contact-layout">
+    <section class="contact-email" aria-labelledby="contact-email-heading">
+      <Icon name="mail"/>
+      <h2 id="contact-email-heading">{t.email}</h2>
+      <a class="contact-address" href={`mailto:${contact.email}`} data-contact-email>{contact.email}<Icon name="arrow"/></a>
+      <p>{t.help}</p>
+    </section>
+    <section class="contact-release" aria-labelledby="contact-version-heading">
+      <h2 id="contact-version-heading">{t.version}</h2>
+      <p class="contact-version" data-contact-version>{contact.version || t.pending}</p>
+      <p class="contact-version-note">{t.versionNote}</p>
+      <a class="text-link" href={href('changelog', lang)}>{t.updates}<Icon name="right"/></a>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .contact-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: clamp(32px, 6vw, 88px);
+    align-items: start;
+    padding-bottom: 100px;
+  }
+  .contact-layout h2 {
+    font-size: 1.125rem;
+    letter-spacing: -0.02em;
+    line-height: 1.5;
+  }
+  .contact-email {
+    padding-block: 24px;
+  }
+  .contact-email > :global(.icon) {
+    width: 32px;
+    height: 32px;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+  .contact-address {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 100%;
+    margin-top: 12px;
+    color: var(--accent);
+    font-size: clamp(1.125rem, 2.4vw, 1.875rem);
+    font-weight: 650;
+    letter-spacing: -0.025em;
+    overflow-wrap: anywhere;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 6px;
+  }
+  .contact-address:hover {
+    color: var(--accent-hover);
+  }
+  .contact-email > p {
+    margin-top: 24px;
+    color: var(--muted);
+    max-width: 490px;
+    font-size: 0.9375rem;
+  }
+  .contact-release {
+    padding: clamp(24px, 3vw, 40px);
+    background: var(--soft);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+  }
+  .contact-version {
+    margin-top: 16px;
+    font-size: clamp(1.5rem, 2.7vw, 2rem);
+    font-weight: 650;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+  .contact-version-note {
+    margin-top: 16px;
+    color: var(--muted);
+    font-size: 0.9375rem;
+  }
+  .contact-release .text-link {
+    margin-top: 28px;
+  }
+  @media (max-width: 768px) {
+    .contact-layout {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding-bottom: 60px;
+    }
+    .contact-email {
+      padding-block: 0;
+    }
+  }
+</style>

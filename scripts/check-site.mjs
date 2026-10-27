@@ -10,7 +10,9 @@ import { siteOrigin, siteBase, siteUrl } from '../site.config.mjs';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const output = path.join(root, 'dist');
 const downloads = JSON.parse(await readFile(path.join(root, 'src/data/downloads.json'), 'utf8'));
+const contact = JSON.parse(await readFile(path.join(root, 'src/data/contact.json'), 'utf8'));
 const languages = ['en', 'vi', 'th', 'fr'];
+const contactRoutes = { en: 'contact/', vi: 'vi/lien-he/', th: 'th/contact/', fr: 'fr/contact/' };
 const errors = [];
 const check = (condition, message) => { if (!condition) errors.push(message); };
 
@@ -74,8 +76,8 @@ const titles = new Set();
 const descriptions = new Set();
 const canonicals = new Set();
 
-check(indexable.length === 44, `Expected 11 pages in each of four languages; found ${indexable.length}`);
-for (const language of languages) check(indexable.filter(p => p.document.documentElement.getAttribute('lang') === language).length === 11, `Expected 11 ${language} pages`);
+check(indexable.length === 48, `Expected 12 pages in each of four languages; found ${indexable.length}`);
+for (const language of languages) check(indexable.filter(p => p.document.documentElement.getAttribute('lang') === language).length === 12, `Expected 12 ${language} pages`);
 check(pages.some(p => p.filename === path.join(output, '404.html') && p.noindex), '404.html must exist and have noindex');
 const homepage = pagesByUrl.get(siteUrl);
 check(/pdf editor/i.test(homepage?.document.querySelector('title')?.textContent || ''), 'English homepage title should describe TrePDF as a PDF editor');
@@ -90,6 +92,13 @@ for (const page of pages) {
   check(Boolean(document.querySelector('main')), `${url}: missing main landmark`);
   check(Boolean(title), `${url}: empty title`);
   check(Boolean(description), `${url}: empty description`);
+  const contactUrl = new URL(contactRoutes[lang], siteUrl).href;
+  for (const selector of ['.desktop-nav', '.mobile-menu nav', '.site-footer nav']) {
+    const links = [...document.querySelectorAll(`${selector} a[href]`)]
+      .filter(link => new URL(link.getAttribute('href'), url).href === contactUrl);
+    check(links.length === 1, `${url}: ${selector} must link to the localized Contact page`);
+    check(links[0]?.getAttribute('aria-current') === (url === contactUrl ? 'page' : null), `${url}: ${selector} Contact current-page state is incorrect`);
+  }
   check(!titles.has(title), `${url}: duplicate title`);
   check(!descriptions.has(description), `${url}: duplicate description`);
   titles.add(title);
@@ -220,6 +229,35 @@ for (const relative of ['download/', 'vi/tai-xuong/', 'th/download/', 'fr/telech
   }
 }
 
+// Contact details come from one shared release/contact configuration. In
+// particular, an unset application version must not inherit package.json's
+// unrelated website version or invent a release number.
+check(typeof contact.email === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact.email), 'Contact email must be configured');
+check(typeof contact.version === 'string', 'Contact version must be a string');
+const pendingVersions = { en: 'Not announced yet', vi: 'Chưa công bố', th: 'ยังไม่ประกาศ', fr: 'Pas encore annoncée' };
+for (const [language, relative] of Object.entries(contactRoutes)) {
+  const url = new URL(relative, siteUrl).href;
+  const page = pagesByUrl.get(url);
+  check(Boolean(page), `Missing ${language} Contact page ${url}`);
+  if (!page) continue;
+  const email = page.document.querySelectorAll('[data-contact-email]');
+  check(email.length === 1, `${url}: expected one contact email link`);
+  check(email[0]?.localName === 'a' && email[0]?.getAttribute('href') === `mailto:${contact.email}`, `${url}: contact email must use the configured mailto address`);
+  check(email[0]?.textContent.trim() === contact.email, `${url}: displayed contact email differs from configuration`);
+  const version = page.document.querySelectorAll('[data-contact-version]');
+  check(version.length === 1, `${url}: expected one application version`);
+  const displayedVersion = version[0]?.textContent.trim() || '';
+  if (contact.version) {
+    check(displayedVersion === contact.version, `${url}: displayed version differs from configuration`);
+  } else {
+    check(displayedVersion === pendingVersions[language], `${url}: unpublished version needs the localized pending label instead of an invented release`);
+  }
+  for (const [otherLanguage, otherRoute] of Object.entries(contactRoutes)) {
+    const alternate = page.document.querySelector(`link[rel="alternate"][hreflang="${otherLanguage}"]`);
+    check(alternate?.getAttribute('href') === new URL(otherRoute, siteUrl).href, `${url}: ${otherLanguage} alternate must preserve the Contact page`);
+  }
+}
+
 // A sitemap is a set of canonical pages, not every generated file or the 404.
 const sitemap = new DOMParser().parseFromString(await readFile(path.join(output, 'sitemap.xml'), 'utf8'), 'application/xml');
 const sitemapUrls = [...sitemap.querySelectorAll('url > loc')].map(node => node.textContent.trim());
@@ -235,5 +273,5 @@ if (errors.length) {
   console.error(`SEO/link checks failed (${errors.length}):\n${errors.map(e => `  - ${e}`).join('\n')}`);
   process.exitCode = 1;
 } else {
-  console.log(`SEO/link checks passed: ${indexable.length} indexable pages, ${pages.length - indexable.length} noindex page, four-language alternates and switcher, section parity, sitemap, resources and download states.`);
+  console.log(`SEO/link checks passed: ${indexable.length} indexable pages, ${pages.length - indexable.length} noindex page, four-language alternates and switcher, section parity, contact details/navigation, sitemap, resources and download states.`);
 }

@@ -12,6 +12,8 @@ import { siteBase } from '../site.config.mjs';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const dist = path.join(root, 'dist');
 const downloads = JSON.parse(await readFile(path.join(root, 'src/data/downloads.json'), 'utf8'));
+const contact = JSON.parse(await readFile(path.join(root, 'src/data/contact.json'), 'utf8'));
+const contactRoutes = { en: 'contact/', vi: 'vi/lien-he/', th: 'th/contact/', fr: 'fr/contact/' };
 const reports = path.join(root, 'reports');
 await mkdir(reports, { recursive: true });
 const mime = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.png': 'image/png', '.webp': 'image/webp', '.gif': 'image/gif', '.woff2': 'font/woff2', '.xml': 'application/xml', '.txt': 'text/plain' };
@@ -59,9 +61,74 @@ try {
       }
     }
   }
+  // The extra Contact item must fit at intermediate desktop widths too. Check
+  // these breakpoints only on the four localized Contact pages, where longer
+  // translated labels can reveal collisions that a 1440px viewport hides.
+  for (const width of [1024, 1150]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const route of Object.values(contactRoutes)) {
+      await page.goto(new URL(route, base).href);
+      await page.evaluate(() => document.fonts.ready);
+      const layout = await page.evaluate(() => {
+        const items = [...document.querySelectorAll('.nav-shell > .brand, .desktop-nav, .nav-actions')]
+          .filter(el => el.getClientRects().length)
+          .map(el => { const r = el.getBoundingClientRect(); return { selector: el.className, left: r.left, right: r.right, top: r.top, bottom: r.bottom }; });
+        return { width: innerWidth, content: document.documentElement.scrollWidth, items };
+      });
+      assert(layout.content <= layout.width + 1, `${route} overflows at ${width}px: ${JSON.stringify(layout)}`);
+      for (let i = 0; i < layout.items.length; i++) {
+        for (let j = i + 1; j < layout.items.length; j++) {
+          const a = layout.items[i], b = layout.items[j];
+          assert(Math.min(a.right, b.right) - Math.max(a.left, b.left) <= 1 || Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top) <= 1,
+            `${route} header items overlap at ${width}px: ${JSON.stringify([a, b])}`);
+        }
+      }
+    }
+  }
+  // Follow real links rather than navigating directly: every locale must expose
+  // Contact in its desktop navigation, phone menu and footer. Reading mailto
+  // verifies the contact action without launching a mail client or sending mail.
+  for (const [language, route] of Object.entries(contactRoutes)) {
+    const contactUrl = new URL(route, base);
+    const linkSelector = `a[href="${contactUrl.pathname}"]`;
+    const homeUrl = new URL(language === 'en' ? '' : `${language}/`, base).href;
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto(homeUrl);
+    await page.locator(`.desktop-nav ${linkSelector}`).click();
+    await page.waitForURL(contactUrl.href);
+    assert.equal(await page.locator(`.desktop-nav ${linkSelector}`).getAttribute('aria-current'), 'page');
+    assert.equal(await page.locator('[data-contact-email]').getAttribute('href'), `mailto:${contact.email}`);
+    assert.equal((await page.locator('[data-contact-email]').innerText()).trim(), contact.email);
+    const version = (await page.locator('[data-contact-version]').innerText()).trim();
+    if (contact.version) assert.equal(version, contact.version);
+    else assert(version.length > 0 && !/\d+\.\d+/.test(version), 'Unset application version must display a pending label');
+    await page.evaluate(() => document.fonts.ready);
+    await page.screenshot({ path: path.join(reports, `contact-desktop-${language}.png`), fullPage: true });
+    await page.goto(homeUrl);
+    await page.locator(`.site-footer ${linkSelector}`).click();
+    await page.waitForURL(contactUrl.href);
+    assert.equal(await page.locator(`.site-footer ${linkSelector}`).getAttribute('aria-current'), 'page');
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(homeUrl);
+    await page.locator('.mobile-menu summary').click();
+    await page.locator(`.mobile-menu ${linkSelector}`).click();
+    await page.waitForURL(contactUrl.href);
+    assert.equal(await page.locator('.mobile-menu').evaluate(el => el.open), false);
+    assert.equal(await page.locator(`.mobile-menu ${linkSelector}`).getAttribute('aria-current'), 'page');
+    await page.evaluate(() => document.fonts.ready);
+    await page.screenshot({ path: path.join(reports, `contact-mobile-${language}.png`), fullPage: true });
+  }
+  for (const language of ['vi', 'th', 'en', 'fr']) {
+    await page.locator('.language-menu summary').click();
+    await page.locator(`.language-link[hreflang="${language}"]`).click();
+    await page.waitForURL(new URL(contactRoutes[language], base).href);
+    assert.equal(await page.locator('html').getAttribute('lang'), language);
+    assert.equal((await page.locator('[data-contact-email]').innerText()).trim(), contact.email, 'Contact language switch must preserve the page');
+  }
+  await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto(base);
   await page.screenshot({ path: path.join(reports, 'home-desktop.png'), fullPage: true });
-  const auditRoutes = ['', 'vi/', 'th/', 'fr/', 'download/', 'vi/tai-xuong/', 'th/download/', 'fr/telecharger/', 'features/pdf-editor/', 'vi/huong-dan/tu-dong-tai-font/', 'features/pdf-form-designer/', 'vi/tinh-nang/thiet-ke-form-pdf/', 'features/pdf-ocr/', 'vi/tinh-nang/ocr-pdf/', 'th/features/pdf-editor/', 'th/features/pdf-form-designer/', 'th/features/pdf-ocr/', 'fr/fonctionnalites/modifier-pdf/', 'fr/fonctionnalites/creer-formulaire-pdf/', 'fr/fonctionnalites/ocr-pdf/'];
+  const auditRoutes = ['', 'vi/', 'th/', 'fr/', 'download/', 'vi/tai-xuong/', 'th/download/', 'fr/telecharger/', 'features/pdf-editor/', 'vi/huong-dan/tu-dong-tai-font/', 'features/pdf-form-designer/', 'vi/tinh-nang/thiet-ke-form-pdf/', 'features/pdf-ocr/', 'vi/tinh-nang/ocr-pdf/', 'th/features/pdf-editor/', 'th/features/pdf-form-designer/', 'th/features/pdf-ocr/', 'fr/fonctionnalites/modifier-pdf/', 'fr/fonctionnalites/creer-formulaire-pdf/', 'fr/fonctionnalites/ocr-pdf/', ...Object.values(contactRoutes)];
   for (const theme of ['light', 'dark']) {
     await page.evaluate(theme => localStorage.setItem('trepdf-theme', theme), theme);
     for (const route of auditRoutes) {
@@ -131,7 +198,7 @@ try {
   await page.keyboard.press('Escape');
   assert.equal(await menu.evaluate(el => el.open), false, 'Escape must close menu');
   await menu.locator('summary').click();
-  await menu.locator('a').last().click();
+  await menu.locator(`a[href="${new URL('vi/tai-xuong/', base).pathname}"]`).click();
   assert(page.url().endsWith('/vi/tai-xuong/'), 'Mobile download link must work');
   assert.equal(await menu.evaluate(el => el.open), false);
   assert.equal(await page.locator('[data-download-id] button:disabled').count(), downloads.filter(d => !d.url).length);
@@ -205,7 +272,7 @@ try {
   assert.equal(await staticPage.locator('[data-demo-motion]').isVisible(), false);
   assert.equal(await staticPage.locator('[data-demo-feature] a').count(), 3, 'Feature links remain available without JS');
   await staticPage.locator('.mobile-menu summary').click();
-  await staticPage.locator('.mobile-menu a').last().click();
+  await staticPage.locator(`.mobile-menu a[href="${new URL('download/', base).pathname}"]`).click();
   assert(staticPage.url().endsWith('/download/'));
   await staticPage.locator('.language-menu summary').click();
   await staticPage.locator('.language-link[hreflang="th"]').click();
@@ -213,8 +280,24 @@ try {
   await staticPage.locator('.language-menu summary').click();
   await staticPage.locator('.language-link[hreflang="fr"]').click();
   assert(staticPage.url().endsWith('/fr/telecharger/'), 'French download page must be reachable without JS');
+  await staticPage.locator('.mobile-menu summary').click();
+  await staticPage.locator(`.mobile-menu a[href="${new URL(contactRoutes.fr, base).pathname}"]`).click();
+  await staticPage.waitForURL(new URL(contactRoutes.fr, base).href);
+  for (const language of ['vi', 'th', 'en']) {
+    await staticPage.locator('.language-menu summary').click();
+    await staticPage.locator(`.language-link[hreflang="${language}"]`).click();
+    await staticPage.waitForURL(new URL(contactRoutes[language], base).href);
+    assert.equal(await staticPage.locator('[data-contact-email]').getAttribute('href'), `mailto:${contact.email}`, 'Contact must remain available without JS');
+  }
+  await staticPage.setViewportSize({ width: 1440, height: 900 });
+  await staticPage.goto(base);
+  await staticPage.locator(`.desktop-nav a[href="${new URL(contactRoutes.en, base).pathname}"]`).click();
+  await staticPage.waitForURL(new URL(contactRoutes.en, base).href);
+  await staticPage.goto(new URL('vi/', base).href);
+  await staticPage.locator(`.site-footer a[href="${new URL(contactRoutes.vi, base).pathname}"]`).click();
+  await staticPage.waitForURL(new URL(contactRoutes.vi, base).href);
   await noJs.close();
-  console.log(`UI checks passed: ${routes.length} pages at 320/768/1440px, ${auditRoutes.length * 2} WCAG audits, demo selection/play/stop/reduced-motion/fallback, theme persistence, translated routes, menu, FAQ, downloads, 404 and no-JS navigation. Screenshots: reports/`);
+  console.log(`UI checks passed: ${routes.length} pages at 320/768/1440px, Contact/navigation at 1024/1150px, ${auditRoutes.length * 2} WCAG audits, contact details and translated navigation, demo selection/play/stop/reduced-motion/fallback, theme persistence, translated routes, menu, FAQ, downloads, 404 and no-JS navigation. Screenshots: reports/`);
 } finally {
   await browser?.close();
   await new Promise(resolve => server.close(resolve));

@@ -58,7 +58,7 @@ const schema = [
       <div class="container nav-shell">
         <a class="brand" href={href('home', lang)} aria-label="TrePDF"><img src={asset('images/logo.png')} alt="" width="38" height="38" /><span>Tre<span class="brand-light">PDF</span></span></a>
         <nav class="desktop-nav" aria-label={labels.mainNav}>
-          <a href={`${href('home', lang)}#features`}>{t.features}</a><a href={href('guides', lang)}>{t.guides}</a><a href={href('changelog', lang)}>{t.updates}</a>
+          <a href={`${href('home', lang)}#features`}>{t.features}</a><a href={href('guides', lang)}>{t.guides}</a><a href={href('changelog', lang)}>{t.updates}</a><a href={href('contact', lang)} aria-current={pageId === 'contact' ? 'page' : undefined}>{t.contact}</a>
         </nav>
         <div class="nav-actions">
           <details class="language-menu">
@@ -72,7 +72,7 @@ const schema = [
           <details class="mobile-menu">
             <summary>{t.menu}<Icon name="plus"/></summary>
             <nav aria-label={labels.mobileNav}>
-              <a href={`${href('home', lang)}#features`}>{t.features}</a><a href={href('guides', lang)}>{t.guides}</a><a href={href('changelog', lang)}>{t.updates}</a><a href={href('download', lang)}>{t.download}</a>
+              <a href={`${href('home', lang)}#features`}>{t.features}</a><a href={href('guides', lang)}>{t.guides}</a><a href={href('changelog', lang)}>{t.updates}</a><a href={href('contact', lang)} aria-current={pageId === 'contact' ? 'page' : undefined}>{t.contact}</a><a href={href('download', lang)}>{t.download}</a>
             </nav>
           </details>
         </div>
@@ -82,7 +82,7 @@ const schema = [
     <footer class="site-footer">
       <div class="container footer-main">
         <div><a class="brand" href={href('home', lang)}><img src={asset('images/logo.png')} alt="" width="32" height="32"/><span>Tre<span class="brand-light">PDF</span></span></a><p>{t.tagline}</p></div>
-        <nav aria-label={labels.footerNav}><a href={href('editor', lang)}>{t.features}</a><a href={href('guides', lang)}>{t.guides}</a><a href={href('download', lang)}>{t.download}</a><a href={href('privacy', lang)}>{t.privacy}</a></nav>
+        <nav aria-label={labels.footerNav}><a href={href('editor', lang)}>{t.features}</a><a href={href('guides', lang)}>{t.guides}</a><a href={href('download', lang)}>{t.download}</a><a href={href('privacy', lang)}>{t.privacy}</a><a href={href('contact', lang)} aria-current={pageId === 'contact' ? 'page' : undefined}>{t.contact}</a></nav>
       </div>
       <div class="container footer-bottom"><span>© {new Date().getUTCFullYear()} {t.copyright}</span><span>{labels.footerNote}</span></div>
     </footer>

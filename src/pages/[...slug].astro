@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Downloads from '../components/Downloads.astro';
 import Guides from '../components/Guides.astro';
+import Contact from '../components/Contact.astro';
 import EditorFeature from '../components/EditorFeature.astro';
 import FormFeature from '../components/FormFeature.astro';
 import OCRFeature from '../components/OCRFeature.astro';
@@ -11,13 +12,13 @@ import { href, route, languages, navigation, pageLabels, type Lang } from '../da
 export function getStaticPaths() {
   return [
     ...articles.map(article => ({ params: { slug: article.slug }, props: { kind: 'article', article, lang: article.lang } })),
-    ...languages.flatMap(lang => ['download','guides'].map(kind => ({ params: { slug: route(kind,lang) }, props: { kind, lang, article: undefined } }))),
+    ...languages.flatMap(lang => ['download','guides','contact'].map(kind => ({ params: { slug: route(kind,lang) }, props: { kind, lang, article: undefined } }))),
   ];
 }
 const { kind, article, lang } = Astro.props as { kind: string; article?: Article; lang: Lang };
 const labels = pageLabels[lang];
 ---
-{kind==='download' ? <Downloads lang={lang}/> : kind==='guides' ? <Guides lang={lang}/> : article?.id==='editor' ? <EditorFeature article={article}/> : article?.id==='forms' ? <FormFeature article={article}/> : article?.id==='ocr' ? <OCRFeature article={article}/> : article && <Base lang={lang} pageId={article.id} title={article.title} description={article.description}>
+{kind==='contact' ? <Contact lang={lang}/> : kind==='download' ? <Downloads lang={lang}/> : kind==='guides' ? <Guides lang={lang}/> : article?.id==='editor' ? <EditorFeature article={article}/> : article?.id==='forms' ? <FormFeature article={article}/> : article?.id==='ocr' ? <OCRFeature article={article}/> : article && <Base lang={lang} pageId={article.id} title={article.title} description={article.description}>
   <div class="container article-heading"><a class="text-link breadcrumb" href={href('guides',lang)}>{labels.breadcrumb}<Icon name="right"/></a><h1>{article.heading}</h1><p>{article.intro}</p></div>
   <div class="container article-layout">
     <aside class="article-toc"><p>{labels.toc}</p><nav aria-label={labels.toc}>{article.sections.map((s,i)=><a href={`#section-${i+1}`}>{s.heading}</a>)}</nav></aside>

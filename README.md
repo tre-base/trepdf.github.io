@@ -44,6 +44,7 @@ The UI check starts and closes its own local server. It checks every page at pho
 - `src/data/languages.ts`: supported language codes, native names and Open Graph locales.
 - `src/data/site.ts`: navigation labels, shared route lookup and URL helpers.
 - `src/data/downloads.json`: installer availability and release information.
+- `src/data/contact.json`: public contact email and announced TrePDF version.
 - `src/pages/` and `src/components/`: page templates and reusable UI.
 - `public/`: static images and icons.
 - `site.config.mjs`: the canonical site origin and deployment prefix.
@@ -56,9 +57,17 @@ Product claims must match the tested application. In particular, OCR recognizes 
 
 ## Language routes and navigation
 
-English stays at the site root, Vietnamese at `vi/`, Thai at `th/` and French at `fr/`. Existing English/Vietnamese slugs remain unchanged. Thai routes use descriptive ASCII English segments for easy sharing; French routes use French words without accents (for example `fr/fonctionnalites/modifier-pdf/`). All 11 page types exist in each language, for 44 indexable pages.
+English stays at the site root, Vietnamese at `vi/`, Thai at `th/` and French at `fr/`. Existing English/Vietnamese slugs remain unchanged. Thai routes use descriptive ASCII English segments for easy sharing; French routes use French words without accents (for example `fr/fonctionnalites/modifier-pdf/`). All 12 page types exist in each language, for 48 indexable pages.
 
 The native language disclosure links to the equivalent page in all four languages and works without JavaScript. Escape restores focus to its summary; outside clicks close it. Every canonical page includes four reciprocal HTML `hreflang` tags and English `x-default`. The sitemap contains the same canonical URLs. Noto Sans Thai supplies bundled glyphs; Thai headings use normal tracking and room for stacked marks. These website languages do not add OCR recognition languages: OCR still supports English and Vietnamese. Application screenshots retain the actual captured English UI; their surrounding captions and alternative text are translated.
+
+## Contact page and version information
+
+The Contact link appears in desktop navigation, the collapsed menu and the footer. Routes are `contact/`, `vi/lien-he/`, `th/contact/` and `fr/contact/`; switching languages keeps the Contact page. It uses the same canonical, alternate-language and sitemap pipeline as other pages.
+
+Edit `src/data/contact.json` to update the public email or announced application version for all four languages. The email opens the visitor’s mail application through a normal `mailto:` link and works without JavaScript. The website does not submit email or collect messages itself.
+
+`version` is deliberately empty until a public release number is confirmed. The page displays a translated “Not announced yet” instead of treating the website package version, a local app build or a UAT build as a public release. When announcing a release, set this value and update the matching download entries and release notes together. Download availability remains controlled by `src/data/downloads.json`.
 
 ## Add installer links later
 

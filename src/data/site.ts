@@ -8,6 +8,7 @@ export function route(id: PageId, lang: Lang): string {
     home: { en: '', vi: 'vi', th: 'th', fr: 'fr' },
     download: { en: 'download', vi: 'vi/tai-xuong', th: 'th/download', fr: 'fr/telecharger' },
     guides: { en: 'guides', vi: 'vi/huong-dan', th: 'th/guides', fr: 'fr/guides' },
+    contact: { en: 'contact', vi: 'vi/lien-he', th: 'th/contact', fr: 'fr/contact' },
   };
   if (fixed[id]) return fixed[id][lang];
   const article = articles.find(a => a.id === id && a.lang === lang);
@@ -19,10 +20,10 @@ export function href(id: PageId, lang: Lang): string { return path(route(id, lan
 export function asset(name: string): string { return `${siteBase}/${name.replace(/^\//, '')}`; }
 export function absolute(slug = ''): string { return `${siteOrigin}${path(slug)}`; }
 export const navigation = {
-  en: { features: 'Features', guides: 'Guides', updates: 'What’s new', download: 'Get TrePDF', language: 'Tiếng Việt', theme: 'Change color theme', menu: 'Menu', close: 'Close menu', skip: 'Skip to content', privacy: 'Privacy', tagline: 'A little less friction. A lot more done.', copyright: 'TrePDF. Made for your documents.', source: 'Source code', related: 'Keep exploring', home: 'Home' },
-  vi: { features: 'Tính năng', guides: 'Hướng dẫn', updates: 'Cập nhật', download: 'Tải TrePDF', language: 'English', theme: 'Đổi giao diện sáng tối', menu: 'Menu', close: 'Đóng menu', skip: 'Đến nội dung chính', privacy: 'Quyền riêng tư', tagline: 'Bớt thao tác. Thêm thời gian cho công việc.', copyright: 'TrePDF. Dành cho tài liệu của bạn.', source: 'Mã nguồn', related: 'Khám phá thêm', home: 'Trang chủ' },
-  th: { features: 'ฟีเจอร์', guides: 'คู่มือ', updates: 'มีอะไรใหม่', download: 'ดาวน์โหลด TrePDF', language: 'ภาษา', theme: 'เปลี่ยนธีมสี', menu: 'เมนู', close: 'ปิดเมนู', skip: 'ข้ามไปยังเนื้อหา', privacy: 'ความเป็นส่วนตัว', tagline: 'ลดขั้นตอน เพิ่มเวลาให้งานของคุณ', copyright: 'TrePDF สร้างมาเพื่อเอกสารของคุณ', source: 'ซอร์สโค้ด', related: 'ดูเพิ่มเติม', home: 'หน้าแรก' },
-  fr: { features: 'Fonctionnalités', guides: 'Guides', updates: 'Nouveautés', download: 'Télécharger TrePDF', language: 'Langue', theme: 'Changer de thème', menu: 'Menu', close: 'Fermer le menu', skip: 'Aller au contenu', privacy: 'Confidentialité', tagline: 'Moins de manipulations. Plus de travail accompli.', copyright: 'TrePDF. Conçu pour vos documents.', source: 'Code source', related: 'À découvrir aussi', home: 'Accueil' },
+  en: { contact: 'Contact', features: 'Features', guides: 'Guides', updates: 'What’s new', download: 'Get TrePDF', language: 'Tiếng Việt', theme: 'Change color theme', menu: 'Menu', close: 'Close menu', skip: 'Skip to content', privacy: 'Privacy', tagline: 'A little less friction. A lot more done.', copyright: 'TrePDF. Made for your documents.', source: 'Source code', related: 'Keep exploring', home: 'Home' },
+  vi: { contact: 'Liên hệ', features: 'Tính năng', guides: 'Hướng dẫn', updates: 'Cập nhật', download: 'Tải TrePDF', language: 'English', theme: 'Đổi giao diện sáng tối', menu: 'Menu', close: 'Đóng menu', skip: 'Đến nội dung chính', privacy: 'Quyền riêng tư', tagline: 'Bớt thao tác. Thêm thời gian cho công việc.', copyright: 'TrePDF. Dành cho tài liệu của bạn.', source: 'Mã nguồn', related: 'Khám phá thêm', home: 'Trang chủ' },
+  th: { contact: 'ติดต่อ', features: 'ฟีเจอร์', guides: 'คู่มือ', updates: 'มีอะไรใหม่', download: 'ดาวน์โหลด TrePDF', language: 'ภาษา', theme: 'เปลี่ยนธีมสี', menu: 'เมนู', close: 'ปิดเมนู', skip: 'ข้ามไปยังเนื้อหา', privacy: 'ความเป็นส่วนตัว', tagline: 'ลดขั้นตอน เพิ่มเวลาให้งานของคุณ', copyright: 'TrePDF สร้างมาเพื่อเอกสารของคุณ', source: 'ซอร์สโค้ด', related: 'ดูเพิ่มเติม', home: 'หน้าแรก' },
+  fr: { contact: 'Contact', features: 'Fonctionnalités', guides: 'Guides', updates: 'Nouveautés', download: 'Télécharger TrePDF', language: 'Langue', theme: 'Changer de thème', menu: 'Menu', close: 'Fermer le menu', skip: 'Aller au contenu', privacy: 'Confidentialité', tagline: 'Moins de manipulations. Plus de travail accompli.', copyright: 'TrePDF. Conçu pour vos documents.', source: 'Code source', related: 'À découvrir aussi', home: 'Accueil' },
 };
 
 export const pageLabels = {
