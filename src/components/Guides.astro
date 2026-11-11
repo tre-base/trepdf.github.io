@@ -34,9 +34,9 @@ const t = {
     "intro": "De votre première modification à la recherche dans un document numérisé. Commencez par la tâche qui vous attend."
   }
 }[lang];
-const selected = ['getting-started','editor','fonts','ocr','annotations','forms'].map(id=>articles.find(a=>a.id===id && a.lang===lang)!);
+const selected = ['getting-started','editor','fonts','ocr','annotations','forms','tables'].map(id=>articles.find(a=>a.id===id && a.lang===lang)!);
 ---
 <Base lang={lang} pageId="guides" title={t.title} description={t.description}>
   <div class="container page-heading"><p class="eyebrow">{t.eyebrow}</p><h1>{t.heading}</h1><p>{t.intro}</p></div>
-  <section class="container guide-directory">{selected.map(a=><a class="directory-item" href={href(a.id,lang)}><Icon name={a.id==='getting-started'?'book':a.id==='ocr'?'scan':a.id==='annotations'?'notes':a.id==='forms'?'forms':'text'}/><div><h2>{a.heading}</h2><p>{a.description}</p></div><Icon name="arrow"/></a>)}</section>
+  <section class="container guide-directory">{selected.map(a=><a class="directory-item" href={href(a.id,lang)}><Icon name={a.id==='getting-started'?'book':a.id==='ocr'?'scan':a.id==='annotations'?'notes':a.id==='forms'?'forms':a.id==='tables'?'table':'text'}/><div><h2>{a.heading}</h2><p>{a.description}</p></div><Icon name="arrow"/></a>)}</section>
 </Base>

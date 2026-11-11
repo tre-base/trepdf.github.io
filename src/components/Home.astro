@@ -37,8 +37,6 @@ const t = homeCopy[lang];
     </div>
   </section>
   <section class="section container">
-    <div class="section-heading"><h2>{t.toolkitTitle}</h2><p>{t.toolkitIntro}</p></div>
-    <div class="tools-grid">{t.tools.map(tool => <article><Icon name={tool.icon as 'pages'|'signature'|'shield'|'table'}/><h3>{tool.title}</h3><p>{tool.text}</p></article>)}</div>
     <div class="local-panel"><div class="local-symbol"><Icon name="shield"/></div><h2 class="preserve-lines">{t.localTitle}</h2><div><p>{t.localText}</p><p class="small-text">{t.localNote}</p><a class="text-link" href={href('privacy',lang)}>{t.localLink}<Icon name="arrow"/></a></div></div>
   </section>
   <section class="guides-section section">

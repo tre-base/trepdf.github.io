@@ -217,48 +217,50 @@ try {
   const demoImage = demo.locator('[data-demo-image]');
   const motion = demo.locator('[data-demo-motion]');
   await demoImage.scrollIntoViewIfNeeded();
-  for (const [id, file] of [['editor', 'edit-text'], ['forms', 'form-design'], ['ocr', 'ocr']]) {
+  for (const [id, file] of [['editor', 'edit-text'], ['forms', 'form-design'], ['ocr', 'ocr'], ['tables', 'table-excel']]) {
     const button = demo.locator(`[data-demo-select="${id}"]`);
     await button.focus();
     await page.keyboard.press('Enter');
     assert.equal(await button.getAttribute('aria-pressed'), 'true');
     assert.equal(await demo.locator('[data-demo-select][aria-pressed="true"]').count(), 1);
+    assert.equal(await demo.locator(`[data-demo-feature="${id}"]`).getAttribute('data-active'), 'true');
+    assert.equal(await demo.locator('[data-demo-feature][data-active="true"]').count(), 1);
     assert((await demoImage.getAttribute('src')).endsWith(`${file}.webp`));
     await demoImage.evaluate(img => img.decode());
   }
   assert.equal(gifRequests.length, 0, 'Reduced motion must not automatically fetch GIFs');
   await motion.click();
-  await page.waitForFunction(() => document.querySelector('[data-demo-image]').getAttribute('src').endsWith('ocr.gif'));
+  await page.waitForFunction(() => document.querySelector('[data-demo-image]').getAttribute('src').endsWith('table-excel.gif'));
   await demoImage.evaluate(img => img.decode());
   await motion.click();
-  assert((await demoImage.getAttribute('src')).endsWith('ocr.webp'));
+  assert((await demoImage.getAttribute('src')).endsWith('table-excel.webp'));
   await demo.locator('[data-demo-select="forms"]').click();
   assert((await demoImage.getAttribute('src')).endsWith('form-design.webp'), 'Switching demos preserves Stop');
   // With normal motion, scroll into view to start, switch all sources and
   // scroll away to stop. A later system preference change must stop immediately.
   await page.emulateMedia({ reducedMotion: 'no-preference' });
-  for (const [id, file] of [['editor', 'edit-text'], ['forms', 'form-design'], ['ocr', 'ocr']]) {
+  for (const [id, file] of [['editor', 'edit-text'], ['forms', 'form-design'], ['ocr', 'ocr'], ['tables', 'table-excel']]) {
     await demo.locator(`[data-demo-select="${id}"]`).click();
     await page.waitForFunction(file => document.querySelector('[data-demo-image]').getAttribute('src').endsWith(`${file}.gif`), file);
     await demoImage.evaluate(img => img.decode());
   }
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.waitForFunction(() => document.querySelector('[data-feature-demos]').dataset.playing === 'false');
-  assert((await demoImage.getAttribute('src')).endsWith('ocr.webp'));
+  assert((await demoImage.getAttribute('src')).endsWith('table-excel.webp'));
   await demoImage.scrollIntoViewIfNeeded();
   await page.waitForFunction(() => document.querySelector('[data-feature-demos]').dataset.playing === 'true');
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.waitForFunction(() => document.querySelector('[data-feature-demos]').dataset.playing === 'false');
   // Broken animation assets fall back to the real poster and can be retried.
-  await page.route('**/demos/ocr.gif', route => route.abort());
+  await page.route('**/demos/table-excel.gif', route => route.abort());
   await motion.click();
   await page.waitForFunction(() => document.querySelector('[data-demo-status]').textContent.includes('Không tải được'));
-  assert((await demoImage.getAttribute('src')).endsWith('ocr.webp'));
-  await page.unroute('**/demos/ocr.gif');
+  assert((await demoImage.getAttribute('src')).endsWith('table-excel.webp'));
+  await page.unroute('**/demos/table-excel.gif');
   await page.locator('html').evaluate(el => el.setAttribute('data-theme', 'light'));
   await page.locator('#features').screenshot({ path: path.join(reports, 'feature-demos-mobile.png') });
   await page.setViewportSize({ width: 1440, height: 1000 });
-  await demo.locator('[data-demo-select="editor"]').click();
+  await demo.locator('[data-demo-select="tables"]').click();
   await demoImage.evaluate(img => img.decode());
   await page.locator('#features').screenshot({ path: path.join(reports, 'feature-demos-desktop.png') });
   await page.locator('html').evaluate(el => el.setAttribute('data-theme', 'dark'));
@@ -270,7 +272,10 @@ try {
   await staticPage.goto(base);
   assert.equal(await staticPage.locator('[data-demo-controls]').isVisible(), false);
   assert.equal(await staticPage.locator('[data-demo-motion]').isVisible(), false);
-  assert.equal(await staticPage.locator('[data-demo-feature] a').count(), 3, 'Feature links remain available without JS');
+  assert.equal(await staticPage.locator('[data-demo-feature] a').count(), 4, 'Feature links remain available without JS');
+  await staticPage.locator('[data-demo-feature="tables"] a').click();
+  assert(staticPage.url().endsWith('/features/pdf-tables-excel/'), 'Table guide must be reachable without JS');
+  await staticPage.goto(base);
   await staticPage.locator('.mobile-menu summary').click();
   await staticPage.locator(`.mobile-menu a[href="${new URL('download/', base).pathname}"]`).click();
   assert(staticPage.url().endsWith('/download/'));

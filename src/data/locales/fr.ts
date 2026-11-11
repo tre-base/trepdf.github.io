@@ -21,6 +21,7 @@ export const frenchHome = {
     { id: 'editor', icon: 'text', title: 'Trouvez les mots justes.', text: 'Modifiez les textes pris en charge, ajustez les polices et les couleurs, et ajoutez des images. Téléchargez automatiquement les polices manquantes disponibles après confirmation.', link: 'Découvrir la modification de PDF' },
     { id: 'forms', icon: 'forms', title: 'Créez des formulaires PDF à remplir.', text: 'Ajoutez des champs de texte, des cases à cocher et des listes de choix. Disposez les champs, puis enregistrez un PDF à remplir.', link: 'Découvrir la création de formulaires' },
     { id: 'ocr', icon: 'scan', title: 'Retrouvez les mots d’un document numérisé.', text: 'Créez un PDF consultable par recherche à partir de documents numérisés en anglais ou en vietnamien, en conservant l’image de la page.', link: 'Découvrir l’OCR PDF' },
+    { id: "tables", icon: "table", title: "Modifiez vos tableaux. Exportez vers Excel.", text: "Créez des tableaux, modifiez et formatez le texte des cellules, puis ajustez les lignes et colonnes. Exportez vers Excel les tableaux PDF enregistrés à texte et bordures pris en charge.", link: "Découvrir les tableaux et Excel" },
   ],
   fontEyebrow: 'Moins de temps à chercher des polices',
   fontTitle: 'La bonne police.\nUn coup de main pour la trouver.',
@@ -29,14 +30,6 @@ export const frenchHome = {
   fontNote: 'Le téléchargement de polices nécessite une connexion internet. Vous pouvez utiliser une police de remplacement compatible lorsqu’elle est disponible. Certaines polices peuvent être indisponibles au téléchargement.',
   fontLink: 'Comprendre le téléchargement automatique de polices',
   fontSampleLabel: 'Préservez le caractère de votre document.',
-  toolkitTitle: 'Tout pour vos PDF au quotidien.',
-  toolkitIntro: 'Apportez les dernières retouches dans le même espace de travail.',
-  tools: [
-    { icon: 'pages', title: 'Mettez les pages dans l’ordre', text: 'Fusionnez des fichiers PDF, insérez une page blanche ou supprimez une page inutile.' },
-    { icon: 'signature', title: 'Formulaires et signatures', text: 'Remplissez les formulaires pris en charge et placez une signature dessinée, saisie au clavier ou importée depuis une image.' },
-    { icon: 'shield', title: 'Préparez le partage', text: 'Ajoutez des en-têtes, des numéros de page et des filigranes, ou protégez un PDF compatible avec un mot de passe d’ouverture.' },
-    { icon: 'table', title: 'Sortez les tableaux du PDF', text: 'Exportez vers Excel les tableaux textuels à bordures pris en charge, y compris les cellules fusionnées rectangulaires.' },
-  ],
   localTitle: 'Vos documents.\nVotre espace de travail.',
   localText: 'TrePDF traite les documents PDF sur votre ordinateur. Lisez, modifiez et utilisez l’OCR pris en charge sans envoyer votre PDF à un éditeur en ligne.',
   localNote: 'Le téléchargement facultatif de polices se connecte aux fournisseurs de polices. Découvrez le fonctionnement de ces connexions dans notre présentation de la confidentialité.',
@@ -352,5 +345,49 @@ export const frenchArticles: Article[] = [
       },
     ],
     related: ['getting-started', 'editor'],
+  },
+  {
+    "id": "tables",
+    "lang": "fr",
+    "slug": "fr/fonctionnalites/tableaux-pdf-excel",
+    "title": "Modifier des tableaux PDF et exporter vers Excel | TrePDF",
+    "description": "Créez et modifiez des tableaux dans TrePDF, formatez les cellules et ajustez les lignes et colonnes. Exportez les tableaux PDF à bordures pris en charge vers Excel.",
+    "heading": "Des tableaux PDF à Excel.",
+    "intro": "Créez un tableau sur la page, ajustez sa disposition et son contenu, puis exportez les tableaux pris en charge de votre PDF enregistré dans un classeur Excel distinct.",
+    "sections": [
+      {
+        "heading": "Créez des tableaux et modifiez leurs cellules",
+        "paragraphs": [
+          "Choisissez Edit → Table, définissez de 1 à 20 lignes et colonnes, puis faites glisser sur la page pour dessiner le tableau. Double-cliquez dans une cellule pour saisir du texte directement.",
+          "Dans les tableaux créés avec TrePDF, formatez le texte sélectionné ou les prochaines saisies avec les polices disponibles, leur taille, le gras, l’italique et le soulignement. Entrée ajoute une ligne ; Tab passe à la cellule suivante. Les modifications restent des brouillons jusqu’à l’enregistrement."
+        ]
+      },
+      {
+        "heading": "Ajustez les lignes, colonnes et dimensions",
+        "paragraphs": [
+          "Sélectionnez un tableau pour le déplacer ou le redimensionner. Faites glisser une séparation interne pour ajuster les lignes ou colonnes voisines. Ajoutez ou supprimez des lignes et colonnes dans le panneau de propriétés, puis utilisez Annuler ou Rétablir pour vérifier les modifications.",
+          "Certains cadres de tableaux existants à grille fermée peuvent également être sélectionnés et ajustés. Seuls leurs traits sont regroupés : les textes et images restent à leur place et se modifient séparément. Ces cadres reconnus ne proposent pas de saisie dans les cellules ; les tableaux numérisés ou sans bordures ne sont pas des grilles modifiables."
+        ]
+      },
+      {
+        "heading": "Enregistrez, puis exportez vers Excel",
+        "items": [
+          "Enregistrez d’abord toutes les modifications du PDF. L’export Excel lit le contenu des pages enregistrées.",
+          "Choisissez Convert → Export to Excel et sélectionnez la destination du fichier .xlsx.",
+          "Chaque tableau détecté devient une feuille de calcul. Ouvrez le classeur dans votre application de tableur pour vérifier le contenu exporté."
+        ]
+      },
+      {
+        "heading": "Quels tableaux peut-on exporter ?",
+        "paragraphs": [
+          "L’export prend en charge les tableaux textuels à bordure extérieure fermée, comportant au moins deux lignes et deux colonnes. Il conserve leur ordre, les cellules vides, le texte Unicode multiligne et les cellules fusionnées rectangulaires prises en charge.",
+          "Les valeurs sont écrites comme du texte : les zéros initiaux sont conservés et un texte commençant par le signe égal ne devient pas une formule. L’export ne reconnaît pas les tableaux numérisés ou sans bordures et ne prend pas en charge les images, les grilles incomplètes, les fusions non rectangulaires ou le texte de cellule pivoté. Aucun classeur n’est créé si aucun tableau compatible n’est trouvé."
+        ]
+      }
+    ],
+    "related": [
+      "editor",
+      "getting-started"
+    ]
   },
 ];
