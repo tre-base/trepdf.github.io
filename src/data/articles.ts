@@ -611,4 +611,92 @@ export const articles: Article[] = [
       "editor"
     ]
   },
+  {
+    "id": "tables",
+    "lang": "en",
+    "slug": "features/pdf-tables-excel",
+    "title": "Edit PDF Tables & Export to Excel | TrePDF",
+    "description": "Create and edit tables in TrePDF, format cell text, and adjust rows and columns. Export supported saved PDF tables with grid lines to an Excel workbook.",
+    "heading": "From PDF tables to Excel.",
+    "intro": "Build a table on the page, refine its layout and content, then export supported tables from your saved PDF to a separate Excel workbook.",
+    "sections": [
+      {
+        "heading": "Create tables and edit their cells",
+        "paragraphs": [
+          "Choose Edit → Table, set 1–20 rows and columns, then drag on the page to draw a table. Double-click a cell to type directly inside it.",
+          "For tables created in TrePDF, format selected text or new typing with available fonts, font sizes, bold, italic and underline. Enter starts a new line; Tab moves to the next cell. Changes remain drafts until you save."
+        ]
+      },
+      {
+        "heading": "Adjust rows, columns and table size",
+        "paragraphs": [
+          "Select a table to move or resize it. Drag an internal divider to adjust adjacent rows or columns. Add or delete rows and columns in the properties panel, and use Undo or Redo to review changes.",
+          "Some existing closed grid frames can also be selected and adjusted. Only their lines are grouped: existing text and images stay in place and remain separate objects. These recognized frames do not provide cell text editing; scanned and borderless tables are not editable grids."
+        ]
+      },
+      {
+        "heading": "Save, then export to Excel",
+        "items": [
+          "Save all pending PDF edits first. Excel export reads saved page content.",
+          "Choose Convert → Export to Excel and choose a destination for the .xlsx file.",
+          "Each detected table becomes one worksheet. Open the workbook in your spreadsheet app to review the exported content."
+        ]
+      },
+      {
+        "heading": "Which tables can be exported?",
+        "paragraphs": [
+          "Export supports text-based tables with closed outer borders and at least two rows and two columns. It preserves row and column order, empty cells, multiline Unicode text and supported rectangular merged cells.",
+          "Values are written as text: leading zeros remain intact, and text beginning with an equals sign is not converted into a formula. Export does not recognize scanned or borderless tables, extract images, or support incomplete grids, nonrectangular merged regions or rotated cell text. No workbook is written when no supported table is found."
+        ]
+      }
+    ],
+    "related": [
+      "editor",
+      "getting-started"
+    ]
+  },
+  {
+    "id": "tables",
+    "lang": "vi",
+    "slug": "vi/tinh-nang/bang-pdf-excel",
+    "title": "Chỉnh sửa bảng PDF và xuất Excel | TrePDF",
+    "description": "Tạo và chỉnh sửa bảng trong TrePDF, định dạng chữ trong ô, điều chỉnh hàng và cột. Xuất bảng PDF đã lưu có chữ và đường kẻ được hỗ trợ sang Excel.",
+    "heading": "Từ bảng PDF đến Excel.",
+    "intro": "Tạo bảng ngay trên trang, chỉnh bố cục và nội dung, rồi xuất các bảng được hỗ trợ từ PDF đã lưu thành một file Excel riêng.",
+    "sections": [
+      {
+        "heading": "Tạo bảng và sửa nội dung ô",
+        "paragraphs": [
+          "Chọn Edit → Table, đặt từ 1–20 hàng và cột rồi kéo trên trang để vẽ bảng. Nhấp đúp vào ô để nhập chữ trực tiếp.",
+          "Với bảng tạo bằng TrePDF, bạn có thể định dạng đoạn chữ đang chọn hoặc chữ sắp nhập bằng font có sẵn, cỡ chữ, đậm, nghiêng và gạch chân. Enter xuống dòng; Tab chuyển sang ô tiếp theo. Thay đổi chỉ được ghi vào PDF khi lưu."
+        ]
+      },
+      {
+        "heading": "Điều chỉnh hàng, cột và kích thước bảng",
+        "paragraphs": [
+          "Chọn bảng để di chuyển hoặc đổi kích thước. Kéo đường phân cách bên trong để điều chỉnh hai hàng hoặc cột liền kề. Thêm, xóa hàng và cột trong bảng thuộc tính; dùng Hoàn tác hoặc Làm lại để kiểm tra thay đổi.",
+          "Một số khung bảng kín có sẵn trong PDF cũng có thể được chọn và điều chỉnh. Chỉ đường kẻ được gom nhóm: chữ và ảnh gốc giữ nguyên vị trí, tiếp tục được chỉnh riêng. Khung nhận diện này không có trình sửa nội dung ô; bảng scan và bảng không đường kẻ không được nhận diện thành lưới có thể chỉnh."
+        ]
+      },
+      {
+        "heading": "Lưu PDF rồi xuất Excel",
+        "items": [
+          "Lưu toàn bộ thay đổi PDF trước khi xuất. Tính năng xuất Excel đọc nội dung trang đã lưu.",
+          "Chọn Convert → Export to Excel và chọn nơi lưu file .xlsx.",
+          "Mỗi bảng nhận diện được trở thành một sheet. Mở file bằng ứng dụng bảng tính để kiểm tra nội dung đã xuất."
+        ]
+      },
+      {
+        "heading": "Những bảng nào được hỗ trợ xuất?",
+        "paragraphs": [
+          "Hỗ trợ bảng có lớp chữ, đường viền ngoài kín, ít nhất hai hàng và hai cột. Kết quả giữ thứ tự hàng cột, ô trống, chữ Unicode nhiều dòng và các ô gộp hình chữ nhật được hỗ trợ.",
+          "Giá trị được ghi dưới dạng văn bản: mã có số 0 đầu vẫn giữ nguyên, chuỗi bắt đầu bằng dấu bằng không trở thành công thức. Không nhận bảng scan, bảng không đường kẻ, ảnh, lưới thiếu nét, ô gộp không phải hình chữ nhật hoặc chữ xoay trong ô. Nếu không tìm thấy bảng phù hợp, ứng dụng không ghi file Excel."
+        ]
+      }
+    ],
+    "related": [
+      "editor",
+      "getting-started"
+    ]
+  },
 ];

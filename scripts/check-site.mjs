@@ -76,8 +76,8 @@ const titles = new Set();
 const descriptions = new Set();
 const canonicals = new Set();
 
-check(indexable.length === 48, `Expected 12 pages in each of four languages; found ${indexable.length}`);
-for (const language of languages) check(indexable.filter(p => p.document.documentElement.getAttribute('lang') === language).length === 12, `Expected 12 ${language} pages`);
+check(indexable.length === 52, `Expected 13 pages in each of four languages; found ${indexable.length}`);
+for (const language of languages) check(indexable.filter(p => p.document.documentElement.getAttribute('lang') === language).length === 13, `Expected 13 ${language} pages`);
 check(pages.some(p => p.filename === path.join(output, '404.html') && p.noindex), '404.html must exist and have noindex');
 const homepage = pagesByUrl.get(siteUrl);
 check(/pdf editor/i.test(homepage?.document.querySelector('title')?.textContent || ''), 'English homepage title should describe TrePDF as a PDF editor');
@@ -163,6 +163,12 @@ for (const page of pages) {
     await checkTarget(demo.getAttribute('data-demo-src'), url);
     await checkTarget(demo.getAttribute('data-demo-poster'), url);
     check(Boolean(demo.getAttribute('data-demo-alt')?.trim()), `${url}: demo missing alt text`);
+  }
+  if (document.querySelector('[data-feature-demos]')) {
+    for (const id of ['editor', 'forms', 'ocr', 'tables']) {
+      check(document.querySelectorAll(`[data-demo-select="${id}"]`).length === 1, `${url}: missing or duplicate ${id} demo control`);
+      check(document.querySelectorAll(`[data-demo-feature="${id}"] a[href]`).length === 1, `${url}: missing ${id} feature description/link`);
+    }
   }
   for (const img of document.querySelectorAll('img')) {
     check(img.hasAttribute('alt'), `${url}: image missing alt text`);
