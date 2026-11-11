@@ -25,7 +25,6 @@ export const homeCopy = {
     fontSteps: [['Detect', 'Find the fonts your text needs.'], ['Confirm', 'Choose whether to download them.'], ['Continue', 'Edit with the available matching font.']],
     fontNote: 'Font downloads need an internet connection. When a compatible replacement is available, you can use it instead. Some fonts may not be available to download.',
     fontLink: 'How automatic font downloads work', fontSampleLabel: 'Keep the character of your document.',
-    localTitle: 'Your documents.\nYour workspace.', localText: 'TrePDF processes PDF documents on your computer. Read, edit, and run supported OCR without uploading your PDF to an online editor.', localNote: 'Optional font downloads connect to font providers. Read how these connections work in our privacy overview.', localLink: 'How TrePDF handles your files',
     guideTitle: 'A good place to start.', guideIntro: 'Practical guides for the first document and the next one.', guideLink: 'All guides',
     guideCards: [ ['getting-started', 'Start here', 'Open, edit, save.'], ['fonts', 'Working with fonts', 'A missing font? Start here.'], ['ocr', 'Recognize text', 'Make a scan searchable.'] ],
     faqTitle: 'A few things to know.', faqs: [
@@ -58,7 +57,6 @@ export const homeCopy = {
     fontSteps: [['Phát hiện', 'Tìm font mà văn bản cần.'], ['Xác nhận', 'Bạn quyết định có tải font hay không.'], ['Tiếp tục', 'Chỉnh sửa với font phù hợp đã tải.']],
     fontNote: 'Tải font cần kết nối internet. Bạn có thể dùng font thay thế nếu có lựa chọn tương thích. Một số font có thể không có sẵn để tải.',
     fontLink: 'Cách tải font tự động hoạt động', fontSampleLabel: 'Giữ nét riêng của tài liệu.',
-    localTitle: 'Tài liệu của bạn.\nKhông gian của bạn.', localText: 'TrePDF xử lý tài liệu PDF trên máy tính của bạn. Đọc, chỉnh sửa và OCR được hỗ trợ mà không cần tải PDF lên trình chỉnh sửa trực tuyến.', localNote: 'Tính năng tải font tùy chọn có kết nối với nhà cung cấp font. Xem chi tiết trong phần quyền riêng tư.', localLink: 'TrePDF xử lý tài liệu như thế nào',
     guideTitle: 'Bắt đầu từ những việc nhỏ.', guideIntro: 'Hướng dẫn thực tế cho tài liệu đầu tiên và những lần tiếp theo.', guideLink: 'Tất cả hướng dẫn',
     guideCards: [ ['getting-started', 'Bắt đầu sử dụng', 'Mở, chỉnh sửa, lưu.'], ['fonts', 'Làm việc với font', 'Thiếu font? Xem tại đây.'], ['ocr', 'Nhận dạng văn bản', 'Tìm kiếm được trong bản scan.'] ],
     faqTitle: 'Một vài điều cần biết.', faqs: [

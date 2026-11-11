@@ -561,37 +561,6 @@ img {
   line-height: 1.8;
   margin-top: -20px;
 }
-.local-panel {
-  display: grid;
-  grid-template-columns: 70px 1fr 1fr;
-  align-items: start;
-  gap: 30px;
-}
-.local-symbol {
-  border: 1px solid var(--line);
-  background: var(--surface);
-  padding: 16px;
-  border-radius: 16px;
-}
-.local-symbol .icon {
-  width: 32px;
-  height: 32px;
-  color: var(--accent);
-}
-.local-panel h2 {
-  font-size: 32px;
-}
-.local-panel p {
-  color: var(--muted);
-  font-size: 15px;
-}
-.local-panel .small-text {
-  font-size: 12px;
-  margin-top: 16px;
-}
-.local-panel .text-link {
-  margin-top: 20px;
-}
 .guides-section {
   background: var(--soft);
   border-block: 1px solid var(--line);
@@ -1107,16 +1076,6 @@ img {
   .type-large {
     font-size: 135px;
   }
-  .local-panel {
-    grid-template-columns: 60px 1fr;
-    gap: 26px;
-  }
-  .local-panel > div:last-child {
-    grid-column: 2;
-  }
-  .local-symbol {
-    padding: 12px;
-  }
   .faq-section {
     grid-template-columns: 1fr;
     gap: 32px;
@@ -1345,19 +1304,6 @@ img {
   .font-note {
     margin-top: 0;
     font-size: 11px;
-  }
-  .local-panel {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-  .local-symbol {
-    width: 56px;
-  }
-  .local-panel h2 {
-    font-size: 30px;
-  }
-  .local-panel > div:last-child {
-    grid-column: 1;
   }
   .guide-grid {
     grid-template-columns: 1fr;
