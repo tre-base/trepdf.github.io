@@ -2,7 +2,7 @@
 
 An English/Vietnamese/Thai/French product website for TrePDF, built with Astro and published as static HTML on GitHub Pages. The English homepage targets “PDF editor”; dedicated feature pages and guides explain actual editing, font, OCR and annotation workflows.
 
-The initial installer URLs, version numbers and platform requirements are deliberately empty. An unavailable installer is shown as a disabled control rather than an empty or misleading link. No public release, pricing, rating or download count is invented.
+The download page offers two TrePDF 0.0.12 beta DMGs for Mac with Apple Silicon through public Google Drive links. The Qt 6.12 build requires macOS 14.4+; the Qt 6.11 build supports macOS 13.0+ and is the choice for 13 or 14.0–14.3. Intel Mac, Windows and Linux download URLs remain empty and their controls stay disabled until supplied. No pricing, rating or download count is invented.
 
 ## Local development
 
@@ -69,7 +69,7 @@ Edit `src/data/contact.json` to update the public email or announced application
 
 `version` is deliberately empty until a public release number is confirmed. The page displays a translated “Not announced yet” instead of treating the website package version, a local app build or a UAT build as a public release. When announcing a release, set this value and update the matching download entries and release notes together. Download availability remains controlled by `src/data/downloads.json`.
 
-## Add installer links later
+## Manage installer links
 
 Edit the matching entry in `src/data/downloads.json`:
 
@@ -78,13 +78,23 @@ Edit the matching entry in `src/data/downloads.json`:
   "id": "mac-arm",
   "os": "macOS",
   "architecture": "Apple Silicon",
-  "url": "",
-  "version": "",
-  "requirements": ""
+  "url": "https://drive.google.com/file/d/1SB1ah4tMI2D9qsxwgxQUWFSx4OV4bBsH/view?usp=drive_link",
+  "version": "0.0.12",
+  "qtVersion": "6.12",
+  "requirements": "macOS 14.4+",
+  "variant": "current"
 }
 ```
 
-Replace `url` with the full HTTPS URL of a real, tested installer. Fill `version` and `requirements` with the matching release information. Keep other platforms empty until their packages are ready. The download pages in all four languages use this one file; adding a valid URL enables the corresponding link. When publishing the first package, also update the coming-soon copy in `src/data/home.ts` and `src/components/Downloads.astro`, and add accurate release notes in `src/data/articles.ts`. Keep the download page URL stable when changing release assets. Check the external installer URL yourself: the automated link check validates local pages and URL format, not the contents of external binaries.
+Replace `url` with the full HTTPS URL of a real, tested installer. Fill `version` and `requirements` with the matching build information. Keep other platforms empty until their packages are ready. The download pages in all four languages use this one file; adding a valid URL enables the corresponding link. Available builds appear first, followed by unavailable platforms.
+
+The `mac-arm` entry uses `qtVersion: "6.12"`, `variant: "current"` and requires macOS 14.4+. The separate `mac-arm-compatible` entry uses `qtVersion: "6.11"`, `variant: "compatible"` and requires macOS 13.0+; it is recommended for macOS 13 and 14.0–14.3 but also runs on newer systems. Both Qt versions are shown on the cards. The compatibility descriptions are translated in `src/components/Downloads.astro`. The remaining platform entries do not need `qtVersion` or `variant`.
+
+Qt version and minimum macOS version are different fields. These minimums match the app's workflow deployment targets and the official supported platforms for [Qt 6.12](https://doc.qt.io/qt-6.12/supported-platforms.html) and [Qt 6.11](https://doc.qt.io/qt-6.11/supported-platforms.html). Do not label the Qt 6.11 build as supporting all versions below macOS 14: macOS 12 and earlier are outside the support range of these packages. Supporting an older macOS version requires a compatible Qt/dependency build and validation on that OS; changing the website label alone does not add support.
+
+Google Drive URLs open the shared file page, not a guaranteed one-click download. Keep each file shared with anyone who has the link, with downloading enabled. Check it in a signed-out browser after changing the file or its permissions. These links were checked for public page access and file names; that is not a signature, checksum or installation check of the binaries.
+
+When changing availability, also update homepage/FAQ and changelog copy in `src/data/home.ts`, `src/data/articles.ts`, `src/data/locales/th.ts` and `src/data/locales/fr.ts`. Keep the download page URL stable when changing assets. The automated link check validates local pages and URL format, not the contents of external binaries. The global announced version in `src/data/contact.json` remains independent from these per-package beta versions.
 
 ## GitHub Pages deployment
 

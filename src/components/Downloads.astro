@@ -7,75 +7,102 @@ const { lang } = Astro.props as { lang: Lang };
 const t = {
   "en": {
     "title": "Download TrePDF Desktop PDF Editor | TrePDF",
-    "description": "Find TrePDF desktop download options for macOS, Windows and Linux. Download links and system requirements will be added when packages are available.",
+    "description": "Download TrePDF Beta for Mac with Apple Silicon. Choose the build for macOS 14.4 or later, or the compatible build for macOS 13 and later.",
     "eyebrow": "Your PDF workspace",
     "heading": "TrePDF, on your desktop.",
-    "intro": "Choose your platform. Download links will appear here when release packages are ready.",
+    "intro": "TrePDF Beta is available for Mac with Apple Silicon. Choose the build for your macOS version. Downloads open in Google Drive.",
+    "available": "Available now",
+    "pending": "More platforms to come",
+    "beta": "Beta",
+    "current": "For macOS 14.4 and later.",
+    "compatible": "Choose this build for macOS 13 or 14.0–14.3. It also runs on newer macOS versions.",
     "platforms": "Download platforms",
     "requirements": "System requirements will be listed with the download.",
     "version": "Version",
-    "download": "Download",
+    "download": "Download via Google Drive",
     "unavailable": "Not available yet",
-    "noticeHeading": "While you’re here, get to know TrePDF.",
-    "noticeCopy": "Explore how to edit text, download missing fonts, and create a searchable PDF from a scan.",
+    "noticeHeading": "Start with a copy of your PDF.",
+    "noticeCopy": "TrePDF is in beta. Keep your original document and use Save As when testing edits. The guides cover text editing, fonts and OCR.",
     "guides": "Browse the guides"
   },
   "vi": {
     "title": "Tải TrePDF cho máy tính | TrePDF",
-    "description": "Xem các lựa chọn tải TrePDF cho macOS, Windows và Linux. Đường dẫn tải và yêu cầu hệ thống sẽ được bổ sung khi gói phát hành sẵn sàng.",
+    "description": "Tải TrePDF Beta cho Mac dùng chip Apple Silicon. Chọn bản cho macOS 14.4 trở lên hoặc bản tương thích với macOS 13 trở lên.",
     "eyebrow": "Không gian PDF của bạn",
     "heading": "TrePDF, trên máy của bạn.",
-    "intro": "Chọn nền tảng của bạn. Đường dẫn tải sẽ xuất hiện tại đây khi các gói phát hành sẵn sàng.",
+    "intro": "TrePDF Beta đã có cho Mac dùng chip Apple Silicon. Chọn bản phù hợp với macOS của bạn. Nút tải sẽ mở Google Drive.",
+    "available": "Đã có bản tải",
+    "pending": "Các nền tảng sẽ cập nhật sau",
+    "beta": "Beta",
+    "current": "Dành cho macOS 14.4 trở lên.",
+    "compatible": "Chọn bản này nếu bạn dùng macOS 13 hoặc 14.0–14.3. Bản này cũng chạy trên các phiên bản macOS mới hơn.",
     "platforms": "Các nền tảng tải xuống",
     "requirements": "Yêu cầu hệ thống sẽ được công bố cùng bản tải.",
     "version": "Phiên bản",
-    "download": "Tải xuống",
+    "download": "Tải qua Google Drive",
     "unavailable": "Chưa có bản tải",
-    "noticeHeading": "Trong lúc chờ, làm quen với TrePDF.",
-    "noticeCopy": "Khám phá cách sửa văn bản, tải font còn thiếu và tạo PDF tìm kiếm được từ bản scan.",
+    "noticeHeading": "Bắt đầu với một bản sao PDF.",
+    "noticeCopy": "TrePDF đang ở phiên bản beta. Giữ lại tài liệu gốc và dùng Lưu thành khi thử chỉnh sửa. Xem hướng dẫn sửa văn bản, font và OCR.",
     "guides": "Xem hướng dẫn"
   },
   "th": {
     "title": "ดาวน์โหลด TrePDF โปรแกรมแก้ไข PDF สำหรับเดสก์ท็อป | TrePDF",
-    "description": "ดูตัวเลือกการดาวน์โหลด TrePDF สำหรับ macOS, Windows และ Linux ลิงก์ดาวน์โหลดและความต้องการของระบบจะเพิ่มเข้ามาเมื่อแพ็กเกจพร้อมเผยแพร่",
+    "description": "ดาวน์โหลด TrePDF Beta สำหรับ Mac ชิป Apple Silicon เลือกรุ่นสำหรับ macOS 14.4 ขึ้นไป หรือรุ่นที่รองรับ macOS 13 ขึ้นไป",
     "eyebrow": "พื้นที่ทำงาน PDF ของคุณ",
     "heading": "TrePDF บนคอมพิวเตอร์ของคุณ",
-    "intro": "เลือกแพลตฟอร์มของคุณ ลิงก์ดาวน์โหลดจะปรากฏที่นี่เมื่อแพ็กเกจพร้อมเผยแพร่",
+    "intro": "TrePDF Beta พร้อมให้ดาวน์โหลดสำหรับ Mac ชิป Apple Silicon เลือกรุ่นที่เหมาะกับ macOS ของคุณ ปุ่มดาวน์โหลดจะเปิด Google Drive",
+    "available": "พร้อมให้ดาวน์โหลด",
+    "pending": "แพลตฟอร์มอื่นจะตามมา",
+    "beta": "เบต้า",
+    "current": "สำหรับ macOS 14.4 ขึ้นไป",
+    "compatible": "เลือกรุ่นนี้หากคุณใช้ macOS 13 หรือ 14.0–14.3 และยังใช้ได้กับ macOS รุ่นใหม่กว่า",
     "platforms": "แพลตฟอร์มที่ดาวน์โหลดได้",
     "requirements": "ความต้องการของระบบจะระบุไว้พร้อมกับไฟล์ดาวน์โหลด",
     "version": "เวอร์ชัน",
-    "download": "ดาวน์โหลด",
+    "download": "ดาวน์โหลดผ่าน Google Drive",
     "unavailable": "ยังไม่พร้อมให้ดาวน์โหลด",
-    "noticeHeading": "ระหว่างรอ มาทำความรู้จัก TrePDF กัน",
-    "noticeCopy": "เรียนรู้วิธีแก้ไขข้อความ ดาวน์โหลดฟอนต์ที่ขาดหาย และสร้าง PDF ที่ค้นหาข้อความได้จากภาพสแกน",
+    "noticeHeading": "เริ่มจากสำเนาไฟล์ PDF ของคุณ",
+    "noticeCopy": "TrePDF ยังเป็นรุ่นเบต้า เก็บเอกสารต้นฉบับไว้และใช้บันทึกเป็นเมื่อทดลองแก้ไข ดูคู่มือการแก้ไขข้อความ ฟอนต์ และ OCR",
     "guides": "ดูคู่มือ"
   },
   "fr": {
     "title": "Télécharger TrePDF, éditeur PDF pour ordinateur | TrePDF",
-    "description": "Découvrez les téléchargements de TrePDF pour macOS, Windows et Linux. Les liens et la configuration requise seront ajoutés lorsque les fichiers d’installation seront disponibles.",
+    "description": "Téléchargez TrePDF Beta pour Mac avec Apple Silicon. Choisissez la version pour macOS 14.4 ou ultérieur, ou celle compatible avec macOS 13 et ultérieur.",
     "eyebrow": "Votre espace de travail PDF",
     "heading": "TrePDF, sur votre ordinateur.",
-    "intro": "Choisissez votre plateforme. Les liens de téléchargement apparaîtront ici dès que les fichiers d’installation seront prêts.",
+    "intro": "TrePDF Beta est disponible pour Mac avec Apple Silicon. Choisissez la version adaptée à votre macOS. Les téléchargements s’ouvrent dans Google Drive.",
+    "available": "Disponible maintenant",
+    "pending": "D’autres plateformes à venir",
+    "beta": "Bêta",
+    "current": "Pour macOS 14.4 ou ultérieur.",
+    "compatible": "Choisissez cette version pour macOS 13 ou 14.0–14.3. Elle fonctionne aussi sur les versions plus récentes de macOS.",
     "platforms": "Plateformes de téléchargement",
     "requirements": "La configuration requise sera indiquée avec le téléchargement.",
     "version": "Version",
-    "download": "Télécharger",
+    "download": "Télécharger via Google Drive",
     "unavailable": "Pas encore disponible",
-    "noticeHeading": "En attendant, découvrez TrePDF.",
-    "noticeCopy": "Apprenez à modifier du texte, à télécharger les polices manquantes et à créer un PDF consultable par recherche à partir d’un document numérisé.",
+    "noticeHeading": "Commencez par une copie de votre PDF.",
+    "noticeCopy": "TrePDF est en bêta. Conservez l’original et utilisez Enregistrer sous pour tester vos modifications. Consultez les guides sur le texte, les polices et l’OCR.",
     "guides": "Consulter les guides"
   }
 }[lang];
+const groups = [
+  { heading: t.available, items: downloads.filter(d => d.url) },
+  { heading: t.pending, items: downloads.filter(d => !d.url) }
+].filter(group => group.items.length > 0);
 ---
 <Base lang={lang} pageId="download" title={t.title} description={t.description}>
   <div class="container page-heading"><p class="eyebrow">{t.eyebrow}</p><h1>{t.heading}</h1><p>{t.intro}</p></div>
   <section class="container download-section" aria-label={t.platforms}>
-    <div class="download-grid">{downloads.map(d => <article class="download-card" data-download-id={d.id}>
-      <Icon name="device"/><p class="download-arch">{d.architecture}</p><h2>{d.os}</h2>
-      <p class="small-text">{d.requirements || t.requirements}</p>
-      {d.version && <p>{t.version} {d.version}</p>}
-      {d.url ? <a class="button" href={d.url}>{t.download}<Icon name="download"/></a> : <button class="button unavailable" disabled type="button">{t.unavailable}</button>}
-    </article>)}</div>
+    {groups.map(group => <div class="download-group">
+      <h2>{group.heading}</h2>
+      <div class="download-grid">{group.items.map(d => <article class="download-card" data-download-id={d.id}>
+        <Icon name="device"/><p class="download-arch">{d.architecture}</p><h3>{d.qtVersion ? `${d.os} · Qt ${d.qtVersion}` : d.os}</h3>
+        <p class="small-text">{d.variant === 'compatible' ? t.compatible : d.variant === 'current' ? t.current : d.requirements || t.requirements}</p>
+        {d.version && <p>{t.version} {d.version} · {t.beta}</p>}
+        {d.url ? <a class="button" href={d.url} aria-label={`${t.download}: TrePDF ${d.architecture}${d.qtVersion ? `, Qt ${d.qtVersion}` : ''}, ${d.requirements}`}>{t.download}<Icon name="download"/></a> : <button class="button unavailable" disabled type="button">{t.unavailable}</button>}
+      </article>)}</div>
+    </div>)}
     <div class="notice"><Icon name="book"/><div><h2>{t.noticeHeading}</h2><p>{t.noticeCopy}</p><a class="text-link" href={href('guides',lang)}>{t.guides}<Icon name="right"/></a></div></div>
   </section>
 </Base>
