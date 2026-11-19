@@ -10,6 +10,7 @@ import { siteOrigin, siteBase, siteUrl } from '../site.config.mjs';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const output = path.join(root, 'dist');
 const downloads = JSON.parse(await readFile(path.join(root, 'src/data/downloads.json'), 'utf8'));
+const macosDownloads = JSON.parse(await readFile(path.join(root, 'src/data/macos-downloads.json'), 'utf8'));
 const contact = JSON.parse(await readFile(path.join(root, 'src/data/contact.json'), 'utf8'));
 const languages = ['en', 'vi', 'th', 'fr'];
 const contactRoutes = { en: 'contact/', vi: 'vi/lien-he/', th: 'th/contact/', fr: 'fr/contact/' };
@@ -187,7 +188,7 @@ for (const page of pages) {
         if (!value || typeof value !== 'object') return;
         for (const [key, child] of Object.entries(value)) {
           check(!['aggregateRating', 'review', 'offers'].includes(key), `${url}: do not publish unverified ratings, reviews or pricing`);
-          if (key === 'downloadUrl') check(typeof child === 'string' && child.length > 0 && downloads.some(d => d.url === child), `${url}: unconfigured downloadUrl in structured data`);
+          if (key === 'downloadUrl') check(typeof child === 'string' && child.length > 0 && [...downloads, ...macosDownloads].some(d => d.url === child), `${url}: unconfigured downloadUrl in structured data`);
           visit(child);
         }
       };
@@ -216,11 +217,50 @@ while (pending.length) {
 }
 for (const page of indexable) check(reachable.has(page.url), `${page.url}: orphaned page is not reachable from the homepage`);
 
+const macosNames = { '13': 'Ventura', '14': 'Sonoma', '15': 'Sequoia', '26': 'Tahoe' };
+check(new Set(macosDownloads.map(d => d.id)).size === macosDownloads.length, 'macOS download IDs must be unique');
+check(macosDownloads.length === Object.keys(macosNames).length, 'Expected the four macOS choices from Ventura through Tahoe');
+for (const download of macosDownloads) {
+  check(macosNames[download.id] === download.name, `macOS ${download.id}: incorrect operating system name`);
+  check(typeof download.url === 'string', `macOS ${download.id}: URL must be a string`);
+  check(typeof download.version === 'string', `macOS ${download.id}: release version must be a string`);
+  if (download.url) check(/^https:\/\//.test(download.url), `macOS ${download.id}: installer URL must use HTTPS`);
+}
+
 for (const relative of ['download/', 'vi/tai-xuong/', 'th/download/', 'fr/telecharger/']) {
   const url = new URL(relative, siteUrl).href;
   const page = pagesByUrl.get(url);
   check(Boolean(page), `Missing download page ${url}`);
   if (!page) continue;
+  const macCards = page.document.querySelectorAll('[data-download-id="mac-arm"]');
+  check(macCards.length === 1, `${url}: Apple Silicon must have one download card`);
+  check(page.document.querySelectorAll('[data-download-id]').length === downloads.length + 1, `${url}: unexpected duplicate platform cards`);
+  const macCard = macCards[0];
+  const selector = macCard?.querySelector('select[data-macos-version]');
+  check(Boolean(selector), `${url}: missing macOS version selector`);
+  if (macCard && selector) {
+    check(macCard.textContent.includes('Apple Silicon (M1/M2/M3/M4/M5/M6)'), `${url}: Apple Silicon chip label must match the download chooser`);
+    check(Boolean(selector.id && macCard.querySelector(`label[for="${selector.id}"]`)?.textContent.trim()), `${url}: macOS selector needs an associated visible label`);
+    const options = [...selector.querySelectorAll('option')];
+    check(options.length === macosDownloads.length + 1, `${url}: macOS selector must contain a prompt and each configured OS`);
+    check(options[0]?.getAttribute('value') === '', `${url}: macOS selector must start without a selected OS`);
+    check(macCard.querySelectorAll('[data-macos-result]').length === macosDownloads.length, `${url}: each macOS choice needs exactly one download result`);
+    for (const download of macosDownloads) {
+      const option = options.find(item => item.getAttribute('value') === download.id);
+      check(option?.textContent.trim() === `macOS ${download.id} ${download.name}`, `${url}: macOS choice must show its version and name`);
+      check(!option?.hasAttribute('selected'), `${url}: do not preselect a macOS version`);
+      const results = macCard.querySelectorAll(`[data-macos-result="${download.id}"]`);
+      check(results.length === 1 && results[0].hasAttribute('hidden'), `${url}: macOS ${download.id} action must be hidden before selection`);
+      const result = results[0];
+      if (!result) continue;
+      if (download.url) {
+        check(result.querySelector('a[href]')?.getAttribute('href') === download.url, `${url}: macOS ${download.id} must use its configured installer URL`);
+      } else {
+        check(Boolean(result.querySelector('button[disabled]')), `${url}: pending macOS ${download.id} needs a disabled button`);
+        check(result.querySelectorAll('a[href]').length === 0, `${url}: pending macOS ${download.id} must not have a fake installer link`);
+      }
+    }
+  }
   for (const download of downloads) {
     const card = [...page.document.querySelectorAll('[data-download-id]')].find(node => node.getAttribute('data-download-id') === download.id);
     check(Boolean(card), `${url}: missing platform ${download.id}`);

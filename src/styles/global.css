@@ -790,6 +790,97 @@ img {
   padding-inline: 12px;
   min-height: 46px;
 }
+.macos-download {
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 1fr);
+  gap: 48px;
+  align-items: start;
+  margin-bottom: 44px;
+  padding: 36px;
+}
+.macos-download-heading > .icon {
+  width: 38px;
+  height: 38px;
+  color: var(--accent);
+  margin-bottom: 24px;
+}
+.macos-download-heading h2 {
+  margin-top: 10px;
+  font-size: clamp(26px, 3vw, 38px);
+}
+.macos-download-heading h2 span {
+  display: block;
+  margin-top: 14px;
+  font-size: 16px;
+  letter-spacing: 0;
+  font-weight: 500;
+  color: var(--muted);
+}
+.macos-download-picker {
+  min-width: 0;
+}
+.macos-download-picker label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 650;
+}
+.macos-download-picker select {
+  width: 100%;
+  min-height: 54px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text);
+  background: var(--bg);
+  font: inherit;
+  font-size: 15px;
+  cursor: pointer;
+}
+.macos-download-picker select:hover {
+  border-color: var(--accent);
+}
+.macos-version-help,
+.macos-select-hint,
+.macos-release-version {
+  font-size: 13px;
+  color: var(--muted);
+}
+.macos-version-help {
+  margin-top: 12px;
+}
+.macos-download-status {
+  margin-top: 24px;
+  min-height: 112px;
+}
+.macos-selected-version {
+  font-size: 16px;
+  font-weight: 650;
+}
+.macos-download .button {
+  margin-top: 16px;
+  font-size: 14px;
+  min-height: 50px;
+}
+.macos-download [hidden] {
+  display: none;
+}
+@media (max-width: 767px) {
+  .macos-download {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 24px;
+  }
+  .macos-download-heading > .icon {
+    margin-bottom: 16px;
+  }
+  .macos-download-heading h2 span {
+    font-size: 14px;
+  }
+  .macos-download .button {
+    font-size: 12px;
+  }
+}
 .button.unavailable {
   background: var(--soft);
   color: var(--muted);

@@ -12,6 +12,8 @@ import { siteBase } from '../site.config.mjs';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const dist = path.join(root, 'dist');
 const downloads = JSON.parse(await readFile(path.join(root, 'src/data/downloads.json'), 'utf8'));
+const macosDownloads = JSON.parse(await readFile(path.join(root, 'src/data/macos-downloads.json'), 'utf8'));
+const downloadRoutes = { en: 'download/', vi: 'vi/tai-xuong/', th: 'th/download/', fr: 'fr/telecharger/' };
 const contact = JSON.parse(await readFile(path.join(root, 'src/data/contact.json'), 'utf8'));
 const contactRoutes = { en: 'contact/', vi: 'vi/lien-he/', th: 'th/contact/', fr: 'fr/contact/' };
 const reports = path.join(root, 'reports');
@@ -201,9 +203,72 @@ try {
   await menu.locator(`a[href="${new URL('vi/tai-xuong/', base).pathname}"]`).click();
   assert(page.url().endsWith('/vi/tai-xuong/'), 'Mobile download link must work');
   assert.equal(await menu.evaluate(el => el.open), false);
-  assert.equal(await page.locator('[data-download-id] button:disabled').count(), downloads.filter(d => !d.url).length);
-  for (const download of downloads.filter(d => d.url)) {
-    assert.equal(await page.locator(`[data-download-id="${download.id}"] a`).getAttribute('href'), download.url);
+  for (const download of downloads) {
+    const card = page.locator(`[data-download-id="${download.id}"]`);
+    if (download.url) assert.equal(await card.locator('a').getAttribute('href'), download.url);
+    else assert.equal(await card.locator('button:disabled:visible').count(), 1);
+  }
+  // No download action is shown until the visitor chooses an OS. Exercise all
+  // four translations and both phone/desktop widths with the configured URLs.
+  async function assertMacResult(card, selected) {
+    const visible = card.locator('[data-macos-result]:visible');
+    assert.equal(await visible.count(), selected ? 1 : 0, 'Exactly the selected macOS action must be visible');
+    if (!selected) {
+      assert.equal(await card.locator('.button:visible').count(), 0, 'Apple Silicon must not offer a download before OS selection');
+      return;
+    }
+    assert.equal(await visible.getAttribute('data-macos-result'), selected.id);
+    if (selected.url) {
+      assert.equal(await visible.locator('a').getAttribute('href'), selected.url);
+      assert.equal(await visible.locator('button:disabled').count(), 0);
+    } else {
+      assert.equal(await visible.locator('button:disabled:visible').count(), 1);
+      assert.equal(await visible.locator('a[href]').count(), 0, 'Pending OS choices must not create placeholder links');
+    }
+  }
+  for (const width of [320, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const [language, route] of Object.entries(downloadRoutes)) {
+      await page.goto(new URL(route, base).href);
+      const card = page.locator('[data-download-id="mac-arm"]');
+      const selector = card.locator('select[data-macos-version]');
+      assert.equal(await card.count(), 1, 'Apple Silicon must be a single card');
+      assert.equal(await selector.inputValue(), '');
+      await assertMacResult(card);
+      assert.deepEqual(await selector.locator('option').evaluateAll(options => options.slice(1).map(option => option.textContent.trim())),
+        macosDownloads.map(download => `macOS ${download.id} ${download.name}`));
+      for (const download of macosDownloads) {
+        await selector.selectOption(download.id);
+        await assertMacResult(card, download);
+        const layout = await page.evaluate(() => ({ width: innerWidth, content: document.documentElement.scrollWidth }));
+        assert(layout.content <= layout.width + 1, `${language} macOS ${download.id} result overflows at ${width}px`);
+      }
+      await selector.selectOption('');
+      await assertMacResult(card);
+      // Native type-ahead selects the first "macOS" option in every locale.
+      // Arrow keys can open a platform popup that headless macOS cannot drive.
+      // Keep this a real keyboard interaction and verify focus remains stable.
+      await selector.focus();
+      await page.keyboard.press('m');
+      await page.keyboard.press('Enter');
+      assert.equal(await selector.inputValue(), macosDownloads[0].id);
+      assert(await selector.evaluate(el => el === document.activeElement));
+      await assertMacResult(card, macosDownloads[0]);
+    }
+  }
+  for (const theme of ['light', 'dark']) {
+    await page.goto(new URL(downloadRoutes.vi, base).href);
+    await page.evaluate(theme => document.documentElement.dataset.theme = theme, theme);
+    const card = page.locator('[data-download-id="mac-arm"]');
+    await card.locator('select[data-macos-version]').selectOption('26');
+    await assertMacResult(card, macosDownloads.find(download => download.id === '26'));
+    const audit = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
+    assert.equal(audit.violations.length, 0, `Selected macOS ${theme}: ${JSON.stringify(audit.violations.map(v => ({ id: v.id, nodes: v.nodes.map(n => n.failureSummary) })), null, 2)}`);
+    for (const width of [390, 1440]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await page.evaluate(() => document.fonts.ready);
+      await page.screenshot({ path: path.join(reports, `downloads-${theme}-${width}.png`), fullPage: true });
+    }
   }
   const missing = await page.goto(new URL('missing-test-page/', base).href);
   assert.equal(missing.status(), 404);
@@ -302,7 +367,7 @@ try {
   await staticPage.locator(`.site-footer a[href="${new URL(contactRoutes.vi, base).pathname}"]`).click();
   await staticPage.waitForURL(new URL(contactRoutes.vi, base).href);
   await noJs.close();
-  console.log(`UI checks passed: ${routes.length} pages at 320/768/1440px, Contact/navigation at 1024/1150px, ${auditRoutes.length * 2} WCAG audits, contact details and translated navigation, demo selection/play/stop/reduced-motion/fallback, theme persistence, translated routes, menu, FAQ, downloads, 404 and no-JS navigation. Screenshots: reports/`);
+  console.log(`UI checks passed: ${routes.length} pages at 320/768/1440px, Contact/navigation at 1024/1150px, ${auditRoutes.length * 2} WCAG audits, contact details and translated navigation, demo selection/play/stop/reduced-motion/fallback, theme persistence, translated routes, menu, FAQ, OS download selection/keyboard/pending states, 404 and no-JS navigation. Screenshots: reports/`);
 } finally {
   await browser?.close();
   await new Promise(resolve => server.close(resolve));

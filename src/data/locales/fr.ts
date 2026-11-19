@@ -11,7 +11,7 @@ export const frenchHome = {
   primary: 'Obtenir TrePDF',
   secondary: 'Découvrir l’éditeur',
   platforms: 'Bêta pour macOS · Apple Silicon',
-  availability: 'Les liens pour Mac Intel, Windows et Linux seront ajoutés ultérieurement.',
+  availability: 'Les liens sont en cours de mise à jour. Choisissez votre version de macOS sur la page de téléchargement.',
   screenshot: 'TrePDF modifiant un exemple de PDF avec une sélection de texte et les réglages de police',
   screenshotCaption: 'Un espace familier. Un document à votre image.',
   benefits: ['Traitement local des documents', 'Annuler et rétablir à tout moment', 'Enregistrez une copie, gardez l’original'],
@@ -40,7 +40,7 @@ export const frenchHome = {
     ['Puis-je modifier le texte existant d’un PDF ?', 'Oui, lorsque le texte source et sa police sont pris en charge. Vous pouvez modifier le texte et sa mise en forme, ajouter du contenu et enregistrer une copie. Les mises en page complexes, les contenus protégés et certaines structures de texte ou de police non prises en charge peuvent limiter les modifications.'],
     ['TrePDF télécharge-t-il automatiquement les polices ?', 'Il détecte les polices manquantes et vous demande confirmation avant de télécharger les styles correspondants disponibles. Vous pouvez choisir une police de remplacement compatible si elle est disponible. Le téléchargement d’une police nécessite une connexion internet.'],
     ['L’OCR peut-il transformer mon document numérisé en texte modifiable ?', 'L’OCR actuel ajoute une couche de texte invisible pour la recherche et la copie. Il prend en charge l’anglais et le vietnamien et conserve l’image de la page d’origine. Il ne transforme pas le document numérisé en texte modifiable avec l’outil de modification du texte.'],
-    ['Où télécharger TrePDF ?', 'Les versions bêta pour macOS sur Apple Silicon sont disponibles via Google Drive. Choisissez celle qui correspond à votre version de macOS sur la page de téléchargement. Les liens pour Mac Intel, Windows et Linux seront ajoutés ultérieurement.'],
+    ['Où télécharger TrePDF ?', 'Choisissez votre version de macOS dans la section Apple Silicon de la page de téléchargement pour vérifier la disponibilité. Les liens sont en cours de mise à jour ; les téléchargements indisponibles restent désactivés.'],
   ],
   closingTitle: 'Moins de temps sur le fichier.\nPlus de temps pour votre travail.',
   closingText: 'Découvrez les outils. Apprenez les gestes utiles. Simplifiez votre prochain PDF.',
@@ -288,9 +288,9 @@ export const frenchArticles: Article[] = [
     lang: 'fr',
     slug: 'fr/nouveautes',
     title: 'Nouveautés et notes de version de TrePDF',
-    description: 'Suivez le développement et la disponibilité de la bêta de TrePDF. Les téléchargements pour macOS sur Apple Silicon sont disponibles via Google Drive ; les autres plateformes suivront.',
+    description: 'Suivez le développement et la bêta de TrePDF. Choisissez votre version de macOS sur la page de téléchargement ; les liens sont en cours de mise à jour.',
     heading: 'L’actualité du développement de TrePDF.',
-    intro: 'TrePDF est en version bêta. La page de téléchargement propose des versions pour macOS sur Apple Silicon via Google Drive. Les liens pour Mac Intel, Windows et Linux seront ajoutés ultérieurement.',
+    intro: 'TrePDF est en version bêta. Choisissez votre version de macOS dans la section Apple Silicon de la page de téléchargement pour vérifier la disponibilité. Les liens sont en cours de mise à jour.',
     sections: [
       {
         heading: 'Les possibilités de la bêta actuelle',
@@ -305,7 +305,7 @@ export const frenchArticles: Article[] = [
       {
         heading: 'Télécharger la bêta',
         paragraphs: [
-          'La page de téléchargement propose des versions bêta pour macOS sur Apple Silicon via Google Drive. Choisissez celle qui correspond à votre version de macOS ; la configuration requise figure à côté de chaque téléchargement.',
+          'Sélectionnez macOS 13 Ventura, 14 Sonoma, 15 Sequoia ou 26 Tahoe dans la section Apple Silicon. Le bouton correspondant apparaît après sélection et reste désactivé tant que son lien n’est pas disponible.',
           'Les téléchargements pour Mac Intel, Windows et Linux restent indisponibles tant que leurs liens ne sont pas fournis. Il n’est pas nécessaire de créer un compte ni de laisser une adresse e-mail pour lire ces guides.',
         ],
       },

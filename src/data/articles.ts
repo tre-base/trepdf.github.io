@@ -492,9 +492,9 @@ export const articles: Article[] = [
     lang: 'en',
     slug: 'changelog',
     title: 'TrePDF Updates & Release Notes',
-    description: 'Follow TrePDF development and beta availability. Apple Silicon macOS downloads are available through Google Drive; other platform links will be added later.',
+    description: 'Follow TrePDF development and beta availability. Choose your macOS version on the download page; installer links are being updated.',
     heading: 'What is happening with TrePDF.',
-    intro: 'TrePDF is in beta. Apple Silicon macOS builds are available through Google Drive from the download page. Links for Intel Macs, Windows and Linux will be added later.',
+    intro: 'TrePDF is in beta. Choose your macOS version under Apple Silicon on the download page to see availability. Installer links are being updated.',
     sections: [
       {
         heading: 'What the current beta includes',
@@ -509,7 +509,7 @@ export const articles: Article[] = [
       {
         heading: 'Download the beta',
         paragraphs: [
-          'The download page offers Apple Silicon macOS beta builds through Google Drive. Choose the build that matches your macOS version; its requirements are listed beside the download.',
+          'Select macOS 13 Ventura, 14 Sonoma, 15 Sequoia or 26 Tahoe under Apple Silicon. The matching download control appears after selection and remains disabled until its link is ready.',
           'Intel Mac, Windows and Linux downloads remain unavailable until their links are supplied. There is no need to create an account or leave an email address to read these guides.',
         ],
       },
@@ -521,9 +521,9 @@ export const articles: Article[] = [
     lang: 'vi',
     slug: 'vi/cap-nhat',
     title: 'Cập nhật và ghi chú phát hành TrePDF',
-    description: 'Theo dõi quá trình phát triển và bản beta TrePDF. Bản tải macOS Apple Silicon đã có trên Google Drive; link cho các nền tảng khác sẽ được bổ sung sau.',
+    description: 'Theo dõi quá trình phát triển và bản beta TrePDF. Chọn phiên bản macOS tại trang tải xuống; link tải đang được cập nhật.',
     heading: 'Những bước phát triển của TrePDF.',
-    intro: 'TrePDF đang ở phiên bản beta. Trang tải xuống đã có bản macOS dùng chip Apple Silicon trên Google Drive. Link cho Mac Intel, Windows và Linux sẽ được bổ sung sau.',
+    intro: 'TrePDF đang ở phiên bản beta. Chọn phiên bản macOS trong mục Apple Silicon tại trang tải xuống để xem tình trạng bản tải. Link tải đang được cập nhật.',
     sections: [
       {
         heading: 'Những khả năng đang có trong bản beta',
@@ -538,7 +538,7 @@ export const articles: Article[] = [
       {
         heading: 'Tải bản beta',
         paragraphs: [
-          'Trang tải xuống cung cấp các bản beta macOS dùng chip Apple Silicon qua Google Drive. Chọn bản phù hợp với phiên bản macOS của bạn; yêu cầu hệ thống được ghi cạnh mỗi bản tải.',
+          'Chọn macOS 13 Ventura, 14 Sonoma, 15 Sequoia hoặc 26 Tahoe trong mục Apple Silicon. Nút tải tương ứng chỉ hiện sau khi chọn và chưa bấm được cho đến khi có link.',
           'Các bản tải Mac Intel, Windows và Linux vẫn chưa được bật cho đến khi có liên kết. Bạn không cần tạo tài khoản hoặc để lại email để đọc các hướng dẫn này.',
         ],
       },

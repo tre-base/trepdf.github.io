@@ -1,7 +1,26 @@
 [
-  { "id": "mac-arm", "os": "macOS", "architecture": "Apple Silicon", "url": "https://drive.google.com/file/d/1SB1ah4tMI2D9qsxwgxQUWFSx4OV4bBsH/view?usp=drive_link", "version": "0.0.12", "qtVersion": "6.12", "requirements": "macOS 14.4+", "variant": "current" },
-  { "id": "mac-arm-compatible", "os": "macOS", "architecture": "Apple Silicon", "url": "https://drive.google.com/file/d/1r-aX84bD_psyNq5Tk6N-E36T5t9D-va4/view?usp=drive_link", "version": "0.0.12", "qtVersion": "6.11", "requirements": "macOS 13.0+", "variant": "compatible" },
-  { "id": "mac-intel", "os": "macOS", "architecture": "Intel", "url": "", "version": "", "requirements": "" },
-  { "id": "windows", "os": "Windows", "architecture": "x64", "url": "", "version": "", "requirements": "" },
-  { "id": "linux", "os": "Linux", "architecture": "x64", "url": "", "version": "", "requirements": "" }
+  {
+    "id": "mac-intel",
+    "os": "macOS",
+    "architecture": "Intel",
+    "url": "",
+    "version": "",
+    "requirements": ""
+  },
+  {
+    "id": "windows",
+    "os": "Windows",
+    "architecture": "x64",
+    "url": "",
+    "version": "",
+    "requirements": ""
+  },
+  {
+    "id": "linux",
+    "os": "Linux",
+    "architecture": "x64",
+    "url": "",
+    "version": "",
+    "requirements": ""
+  }
 ]
