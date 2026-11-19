@@ -217,9 +217,9 @@ while (pending.length) {
 }
 for (const page of indexable) check(reachable.has(page.url), `${page.url}: orphaned page is not reachable from the homepage`);
 
-const macosNames = { '13': 'Ventura', '14': 'Sonoma', '15': 'Sequoia', '26': 'Tahoe' };
+const macosNames = { '12': 'Monterey', '13': 'Ventura', '14': 'Sonoma', '15': 'Sequoia', '26': 'Tahoe' };
 check(new Set(macosDownloads.map(d => d.id)).size === macosDownloads.length, 'macOS download IDs must be unique');
-check(macosDownloads.length === Object.keys(macosNames).length, 'Expected the four macOS choices from Ventura through Tahoe');
+check(macosDownloads.length === Object.keys(macosNames).length, 'Expected the five macOS choices from Monterey through Tahoe');
 for (const download of macosDownloads) {
   check(macosNames[download.id] === download.name, `macOS ${download.id}: incorrect operating system name`);
   check(typeof download.url === 'string', `macOS ${download.id}: URL must be a string`);

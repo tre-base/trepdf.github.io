@@ -2,7 +2,7 @@
 
 An English/Vietnamese/Thai/French product website for TrePDF, built with Astro and published as static HTML on GitHub Pages. The English homepage targets “PDF editor”; dedicated feature pages and guides explain actual editing, font, OCR and annotation workflows.
 
-The download page has one Apple Silicon (M1/M2/M3/M4/M5/M6) section with a macOS selector: 13 Ventura, 14 Sonoma, 15 Sequoia and 26 Tahoe. A matching download control appears only after selection. Installer links are awaiting updates; controls remain disabled while their URLs are empty. Intel Mac, Windows and Linux have separate entries. No pricing, rating or download count is invented.
+The download page has one Apple Silicon (M1/M2/M3/M4/M5/M6) section with a macOS selector: 12 Monterey, 13 Ventura, 14 Sonoma, 15 Sequoia and 26 Tahoe. A matching download link appears only after selection. Apple Silicon installers are available through Google Drive; Intel Mac, Windows and Linux have separate entries awaiting links. No pricing, rating or download count is invented.
 
 ## Local development
 
@@ -83,7 +83,7 @@ For Apple Silicon, edit the matching OS entry in `src/data/macos-downloads.json`
 }
 ```
 
-The four entries are `13` / Ventura, `14` / Sonoma, `15` / Sequoia and `26` / Tahoe. Keep `url` empty until a real installer is ready, then set it to the full HTTPS URL. `version` is optional; fill it only with the matching TrePDF release number. All four website languages share this configuration. Rebuild the website after editing it.
+The five entries are `12` / Monterey, `13` / Ventura, `14` / Sonoma, `15` / Sequoia and `26` / Tahoe. The current Google Drive links use one installer for macOS 12, one shared by 13 and 14, and one shared by 15 and 26. Set `url` to the full HTTPS URL when replacing an installer; clear it to disable a download that is unavailable. `version` is optional; fill it only with the matching TrePDF release number. All four website languages share this configuration. Rebuild the website after editing it.
 
 The Apple Silicon control starts with no selected OS and no visible download button. Selecting an OS reveals only its matching control: a disabled pending button when `url` is empty, or a download link when configured. Qt build versions are not displayed in this user flow.
 
