@@ -16,9 +16,8 @@ concurrency:
 
 env:
   ASTRO_TELEMETRY_DISABLED: 1
-  # Set these repository variables together when using a custom domain.
-  SITE_ORIGIN: ${{ vars.SITE_ORIGIN || 'https://tre-base.github.io' }}
-  SITE_BASE: ${{ vars.SITE_BASE || '/trepdf.github.io' }}
+  # Use the production domain and root path committed in site.config.mjs.
+  # Old repository variables must not restore the GitHub project prefix.
 
 jobs:
   build:
