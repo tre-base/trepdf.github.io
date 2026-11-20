@@ -1,6 +1,6 @@
-// Change both settings when moving from the GitHub project URL to a custom domain.
-// Examples: SITE_ORIGIN=https://trepdf.example SITE_BASE=/ npm run build
-export const siteOrigin = (process.env.SITE_ORIGIN || 'https://tre-base.github.io').replace(/\/$/, '');
-const rawBase = process.env.SITE_BASE ?? '/trepdf.github.io';
+// Production is served at the custom-domain root, without a repository prefix.
+// Keep public/CNAME and GitHub Pages domain settings in sync when moving domains.
+export const siteOrigin = (process.env.SITE_ORIGIN || 'https://trepdf.io.vn').replace(/\/$/, '');
+const rawBase = process.env.SITE_BASE ?? '/';
 export const siteBase = rawBase === '/' ? '' : `/${rawBase.replace(/^\/+|\/+$/g, '')}`;
 export const siteUrl = `${siteOrigin}${siteBase}/`;

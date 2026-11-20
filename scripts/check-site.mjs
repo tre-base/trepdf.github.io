@@ -17,6 +17,16 @@ const contactRoutes = { en: 'contact/', vi: 'vi/lien-he/', th: 'th/contact/', fr
 const errors = [];
 const check = (condition, message) => { if (!condition) errors.push(message); };
 
+// Compare the build settings with the independently declared production host.
+// Otherwise a stale project prefix can be shared by every URL and pass validation.
+try {
+  const hostname = (await readFile(path.join(output, 'CNAME'), 'utf8')).trim();
+  check(hostname === new URL(siteOrigin).hostname, 'CNAME hostname must match SITE_ORIGIN; update public/CNAME and site.config.mjs together');
+} catch {
+  errors.push('dist/CNAME is missing or unreadable; rebuild with public/CNAME present');
+}
+check(siteBase === '', 'Custom-domain deployment must use the domain root (SITE_BASE=/), without a repository path prefix');
+
 async function listFiles(directory) {
   const entries = await readdir(directory, { withFileTypes: true });
   const lists = await Promise.all(entries.map(entry => entry.isDirectory()

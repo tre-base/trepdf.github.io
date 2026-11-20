@@ -13,7 +13,7 @@ npm ci
 npm run dev
 ```
 
-Open the local URL printed by Astro, including `/trepdf.github.io/`. The project-site prefix is used locally too, so broken absolute paths are visible before deployment.
+Open the local URL printed by Astro at `/`. Local development uses the same root paths as the production website at `https://trepdf.io.vn/`.
 
 ```sh
 npm run check
@@ -24,7 +24,7 @@ npm run preview
 
 `dist/` contains the publishable static website. Each page has its own HTML file, so deep links can be opened and refreshed without client-side routing.
 
-The SEO check parses the generated HTML and verifies titles, descriptions, one H1, unique self-referencing canonicals, reciprocal English/Vietnamese/Thai/French alternates, sitemap membership, JSON-LD, image dimensions, local asset paths, links and fragment targets. It also verifies that downloads remain disabled until their URLs are supplied. It does not submit pages to Google or promise indexing or rankings.
+The SEO check parses the generated HTML and verifies titles, descriptions, one H1, unique self-referencing canonicals, reciprocal English/Vietnamese/Thai/French alternates, sitemap membership, JSON-LD, image dimensions, local asset paths, links and fragment targets. It also checks that the build uses the domain root, that `CNAME` matches the configured hostname, and that downloads remain disabled until their URLs are supplied. It does not submit pages to Google or promise indexing or rankings.
 
 For browser/layout/accessibility checks, install Playwright's browser once and run the separate UI check:
 
@@ -97,28 +97,26 @@ When changing availability, also update homepage/FAQ and changelog copy in `src/
 
 ## GitHub Pages deployment
 
-The default deployment URL is `https://tre-base.github.io/trepdf.github.io/`. The repository name alone does not create a `trepdf.github.io` hostname.
+The production URL is `https://trepdf.io.vn/`. The website is served at the domain root, without the old `/trepdf.github.io/` path prefix.
 
 1. In the GitHub repository, choose **Settings → Pages → Build and deployment → Source → GitHub Actions**.
-2. Push the reviewed website to `main`, or run **Check and deploy TrePDF website** manually from `main`.
-3. The workflow installs from the lockfile, checks the source, builds static pages, checks generated SEO/links and browser behavior, uploads `dist/` and deploys through the `github-pages` environment.
-4. Pull requests run the same build, SEO and browser checks but never deploy. The deploy job is restricted to `main`, including manual runs.
-5. Open the deployed homepage, a nested guide URL and the Vietnamese equivalent. Check images, navigation, 404 behavior and any enabled download links.
+2. In **Settings → Pages**, keep **Custom domain** set to `trepdf.io.vn`, configure the domain's DNS for GitHub Pages, and enable **Enforce HTTPS** once the certificate is ready. The `public/CNAME` file records the hostname in the build; it does not configure the custom domain or DNS for an Actions deployment.
+3. Push the reviewed website to `main`, or run **Check and deploy TrePDF website** manually from `main`.
+4. The workflow installs from the lockfile, checks the source, builds static pages, checks generated SEO/links and browser behavior, uploads `dist/` and deploys through the `github-pages` environment.
+5. Pull requests run the same build, SEO and browser checks but never deploy. The deploy job is restricted to `main`, including manual runs.
+6. Open the deployed homepage, a nested guide URL and the Vietnamese equivalent. Check images, navigation, 404 behavior and any enabled download links.
 
 This repository contains deployment configuration; local build success does not mean the website has already been published. Pages must be enabled in the repository and a deployment must complete.
 
 The workflow follows GitHub's [custom Pages workflow documentation](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages) and uses [setup-node](https://github.com/actions/setup-node) to select Node.js.
 
-### Custom domain or a different repository
+### Changing the production domain
 
-`SITE_ORIGIN` is the HTTPS origin without a trailing slash; `SITE_BASE` is the path prefix. Use `/` for a domain-root website. Both settings feed the page links, assets, canonical URLs, social metadata, sitemap and robots output.
+`site.config.mjs` is the shared source for local and CI build settings. Its production defaults are `https://trepdf.io.vn` for the origin and `/` for the base path. These values feed page links, assets, canonical URLs, social metadata, sitemap and robots output. The workflow no longer reads repository variables named `SITE_ORIGIN` or `SITE_BASE`, so old variables cannot restore the project prefix.
 
-```sh
-SITE_ORIGIN=https://your-domain.example SITE_BASE=/ npm run build
-SITE_ORIGIN=https://your-domain.example SITE_BASE=/ npm run test:seo
-```
+To move to another custom domain, update the origin in `site.config.mjs` and the hostname in `public/CNAME` together, keep the base path at `/`, then update the GitHub Pages custom-domain setting and DNS. Rebuild, run the checks and deploy from `main`.
 
-Use your actual domain, not the example above. In GitHub **Settings → Secrets and variables → Actions → Variables**, set both `SITE_ORIGIN` and `SITE_BASE` to the corresponding production values. For a root site, set `SITE_BASE` explicitly to `/`; leaving the variable empty uses the default project prefix. Configure the custom domain and DNS through GitHub Pages, then enable HTTPS. Rebuild with the same settings used by the deployed site. Do not deploy canonical URLs pointing at localhost or a preview environment.
+Local `SITE_ORIGIN` and `SITE_BASE` environment overrides remain available. Use the same values for the build and its checks; deployment validation requires the hostname to match `public/CNAME` and the base to remain `/`. Do not deploy canonical URLs pointing at localhost or a preview environment.
 
 ## Search discovery after publication
 
@@ -126,12 +124,12 @@ The site emits `sitemap.xml`, canonical links, alternate-language links, Open Gr
 
 After the production site is reachable:
 
-1. Add the exact production URL prefix to [Google Search Console](https://search.google.com/search-console/). For the default project deployment, use `https://tre-base.github.io/trepdf.github.io/`. Verify ownership using a method available to your account. An HTML verification file can go in `public/` with the exact filename/content Google provides; rebuild and deploy it before verifying.
-2. Submit the full production sitemap URL, initially `https://tre-base.github.io/trepdf.github.io/sitemap.xml`.
+1. Add the production URL prefix `https://trepdf.io.vn/` to [Google Search Console](https://search.google.com/search-console/). Verify ownership using a method available to your account. An HTML verification file can go in `public/` with the exact filename/content Google provides; rebuild and deploy it before verifying.
+2. Submit the production sitemap URL: `https://trepdf.io.vn/sitemap.xml`.
 3. Use URL Inspection on the homepage, PDF editor feature page and their Vietnamese versions. Check Google's selected canonical and indexing status after crawling.
 4. Track impressions, queries and clicks, including `pdf editor` and specific editing/OCR/font queries. Improve pages based on observed needs instead of repeatedly inserting keywords.
 
-At a GitHub **project** path, `/trepdf.github.io/robots.txt` is a useful generated artifact but does not govern the host's crawl rules: crawlers read `https://tre-base.github.io/robots.txt`. If you control the separate host-root site, add the project's absolute sitemap URL to that root robots file without overwriting rules needed by other projects. Submitting the sitemap directly in Search Console is another discovery path. On a custom root domain, the generated robots file is served at the correct root URL.
+The generated crawl rules are served at `https://trepdf.io.vn/robots.txt` and reference the production sitemap at the domain root.
 
 Search Console ownership, sitemap submission and live indexing have not been performed by generating this repository. Search ranking is not guaranteed by technical checks. See Google's [SEO starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) for the distinction between crawlability, indexing and ranking.
 
