@@ -305,7 +305,7 @@ export const frenchArticles: Article[] = [
       {
         heading: 'Télécharger la bêta',
         paragraphs: [
-          'Sélectionnez macOS 12 Monterey, 13 Ventura, 14 Sonoma, 15 Sequoia ou 26 Tahoe dans la section Apple Silicon. Le lien de téléchargement Google Drive correspondant apparaît après sélection.',
+          'Sélectionnez macOS 12 Monterey, 13 Ventura, 14 Sonoma, 15 Sequoia, 26 Tahoe ou 27 Golden Gate dans la section Apple Silicon. Le lien de téléchargement Google Drive correspondant apparaît après sélection.',
           'Les téléchargements pour Mac Intel, Windows et Linux restent indisponibles tant que leurs liens ne sont pas fournis. Il n’est pas nécessaire de créer un compte ni de laisser une adresse e-mail pour lire ces guides.',
         ],
       },
