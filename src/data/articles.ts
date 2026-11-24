@@ -509,7 +509,7 @@ export const articles: Article[] = [
       {
         heading: 'Download the beta',
         paragraphs: [
-          'Select macOS 12 Monterey, 13 Ventura, 14 Sonoma, 15 Sequoia or 26 Tahoe under Apple Silicon. The matching Google Drive download link appears after selection.',
+          'Select macOS 12 Monterey, 13 Ventura, 14 Sonoma, 15 Sequoia, 26 Tahoe or 27 Golden Gate under Apple Silicon. The matching Google Drive download link appears after selection.',
           'Intel Mac, Windows and Linux downloads remain unavailable until their links are supplied. There is no need to create an account or leave an email address to read these guides.',
         ],
       },
@@ -538,7 +538,7 @@ export const articles: Article[] = [
       {
         heading: 'Tải bản beta',
         paragraphs: [
-          'Chọn macOS 12 Monterey, 13 Ventura, 14 Sonoma, 15 Sequoia hoặc 26 Tahoe trong mục Apple Silicon. Link tải Google Drive tương ứng chỉ hiện sau khi chọn.',
+          'Chọn macOS 12 Monterey, 13 Ventura, 14 Sonoma, 15 Sequoia, 26 Tahoe hoặc 27 Golden Gate trong mục Apple Silicon. Link tải Google Drive tương ứng chỉ hiện sau khi chọn.',
           'Các bản tải Mac Intel, Windows và Linux vẫn chưa được bật cho đến khi có liên kết. Bạn không cần tạo tài khoản hoặc để lại email để đọc các hướng dẫn này.',
         ],
       },

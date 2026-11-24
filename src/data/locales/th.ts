@@ -277,7 +277,7 @@ export const thaiArticles: Article[] = [
       {
         heading: 'ดาวน์โหลดรุ่นเบตา',
         paragraphs: [
-          'เลือก macOS 12 Monterey, 13 Ventura, 14 Sonoma, 15 Sequoia หรือ 26 Tahoe ในส่วน Apple Silicon ลิงก์ดาวน์โหลด Google Drive ที่ตรงกันจะปรากฏหลังเลือก',
+          'เลือก macOS 12 Monterey, 13 Ventura, 14 Sonoma, 15 Sequoia, 26 Tahoe หรือ 27 Golden Gate ในส่วน Apple Silicon ลิงก์ดาวน์โหลด Google Drive ที่ตรงกันจะปรากฏหลังเลือก',
           'ปุ่มดาวน์โหลดสำหรับ Mac Intel, Windows และ Linux จะยังใช้งานไม่ได้จนกว่าจะมีลิงก์ คุณไม่ต้องสร้างบัญชีหรือแจ้งอีเมลเพื่ออ่านคู่มือเหล่านี้',
         ],
       },
