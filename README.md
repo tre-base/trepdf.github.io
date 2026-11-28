@@ -2,7 +2,7 @@
 
 An English/Vietnamese/Thai/French product website for TrePDF, built with Astro and published as static HTML on GitHub Pages. The English homepage targets “PDF editor”; dedicated feature pages and guides explain actual editing, font, OCR and annotation workflows.
 
-The download page has one Apple Silicon (M1/M2/M3/M4/M5/M6) section with a macOS selector: 12 Monterey, 13 Ventura, 14 Sonoma, 15 Sequoia, 26 Tahoe and 27 Golden Gate. A matching download link appears only after selection. Apple Silicon installers are available through Google Drive; Intel Mac, Windows and Linux have separate entries awaiting links. No pricing, rating or download count is invented.
+Mac users choose their macOS version on the download page to get the matching installer. Windows and Linux have separate entries awaiting links.
 
 ## Local development
 
@@ -43,8 +43,8 @@ The UI check starts and closes its own local server. It checks every page at pho
 - `src/data/locales/th.ts` and `src/data/locales/fr.ts`: Thai and French homepage and article translations.
 - `src/data/languages.ts`: supported language codes, native names and Open Graph locales.
 - `src/data/site.ts`: navigation labels, shared route lookup and URL helpers.
-- `src/data/macos-downloads.json`: Apple Silicon installer links and optional release versions, grouped by macOS version.
-- `src/data/downloads.json`: Intel Mac, Windows and Linux installer availability and release information.
+- `src/data/macos-downloads.json`: Mac installer links and optional release versions, with the macOS versions each installer supports.
+- `src/data/downloads.json`: Windows and Linux installer availability and release information.
 - `src/data/contact.json`: public contact email and announced TrePDF version.
 - `src/pages/` and `src/components/`: page templates and reusable UI.
 - `public/`: static images and icons.
@@ -72,24 +72,14 @@ Edit `src/data/contact.json` to update the public email or announced application
 
 ## Manage installer links
 
-For Apple Silicon, edit the matching OS entry in `src/data/macos-downloads.json`:
+To replace a Mac installer link for all four website languages:
 
-```json
-{
-  "id": "13",
-  "name": "Ventura",
-  "url": "",
-  "version": ""
-}
-```
+1. Open [src/data/macos-downloads.json](src/data/macos-downloads.json) in the website repository.
+2. Find the installer by its `systems` list. The three groups are **12 Monterey**, **13 Ventura and 14 Sonoma**, and **15 Sequoia, 26 Tahoe and 27 Golden Gate**.
+3. Replace that group's `url` with the full Google Drive share link. Each group has a single URL shared by all its listed systems. Optionally set `version` to the TrePDF release number. An empty `url` shows a pending button when one of those systems is selected.
+4. Commit the change to `main` or merge a pull request into `main`. The **Check and deploy TrePDF website** workflow checks and publishes the updated links on GitHub Pages.
 
-The six entries are `12` / Monterey, `13` / Ventura, `14` / Sonoma, `15` / Sequoia, `26` / Tahoe and `27` / Golden Gate. The current Google Drive links use one installer for macOS 12, one shared by 13 and 14, and one shared by 15, 26 and 27. Set `url` to the full HTTPS URL when replacing an installer; clear it to disable a download that is unavailable. `version` is optional; fill it only with the matching TrePDF release number. All four website languages share this configuration. Rebuild the website after editing it.
-
-The Apple Silicon control starts with no selected OS and no visible download button. Selecting an OS reveals only its matching control: a disabled pending button when `url` is empty, or a download link when configured. Qt build versions are not displayed in this user flow.
-
-Each URL must point to a tested Apple Silicon installer compatible with the whole selected OS release. In particular, the `14` / Sonoma option includes macOS 14.0–14.3: do not assign a package that requires macOS 14.4 or later to it. Multiple OS entries may share a URL only if that installer is verified for each of them. Changing the website label alone does not add OS support.
-
-For Intel Mac, Windows and Linux, edit the existing entry in `src/data/downloads.json`. Set `url`, `version` and `requirements` to the matching package details; leave unavailable packages empty. These platforms keep their separate cards.
+For Windows and Linux, edit the corresponding entry in [src/data/downloads.json](src/data/downloads.json).
 
 If using Google Drive, the URL opens the shared file page, not a guaranteed one-click download. Keep each file shared with anyone who has the link, with downloading enabled, and check it in a signed-out browser. Public link access does not verify the binary signature, checksum or installation compatibility.
 

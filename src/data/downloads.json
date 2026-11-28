@@ -1,13 +1,5 @@
 [
   {
-    "id": "mac-intel",
-    "os": "macOS",
-    "architecture": "Intel",
-    "url": "",
-    "version": "",
-    "requirements": ""
-  },
-  {
     "id": "windows",
     "os": "Windows",
     "architecture": "x64",

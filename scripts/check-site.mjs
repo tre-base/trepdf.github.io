@@ -3,6 +3,7 @@ import { readFile, readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { DOMParser, parseHTML } from 'linkedom';
+import { macosDownloads } from '../src/data/macos-downloads.mjs';
 import { siteOrigin, siteBase, siteUrl } from '../site.config.mjs';
 
 // Check the published HTML, rather than just the source templates. This catches
@@ -10,7 +11,6 @@ import { siteOrigin, siteBase, siteUrl } from '../site.config.mjs';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const output = path.join(root, 'dist');
 const downloads = JSON.parse(await readFile(path.join(root, 'src/data/downloads.json'), 'utf8'));
-const macosDownloads = JSON.parse(await readFile(path.join(root, 'src/data/macos-downloads.json'), 'utf8'));
 const contact = JSON.parse(await readFile(path.join(root, 'src/data/contact.json'), 'utf8'));
 const languages = ['en', 'vi', 'th', 'fr'];
 const contactRoutes = { en: 'contact/', vi: 'vi/lien-he/', th: 'th/contact/', fr: 'fr/contact/' };
@@ -242,14 +242,15 @@ for (const relative of ['download/', 'vi/tai-xuong/', 'th/download/', 'fr/telech
   const page = pagesByUrl.get(url);
   check(Boolean(page), `Missing download page ${url}`);
   if (!page) continue;
-  const macCards = page.document.querySelectorAll('[data-download-id="mac-arm"]');
-  check(macCards.length === 1, `${url}: Apple Silicon must have one download card`);
+  const macCards = page.document.querySelectorAll('[data-download-id="macos"]');
+  check(macCards.length === 1, `${url}: macOS must have one download card`);
   check(page.document.querySelectorAll('[data-download-id]').length === downloads.length + 1, `${url}: unexpected duplicate platform cards`);
   const macCard = macCards[0];
   const selector = macCard?.querySelector('select[data-macos-version]');
   check(Boolean(selector), `${url}: missing macOS version selector`);
   if (macCard && selector) {
-    check(macCard.textContent.includes('Apple Silicon (M1/M2/M3/M4/M5/M6)'), `${url}: Apple Silicon chip label must match the download chooser`);
+    check(macCard.querySelector('h2')?.textContent.trim() === 'macOS', `${url}: the download chooser must be labeled macOS`);
+    check(![...page.document.querySelectorAll('.download-card h3')].some(h => h.textContent.trim() === 'macOS'), `${url}: all Mac downloads must use the version chooser`);
     check(Boolean(selector.id && macCard.querySelector(`label[for="${selector.id}"]`)?.textContent.trim()), `${url}: macOS selector needs an associated visible label`);
     const options = [...selector.querySelectorAll('option')];
     check(options.length === macosDownloads.length + 1, `${url}: macOS selector must contain a prompt and each configured OS`);

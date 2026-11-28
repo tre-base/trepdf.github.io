@@ -2,13 +2,13 @@
 import Base from '../layouts/Base.astro';
 import Icon from './Icon.astro';
 import downloads from '../data/downloads.json';
-import macosDownloads from '../data/macos-downloads.json';
+import { macosDownloads } from '../data/macos-downloads.mjs';
 import { href, type Lang } from '../data/site';
 const { lang } = Astro.props as { lang: Lang };
 const t = {
   "en": {
     "title": "Download TrePDF Desktop PDF Editor | TrePDF",
-    "description": "Get TrePDF Beta for Mac with Apple Silicon. Select your macOS version to see its download availability.",
+    "description": "Download TrePDF Beta for Mac. Choose your macOS version to get the matching installer.",
     "eyebrow": "Your PDF workspace",
     "heading": "TrePDF, on your desktop.",
     "intro": "Choose your operating system to find the matching TrePDF Beta download.",
@@ -32,7 +32,7 @@ const t = {
   },
   "vi": {
     "title": "Tải TrePDF cho máy tính | TrePDF",
-    "description": "Tải TrePDF Beta cho Mac dùng chip Apple Silicon. Chọn phiên bản macOS để xem tình trạng bản tải phù hợp.",
+    "description": "Tải TrePDF Beta cho Mac. Chọn phiên bản macOS của bạn để nhận bộ cài phù hợp.",
     "eyebrow": "Không gian PDF của bạn",
     "heading": "TrePDF, trên máy của bạn.",
     "intro": "Chọn hệ điều hành của bạn để tìm bản tải TrePDF Beta phù hợp.",
@@ -56,7 +56,7 @@ const t = {
   },
   "th": {
     "title": "ดาวน์โหลด TrePDF โปรแกรมแก้ไข PDF สำหรับเดสก์ท็อป | TrePDF",
-    "description": "ดาวน์โหลด TrePDF Beta สำหรับ Mac ชิป Apple Silicon เลือกเวอร์ชัน macOS เพื่อดูสถานะการดาวน์โหลดที่ตรงกับระบบของคุณ",
+    "description": "ดาวน์โหลด TrePDF Beta สำหรับ Mac เลือกเวอร์ชัน macOS เพื่อรับตัวติดตั้งที่ตรงกับระบบของคุณ",
     "eyebrow": "พื้นที่ทำงาน PDF ของคุณ",
     "heading": "TrePDF บนคอมพิวเตอร์ของคุณ",
     "intro": "เลือกระบบปฏิบัติการของคุณเพื่อค้นหา TrePDF Beta รุ่นที่เหมาะสม",
@@ -80,7 +80,7 @@ const t = {
   },
   "fr": {
     "title": "Télécharger TrePDF, éditeur PDF pour ordinateur | TrePDF",
-    "description": "Téléchargez TrePDF Beta pour Mac avec Apple Silicon. Sélectionnez votre version de macOS pour consulter la disponibilité du téléchargement.",
+    "description": "Téléchargez TrePDF Beta pour Mac. Sélectionnez votre version de macOS pour obtenir le programme d’installation correspondant.",
     "eyebrow": "Votre espace de travail PDF",
     "heading": "TrePDF, sur votre ordinateur.",
     "intro": "Choisissez votre système pour trouver la version de TrePDF Beta adaptée.",
@@ -111,17 +111,17 @@ const groups = [
 <Base lang={lang} pageId="download" title={t.title} description={t.description}>
   <div class="container page-heading"><p class="eyebrow">{t.eyebrow}</p><h1>{t.heading}</h1><p>{t.intro}</p></div>
   <section class="container download-section" aria-label={t.platforms}>
-    <article class="download-card macos-download" data-download-id="mac-arm" data-macos-download aria-labelledby="apple-silicon-heading">
+    <article class="download-card macos-download" data-download-id="macos" data-macos-download aria-labelledby="macos-heading">
       <div class="macos-download-heading">
         <Icon name="device"/>
-        <p class="download-arch">macOS · {t.beta}</p>
-        <h2 id="apple-silicon-heading">Apple Silicon <span>(M1/M2/M3/M4/M5/M6)</span></h2>
+        <p class="download-arch">{t.beta}</p>
+        <h2 id="macos-heading">macOS</h2>
       </div>
       <div class="macos-download-picker">
         <label for="macos-version">{t.selectLabel}</label>
         <select id="macos-version" name="macos-version" data-macos-version aria-describedby="macos-version-help" disabled>
           <option value="">{t.selectPlaceholder}</option>
-          {macosDownloads.map(os => <option value={os.id} data-url={os.url} data-version={os.version}>macOS {os.id} {os.name}</option>)}
+          {macosDownloads.map(os => <option value={os.id}>macOS {os.id} {os.name}</option>)}
         </select>
         <p class="macos-version-help" id="macos-version-help">{t.selectHelp}</p>
         <div class="macos-download-status" aria-live="polite" aria-atomic="true">
@@ -130,7 +130,7 @@ const groups = [
             <p class="macos-selected-version">macOS {os.id} {os.name}</p>
             {os.version && <p class="macos-release-version">{t.version} {os.version} · {t.beta}</p>}
             {os.url
-              ? <a class="button" href={os.url} aria-label={`${t.download}: Apple Silicon, macOS ${os.id} ${os.name}`}>{t.download}<Icon name="download"/></a>
+              ? <a class="button" href={os.url} aria-label={`${t.download}: macOS ${os.id} ${os.name}`}>{t.download}<Icon name="download"/></a>
               : <button class="button unavailable" disabled type="button">{t.linkPending}</button>}
           </div>)}
         </div>
