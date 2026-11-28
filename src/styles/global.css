@@ -808,14 +808,6 @@ img {
   margin-top: 10px;
   font-size: clamp(26px, 3vw, 38px);
 }
-.macos-download-heading h2 span {
-  display: block;
-  margin-top: 14px;
-  font-size: 16px;
-  letter-spacing: 0;
-  font-weight: 500;
-  color: var(--muted);
-}
 .macos-download-picker {
   min-width: 0;
 }
@@ -873,9 +865,6 @@ img {
   }
   .macos-download-heading > .icon {
     margin-bottom: 16px;
-  }
-  .macos-download-heading h2 span {
-    font-size: 14px;
   }
   .macos-download .button {
     font-size: 12px;

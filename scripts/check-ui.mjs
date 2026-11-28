@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 import AxeBuilder from '@axe-core/playwright';
+import { macosDownloads } from '../src/data/macos-downloads.mjs';
 import { siteBase } from '../site.config.mjs';
 
 // Exercise built HTML through a local server: no development-only scripts or
@@ -12,7 +13,6 @@ import { siteBase } from '../site.config.mjs';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const dist = path.join(root, 'dist');
 const downloads = JSON.parse(await readFile(path.join(root, 'src/data/downloads.json'), 'utf8'));
-const macosDownloads = JSON.parse(await readFile(path.join(root, 'src/data/macos-downloads.json'), 'utf8'));
 const downloadRoutes = { en: 'download/', vi: 'vi/tai-xuong/', th: 'th/download/', fr: 'fr/telecharger/' };
 const contact = JSON.parse(await readFile(path.join(root, 'src/data/contact.json'), 'utf8'));
 const contactRoutes = { en: 'contact/', vi: 'vi/lien-he/', th: 'th/contact/', fr: 'fr/contact/' };
@@ -214,7 +214,7 @@ try {
     const visible = card.locator('[data-macos-result]:visible');
     assert.equal(await visible.count(), selected ? 1 : 0, 'Exactly the selected macOS action must be visible');
     if (!selected) {
-      assert.equal(await card.locator('.button:visible').count(), 0, 'Apple Silicon must not offer a download before OS selection');
+      assert.equal(await card.locator('.button:visible').count(), 0, 'macOS must not offer a download before OS selection');
       return;
     }
     assert.equal(await visible.getAttribute('data-macos-result'), selected.id);
@@ -230,9 +230,9 @@ try {
     await page.setViewportSize({ width, height: 900 });
     for (const [language, route] of Object.entries(downloadRoutes)) {
       await page.goto(new URL(route, base).href);
-      const card = page.locator('[data-download-id="mac-arm"]');
+      const card = page.locator('[data-download-id="macos"]');
       const selector = card.locator('select[data-macos-version]');
-      assert.equal(await card.count(), 1, 'Apple Silicon must be a single card');
+      assert.equal(await card.count(), 1, 'macOS must be a single card');
       assert.equal(await selector.inputValue(), '');
       await assertMacResult(card);
       assert.deepEqual(await selector.locator('option').evaluateAll(options => options.slice(1).map(option => option.textContent.trim())),
@@ -259,7 +259,7 @@ try {
   for (const theme of ['light', 'dark']) {
     await page.goto(new URL(downloadRoutes.vi, base).href);
     await page.evaluate(theme => document.documentElement.dataset.theme = theme, theme);
-    const card = page.locator('[data-download-id="mac-arm"]');
+    const card = page.locator('[data-download-id="macos"]');
     await card.locator('select[data-macos-version]').selectOption('26');
     await assertMacResult(card, macosDownloads.find(download => download.id === '26'));
     const audit = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
